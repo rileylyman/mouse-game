@@ -38,9 +38,9 @@ func _process(_delta: float) -> void:
     if target.overlaps_area($Area2D):
         return
 
-    var dir = (target.position - position).normalized()
+    var dir = (target.global_position - global_position).normalized()
     if (linear_velocity.project(dir * speed).length() < speed):
-        apply_force((target.position - position).normalized() * speed * 10)
+        apply_force((target.global_position - global_position).normalized() * speed * 10)
 
 func _on_wball_entered(body: WreckingBallBody) -> void:
     health -= body.damage

@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://bpq2o7dbuw5hf"]
+
+[ext_resource type="Texture2D" uid="uid://fgyenivobnht" path="res://art/iconsDefault.png" id="1_c4igg"]
+[ext_resource type="Script" uid="uid://bvlb42y534578" path="res://scripts/dot.gd" id="2_1c7to"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1c7to"]
+size = Vector2(45, 45)
+
+[node name="Dot" type="Area2D"]
+collision_layer = 8
+script = ExtResource("2_1c7to")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("1_c4igg")
+region_enabled = true
+region_rect = Rect2(998, 678, 24, 24)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_1c7to")
