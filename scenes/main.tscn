@@ -1,0 +1,103 @@
+[gd_scene load_steps=10 format=3 uid="uid://c7jus7yiaflfi"]
+
+[ext_resource type="Script" uid="uid://3g8djndpdaqe" path="res://scripts/mouse_body.gd" id="1_0wfyh"]
+[ext_resource type="Texture2D" uid="uid://fgyenivobnht" path="res://art/iconsDefault.png" id="1_o5qli"]
+[ext_resource type="Script" uid="uid://bjf0xhqqkvm4u" path="res://scripts/trove.gd" id="1_tbgi4"]
+[ext_resource type="Script" uid="uid://dhkqxiq3oht4w" path="res://scripts/wrecking_ball_body.gd" id="3_sugp2"]
+[ext_resource type="Script" uid="uid://5117g2rusoxu" path="res://scripts/enemy_spawner.gd" id="3_tefeu"]
+[ext_resource type="PackedScene" uid="uid://osuj67lbw80y" path="res://scenes/enemy.tscn" id="4_o6xl0"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jyhfs"]
+size = Vector2(108, 90)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0wfyh"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sugp2"]
+size = Vector2(96, 94)
+
+[node name="Node2D" type="Node2D"]
+
+[node name="AllTroves" type="Node2D" parent="."]
+unique_name_in_owner = true
+
+[node name="Trove" type="Area2D" parent="AllTroves"]
+position = Vector2(237, -141)
+collision_layer = 4
+collision_mask = 2
+script = ExtResource("1_tbgi4")
+
+[node name="Sprite2D" type="Sprite2D" parent="AllTroves/Trove"]
+texture = ExtResource("1_o5qli")
+region_enabled = true
+region_rect = Rect2(768, 0, 64, 64)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AllTroves/Trove"]
+position = Vector2(0, 1)
+shape = SubResource("RectangleShape2D_jyhfs")
+
+[node name="Trove2" type="Area2D" parent="AllTroves"]
+position = Vector2(237, 52)
+collision_layer = 4
+collision_mask = 2
+script = ExtResource("1_tbgi4")
+
+[node name="Sprite2D" type="Sprite2D" parent="AllTroves/Trove2"]
+texture = ExtResource("1_o5qli")
+region_enabled = true
+region_rect = Rect2(768, 0, 64, 64)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AllTroves/Trove2"]
+position = Vector2(0, 1)
+shape = SubResource("RectangleShape2D_jyhfs")
+
+[node name="EnemySpawner" type="Node2D" parent="."]
+script = ExtResource("3_tefeu")
+
+[node name="Enemy" parent="." instance=ExtResource("4_o6xl0")]
+position = Vector2(-207, -175)
+
+[node name="MouseBody" type="RigidBody2D" parent="."]
+unique_name_in_owner = true
+collision_layer = 0
+collision_mask = 0
+gravity_scale = 0.0
+can_sleep = false
+freeze = true
+freeze_mode = 1
+script = ExtResource("1_0wfyh")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MouseBody"]
+shape = SubResource("CircleShape2D_0wfyh")
+
+[node name="Sprite2D" type="Sprite2D" parent="MouseBody"]
+texture = ExtResource("1_o5qli")
+region_enabled = true
+region_rect = Rect2(163.27168, 800.6632, 28.728317, 31.336792)
+
+[node name="WreckingBallBody" type="RigidBody2D" parent="."]
+collision_mask = 2
+gravity_scale = 0.0
+can_sleep = false
+lock_rotation = true
+linear_damp = 2.5
+angular_damp = 100.0
+script = ExtResource("3_sugp2")
+
+[node name="DampedSpringJoint2D" type="DampedSpringJoint2D" parent="WreckingBallBody"]
+node_a = NodePath("../../MouseBody")
+node_b = NodePath("..")
+length = 24.0
+rest_length = 24.0
+stiffness = 64.0
+damping = 0.24
+
+[node name="WreckingBallSprite" type="Sprite2D" parent="WreckingBallBody"]
+texture = ExtResource("1_o5qli")
+region_enabled = true
+region_rect = Rect2(192, 0, 64, 64)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WreckingBallBody"]
+position = Vector2(0, 1)
+shape = SubResource("RectangleShape2D_sugp2")
+
+[node name="Camera2D" type="Camera2D" parent="."]
