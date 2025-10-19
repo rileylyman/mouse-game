@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://bh7cqawc5g2eo"]
+
+[ext_resource type="PackedScene" uid="uid://dcw2hm3mdewu5" path="res://scenes/trove.tscn" id="1_lpvf3"]
+
+[node name="TroveLayout1" type="Node2D"]
+
+[node name="Trove" parent="." instance=ExtResource("1_lpvf3")]

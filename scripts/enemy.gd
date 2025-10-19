@@ -19,7 +19,9 @@ func _ready() -> void:
 func _find_target() -> void:
     if target:
         return
-    var trove_children = all_troves.get_children()
+    if all_troves.get_child_count() == 0:
+        return
+    var trove_children = all_troves.get_child(0).get_children()
     if trove_children.size() > 0:
         target = trove_children.pick_random()
 
@@ -42,7 +44,9 @@ func _process(_delta: float) -> void:
     if (linear_velocity.project(dir * speed).length() < speed):
         apply_force((target.global_position - global_position).normalized() * speed * 10)
 
-func _on_wball_entered(body: WreckingBallBody) -> void:
+func _on_wball_entered(body: RigidBody2D) -> void:
+    if body is not WreckingBallBody:
+        return
     health -= body.damage
     if health <= 0:
         queue_free()

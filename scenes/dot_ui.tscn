@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://ba60kcq4fbfr0"]
+
+[ext_resource type="Script" uid="uid://r54cdfgqbjlx" path="res://scripts/dot_ui.gd" id="1_pl561"]
+[ext_resource type="Texture2D" uid="uid://fgyenivobnht" path="res://art/iconsDefault.png" id="2_rj1pk"]
+
+[node name="Dot" type="Node2D"]
+script = ExtResource("1_pl561")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_rj1pk")
+region_enabled = true
+region_rect = Rect2(998, 678, 24, 24)

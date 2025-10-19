@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://crvh1pvwmwqcf"]
+
+[ext_resource type="PackedScene" uid="uid://dcw2hm3mdewu5" path="res://scenes/trove.tscn" id="1_7r624"]
+
+[node name="TroveLayout4" type="Node2D"]
+
+[node name="Trove" parent="." instance=ExtResource("1_7r624")]
+position = Vector2(-200, -150)
+
+[node name="Trove3" parent="." instance=ExtResource("1_7r624")]
+position = Vector2(-200, 150)
+
+[node name="Trove2" parent="." instance=ExtResource("1_7r624")]
+position = Vector2(200, -150)
+
+[node name="Trove4" parent="." instance=ExtResource("1_7r624")]
+position = Vector2(200, 150)

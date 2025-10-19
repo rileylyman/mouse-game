@@ -11,7 +11,7 @@ collision_layer = 8
 script = ExtResource("2_1c7to")
 
 [node name="Sprite" type="Sprite2D" parent="."]
-scale = Vector2(0.25, 0.25)
+scale = Vector2(0.5, 0.5)
 texture = ExtResource("1_c4igg")
 region_enabled = true
 region_rect = Rect2(998, 678, 24, 24)
