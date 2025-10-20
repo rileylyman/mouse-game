@@ -21,7 +21,6 @@ grow_vertical = 2
 layout_mode = 2
 
 [node name="TroveCount1" parent="CenterContainer/VBoxContainer" instance=ExtResource("1_k1o73")]
-visible = false
 layout_mode = 2
 func_to_call = "_upgrade_trove_level"
 
@@ -45,7 +44,6 @@ func_to_call = "_upgrade_trove_level"
 text = "Mine Count"
 
 [node name="TroveGps1" parent="CenterContainer/VBoxContainer" instance=ExtResource("1_k1o73")]
-visible = false
 layout_mode = 2
 func_to_call = "_upgrade_trove_gps"
 
@@ -77,7 +75,6 @@ func_to_call = "_upgrade_trove_gps"
 text = "Mine Efficiency"
 
 [node name="TroveHealth1" parent="CenterContainer/VBoxContainer" instance=ExtResource("1_k1o73")]
-visible = false
 layout_mode = 2
 func_to_call = "_upgrade_trove_health"
 
@@ -101,7 +98,6 @@ func_to_call = "_upgrade_trove_health"
 text = "Mine Defense"
 
 [node name="GemValue1" parent="CenterContainer/VBoxContainer" instance=ExtResource("1_k1o73")]
-visible = false
 layout_mode = 2
 func_to_call = "_upgrade_gem_value"
 
@@ -125,7 +121,6 @@ func_to_call = "_upgrade_gem_value"
 text = "Gem Value"
 
 [node name="WballCount1" parent="CenterContainer/VBoxContainer" instance=ExtResource("1_k1o73")]
-visible = false
 layout_mode = 2
 func_to_call = "_upgrade_wball_count"
 
@@ -133,7 +128,6 @@ func_to_call = "_upgrade_wball_count"
 text = "Ball Count"
 
 [node name="WballCount2" parent="CenterContainer/VBoxContainer" instance=ExtResource("1_k1o73")]
-visible = false
 layout_mode = 2
 func_to_call = "_upgrade_wball_count"
 

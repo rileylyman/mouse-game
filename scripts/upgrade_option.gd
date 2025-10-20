@@ -62,3 +62,6 @@ func _upgrade_trove_level() -> void:
 
 func _upgrade_wball_count() -> void:
     GameManager._spawn_new_wball()
+
+func _upgrade_trove_gps() -> void:
+    GameManager.trove_gps *= 2.0
