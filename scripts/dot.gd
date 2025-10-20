@@ -25,7 +25,7 @@ func _process(delta: float) -> void:
         global_position = global_position.move_toward(_player.global_position, speed * delta)
     
     if global_position.distance_to(_player.global_position) < 1:
-        GameManager.gems += 1
+        GameManager.gems += GameManager.trove_gem_value 
         queue_free()
 
 func _on_body_entered(body: RigidBody2D) -> void:

@@ -1,0 +1,193 @@
+[gd_scene load_steps=2 format=3 uid="uid://cii5pxv4kf0rd"]
+
+[ext_resource type="PackedScene" uid="uid://c4kulcmtivxjx" path="res://scenes/upgrade_option.tscn" id="1_k1o73"]
+
+[node name="UpgradeUI" type="Node2D"]
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -769.0
+offset_top = -379.5
+offset_right = 769.0
+offset_bottom = 379.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+layout_mode = 2
+
+[node name="TroveCount1" parent="CenterContainer/VBoxContainer" instance=ExtResource("1_k1o73")]
+visible = false
+layout_mode = 2
+func_to_call = "_upgrade_trove_level"
+
+[node name="Label" parent="CenterContainer/VBoxContainer/TroveCount1/PanelContainer" index="0"]
+text = "Mine Count"
+
+[node name="TroveCount2" parent="CenterContainer/VBoxContainer" instance=ExtResource("1_k1o73")]
+visible = false
+layout_mode = 2
+func_to_call = "_upgrade_trove_level"
+
+[node name="Label" parent="CenterContainer/VBoxContainer/TroveCount2/PanelContainer" index="0"]
+text = "Mine Count"
+
+[node name="TroveCount3" parent="CenterContainer/VBoxContainer" instance=ExtResource("1_k1o73")]
+visible = false
+layout_mode = 2
+func_to_call = "_upgrade_trove_level"
+
+[node name="Label" parent="CenterContainer/VBoxContainer/TroveCount3/PanelContainer" index="0"]
+text = "Mine Count"
+
+[node name="TroveGps1" parent="CenterContainer/VBoxContainer" instance=ExtResource("1_k1o73")]
+visible = false
+layout_mode = 2
+func_to_call = "_upgrade_trove_gps"
+
+[node name="Label" parent="CenterContainer/VBoxContainer/TroveGps1/PanelContainer" index="0"]
+text = "Mine Efficiency"
+
+[node name="TroveGps2" parent="CenterContainer/VBoxContainer" instance=ExtResource("1_k1o73")]
+visible = false
+layout_mode = 2
+func_to_call = "_upgrade_trove_gps"
+
+[node name="Label" parent="CenterContainer/VBoxContainer/TroveGps2/PanelContainer" index="0"]
+text = "Mine Efficiency"
+
+[node name="TroveGps3" parent="CenterContainer/VBoxContainer" instance=ExtResource("1_k1o73")]
+visible = false
+layout_mode = 2
+func_to_call = "_upgrade_trove_gps"
+
+[node name="Label" parent="CenterContainer/VBoxContainer/TroveGps3/PanelContainer" index="0"]
+text = "Mine Efficiency"
+
+[node name="TroveGps4" parent="CenterContainer/VBoxContainer" instance=ExtResource("1_k1o73")]
+visible = false
+layout_mode = 2
+func_to_call = "_upgrade_trove_gps"
+
+[node name="Label" parent="CenterContainer/VBoxContainer/TroveGps4/PanelContainer" index="0"]
+text = "Mine Efficiency"
+
+[node name="TroveHealth1" parent="CenterContainer/VBoxContainer" instance=ExtResource("1_k1o73")]
+visible = false
+layout_mode = 2
+func_to_call = "_upgrade_trove_health"
+
+[node name="Label" parent="CenterContainer/VBoxContainer/TroveHealth1/PanelContainer" index="0"]
+text = "Mine Defense"
+
+[node name="TroveHealth2" parent="CenterContainer/VBoxContainer" instance=ExtResource("1_k1o73")]
+visible = false
+layout_mode = 2
+func_to_call = "_upgrade_trove_health"
+
+[node name="Label" parent="CenterContainer/VBoxContainer/TroveHealth2/PanelContainer" index="0"]
+text = "Mine Defense"
+
+[node name="TroveHealth3" parent="CenterContainer/VBoxContainer" instance=ExtResource("1_k1o73")]
+visible = false
+layout_mode = 2
+func_to_call = "_upgrade_trove_health"
+
+[node name="Label" parent="CenterContainer/VBoxContainer/TroveHealth3/PanelContainer" index="0"]
+text = "Mine Defense"
+
+[node name="GemValue1" parent="CenterContainer/VBoxContainer" instance=ExtResource("1_k1o73")]
+visible = false
+layout_mode = 2
+func_to_call = "_upgrade_gem_value"
+
+[node name="Label" parent="CenterContainer/VBoxContainer/GemValue1/PanelContainer" index="0"]
+text = "Gem Value"
+
+[node name="GemValue2" parent="CenterContainer/VBoxContainer" instance=ExtResource("1_k1o73")]
+visible = false
+layout_mode = 2
+func_to_call = "_upgrade_gem_value"
+
+[node name="Label" parent="CenterContainer/VBoxContainer/GemValue2/PanelContainer" index="0"]
+text = "Gem Value"
+
+[node name="GemValue3" parent="CenterContainer/VBoxContainer" instance=ExtResource("1_k1o73")]
+visible = false
+layout_mode = 2
+func_to_call = "_upgrade_gem_value"
+
+[node name="Label" parent="CenterContainer/VBoxContainer/GemValue3/PanelContainer" index="0"]
+text = "Gem Value"
+
+[node name="WballCount1" parent="CenterContainer/VBoxContainer" instance=ExtResource("1_k1o73")]
+visible = false
+layout_mode = 2
+func_to_call = "_upgrade_wball_count"
+
+[node name="Label" parent="CenterContainer/VBoxContainer/WballCount1/PanelContainer" index="0"]
+text = "Ball Count"
+
+[node name="WballCount2" parent="CenterContainer/VBoxContainer" instance=ExtResource("1_k1o73")]
+visible = false
+layout_mode = 2
+func_to_call = "_upgrade_wball_count"
+
+[node name="Label" parent="CenterContainer/VBoxContainer/WballCount2/PanelContainer" index="0"]
+text = "Ball Count"
+
+[node name="WballCount3" parent="CenterContainer/VBoxContainer" instance=ExtResource("1_k1o73")]
+visible = false
+layout_mode = 2
+func_to_call = "_upgrade_wball_count"
+
+[node name="Label" parent="CenterContainer/VBoxContainer/WballCount3/PanelContainer" index="0"]
+text = "Ball Count"
+
+[node name="WballPower1" parent="CenterContainer/VBoxContainer" instance=ExtResource("1_k1o73")]
+visible = false
+layout_mode = 2
+func_to_call = "_upgrade_wball_power"
+
+[node name="Label" parent="CenterContainer/VBoxContainer/WballPower1/PanelContainer" index="0"]
+text = "Ball Power"
+
+[node name="WballPower2" parent="CenterContainer/VBoxContainer" instance=ExtResource("1_k1o73")]
+visible = false
+layout_mode = 2
+func_to_call = "_upgrade_wball_power"
+
+[node name="Label" parent="CenterContainer/VBoxContainer/WballPower2/PanelContainer" index="0"]
+text = "Ball Power"
+
+[node name="WballPower3" parent="CenterContainer/VBoxContainer" instance=ExtResource("1_k1o73")]
+visible = false
+layout_mode = 2
+func_to_call = "_upgrade_wball_power"
+
+[node name="Label" parent="CenterContainer/VBoxContainer/WballPower3/PanelContainer" index="0"]
+text = "Ball Power"
+
+[editable path="CenterContainer/VBoxContainer/TroveCount1"]
+[editable path="CenterContainer/VBoxContainer/TroveCount2"]
+[editable path="CenterContainer/VBoxContainer/TroveCount3"]
+[editable path="CenterContainer/VBoxContainer/TroveGps1"]
+[editable path="CenterContainer/VBoxContainer/TroveGps2"]
+[editable path="CenterContainer/VBoxContainer/TroveGps3"]
+[editable path="CenterContainer/VBoxContainer/TroveGps4"]
+[editable path="CenterContainer/VBoxContainer/TroveHealth1"]
+[editable path="CenterContainer/VBoxContainer/TroveHealth2"]
+[editable path="CenterContainer/VBoxContainer/TroveHealth3"]
+[editable path="CenterContainer/VBoxContainer/GemValue1"]
+[editable path="CenterContainer/VBoxContainer/GemValue2"]
+[editable path="CenterContainer/VBoxContainer/GemValue3"]
+[editable path="CenterContainer/VBoxContainer/WballCount1"]
+[editable path="CenterContainer/VBoxContainer/WballCount2"]
+[editable path="CenterContainer/VBoxContainer/WballCount3"]
+[editable path="CenterContainer/VBoxContainer/WballPower1"]
+[editable path="CenterContainer/VBoxContainer/WballPower2"]
+[editable path="CenterContainer/VBoxContainer/WballPower3"]

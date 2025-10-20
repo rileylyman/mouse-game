@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://cbv6f53nobj0k"]
+
+[ext_resource type="Script" uid="uid://ivjmsdrg0id7" path="res://scripts/start_tub.gd" id="1_ai0n5"]
+[ext_resource type="Texture2D" uid="uid://fgyenivobnht" path="res://art/iconsDefault.png" id="2_g6p7b"]
+[ext_resource type="PackedScene" uid="uid://dco3uqj3j40av" path="res://scenes/health_bar.tscn" id="3_rhk52"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sc7q0"]
+size = Vector2(150, 130)
+
+[node name="StartTub" type="Area2D"]
+position = Vector2(0, -271)
+script = ExtResource("1_ai0n5")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(2, 2)
+texture = ExtResource("2_g6p7b")
+region_enabled = true
+region_rect = Rect2(704, 128, 64, 64)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_sc7q0")
+
+[node name="HealthBar" parent="." instance=ExtResource("3_rhk52")]

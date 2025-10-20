@@ -1,21 +1,25 @@
-extends MarginContainer
+class_name UpgradeOption extends MarginContainer
 
 var mouse_over = false
 
 var gems_spent: float = 0.0
 var fill_time: float = 3
 @export var gems_required: float = 10.0
+@export var func_to_call: String = ""
 var complete = false
 
 @onready var panel = $Panel
 @onready var label = $PanelContainer/Label
+@onready var original_text = label.text
 
 var dot_ui = preload("res://scenes/dot_ui.tscn")
-@onready var gems_to_spawn = min(100, gems_required)
+@onready var gems_to_spawn = 100
 @onready var _spawn_gems_every = gems_required / gems_to_spawn
 var _spent_gems_for_spawn = 0
 
 func _ready() -> void:
+    if !has_method(func_to_call):
+        push_error("'%s' has no function '%s'" % [name, func_to_call])
     mouse_entered.connect(_on_mouse_entered)
     mouse_exited.connect(_on_mouse_exited)
 
@@ -45,9 +49,16 @@ func _process(delta: float) -> void:
 
     panel.custom_minimum_size.x = gems_spent / gems_required * size.x
     if not complete:
-        label.text = "Upgrade [%d/%d]" % [gems_spent, gems_required]
+        label.text = "%s (%d/%d gems)" % [original_text, gems_spent, gems_required]
 
 func _end_async() -> void:
-    label.text = "Update Purchased!"
+    label.text = "Upgrade Purchased!"
+    call_deferred(func_to_call)
     await get_tree().create_timer(2.0).timeout
     queue_free()
+
+func _upgrade_trove_level() -> void:
+    GameManager.trove_level += 1
+
+func _upgrade_wball_count() -> void:
+    GameManager._spawn_new_wball()
