@@ -54,6 +54,7 @@ func _process(delta: float) -> void:
 func _end_async() -> void:
     label.text = "Upgrade Purchased!"
     call_deferred(func_to_call)
+    GameManager.num_upgrades += 1
     await get_tree().create_timer(2.0).timeout
     queue_free()
 
@@ -65,3 +66,15 @@ func _upgrade_wball_count() -> void:
 
 func _upgrade_trove_gps() -> void:
     GameManager.trove_gps *= 2.0
+
+func _upgrade_trove_health() -> void:
+    GameManager.trove_health *= 2.0
+
+func _upgrade_gem_value() -> void:
+    GameManager.trove_gem_value *= 2.0
+
+func _upgrade_wball_power() -> void:
+    GameManager.wball_damage += 1.0
+
+func _upgrade_wball_durability() -> void:
+    GameManager.wball_durability_max *= 2

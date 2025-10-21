@@ -7,7 +7,7 @@ func _ready() -> void:
 
 func _spawn_async() -> void:
     while true:
-        await get_tree().create_timer(1.0).timeout
+        await get_tree().create_timer(1.0 - GameManager.num_upgrades * 0.01 - GameManager.round_time_elapsed * 0.005).timeout
         if not GameManager.in_round:
             continue
         var enemy: Node2D = enemy_scene.instantiate()

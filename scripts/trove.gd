@@ -1,10 +1,9 @@
 class_name Trove extends Area2D
 
-@export var max_health: float = 10.0
 @export var dot_radius: float = 200.0
 @export var dot_min_radius: float = 80.0
 
-@onready var health: float = max_health
+@onready var health: float = GameManager.trove_health
 @onready var health_bar: HealthBar = $HealthBar
 
 var dot_res = preload("res://scenes/dot.tscn")
@@ -23,7 +22,7 @@ func _produce_dots_async() -> void:
 
 func take_damage(damage: float) -> bool:
     health = max(health - damage, 0)
-    health_bar.health_t = health / max_health
+    health_bar.health_t = health / GameManager.trove_health
     if health <= 0:
         queue_free()
         return true

@@ -1,20 +1,21 @@
 extends RigidBody2D
 
-@export var health: float = 10.0
-@export var dps: float = 2.5
-@export var attack_freq: float = 1.0
-@export var speed: float = 100.0
-
+@onready var max_health: float = 5.0 + GameManager.num_upgrades * 2.0
+@onready var dps: float = 1.0 + GameManager.num_upgrades
+@onready var speed: float = 50.0 + 10 * GameManager.num_upgrades
 @onready var all_troves: Node2D = $"/root/Node2D/AllTroves"
+@onready var health_bar: HealthBar = $HealthBar
+
+var health: float
 var target: Trove = null
 var _last_hit: float = 0
 var _hit_timeout: float = 0.5
 
 func _ready() -> void:
     $Area2D.body_entered.connect(_on_wball_entered)
+    health = max_health
 
     _find_target()
-    _dps_loop_async()
 
 func _find_target() -> void:
     if target:
@@ -25,19 +26,15 @@ func _find_target() -> void:
     if trove_children.size() > 0:
         target = trove_children.pick_random()
 
-
-func _dps_loop_async() -> void:
-    var period = 1.0 / attack_freq
-    while true:
-        await get_tree().create_timer(period).timeout
-        if target and target.overlaps_area($Area2D):
-            target.take_damage(dps * period)
+func _curr_speed() -> float:
+    return speed * GameManager.round_time_elapsed * 0.01
 
 func _process(_delta: float) -> void:
     _find_target()
     if target == null:
         return
     if target.overlaps_area($Area2D):
+        target.take_damage(dps * _delta)
         return
 
     var dir = (target.global_position - global_position).normalized()
@@ -45,12 +42,14 @@ func _process(_delta: float) -> void:
         apply_force((target.global_position - global_position).normalized() * speed * 10)
 
 func _on_wball_entered(body: RigidBody2D) -> void:
-    if body is not WreckingBallBody:
+    if body is not WreckingBallBody or GameManager.wball_durability_curr <= 0:
         return
-    health -= body.damage
+    health -= GameManager.wball_damage
+    GameManager.wball_durability_curr = max(GameManager.wball_durability_curr - 1, 0) 
+    health_bar.health_t = health / max_health
     if health <= 0:
         queue_free()
     if _last_hit + _hit_timeout < Time.get_ticks_msec() / 1000.0:
-        apply_impulse(body.linear_velocity)
+        apply_impulse(body.linear_velocity * GameManager.wball_damage * 0.1)
         body.linear_velocity *= 0.5
         # body.apply_impulse(-body.linear_velocity * 0.5)

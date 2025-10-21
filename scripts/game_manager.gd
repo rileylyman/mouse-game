@@ -5,8 +5,15 @@ var gems: float = 100.0
 var trove_level: int = 1
 var trove_gps: float = 2 
 var trove_gem_value: float = 1.0
-
+var trove_health: float = 10
+var wball_damage: float = 1.0
 var wball_level: int = 1
+var wball_durability_max: int = 15
+var wball_durability_curr: int = 0
+
+var round_time_elapsed: float = 0
+var num_upgrades: int = 0
+
 
 var start_tub = preload("res://scenes/start_tub.tscn")
 var wball_scene = preload("res://scenes/wrecking_ball_body.tscn")
@@ -23,11 +30,14 @@ func _ready() -> void:
     else:
         _end_round()
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
     if in_round and all_troves.get_child(0).get_child_count() == 0:
         _end_round()
+    round_time_elapsed += delta
 
 func _start_round() -> void:
+    round_time_elapsed = 0
+    wball_durability_curr = wball_durability_max
     upgrade_ui.global_position = camera_rect.position + camera_rect.size / 2 + Vector2(0, 1000)
     var troves = load("res://scenes/trove_layout_%d.tscn" % trove_level).instantiate()
     all_troves.add_child.call_deferred(troves)
@@ -35,6 +45,7 @@ func _start_round() -> void:
 
 func _end_round() -> void:
     in_round = false
+    wball_durability_curr = wball_durability_max
     for trove_layout in all_troves.get_children():
         trove_layout.queue_free()
     enemy_spawner.kill_all_enemies()
