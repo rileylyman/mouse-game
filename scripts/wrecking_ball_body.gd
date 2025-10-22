@@ -7,6 +7,3 @@ func _ready() -> void:
     joint.length = length
     joint.rest_length = length
     joint.stiffness = 256
-
-func _process(_delta: float) -> void:
-    visible = GameManager.wball_durability_curr > 0

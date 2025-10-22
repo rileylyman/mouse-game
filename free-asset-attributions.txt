@@ -1,1 +1,3 @@
 https://kenney.nl/assets/board-game-icons
+https://github.com/Art-Michel/Flowerwall-CRT-shader-for-Godot
+https://lospec.com/palette-list/shido-cyberneon

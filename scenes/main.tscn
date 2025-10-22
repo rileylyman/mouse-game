@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://c7jus7yiaflfi"]
+[gd_scene load_steps=18 format=3 uid="uid://c7jus7yiaflfi"]
 
 [ext_resource type="Script" uid="uid://3g8djndpdaqe" path="res://scripts/mouse_body.gd" id="1_0wfyh"]
 [ext_resource type="Texture2D" uid="uid://fgyenivobnht" path="res://art/iconsDefault.png" id="1_o5qli"]
@@ -8,6 +8,10 @@
 [ext_resource type="Script" uid="uid://b5u3u0i8p765f" path="res://scripts/durability_bar.gd" id="7_choun"]
 [ext_resource type="Texture2D" uid="uid://btb7g6yqdfe8j" path="res://art/panel-border-000.png" id="7_o6xl0"]
 [ext_resource type="Script" uid="uid://cdblo75mp1uxq" path="res://scripts/gem_label.gd" id="7_tipki"]
+[ext_resource type="Script" uid="uid://ce45dugiwp1y1" path="res://scripts/heart.gd" id="9_eb6dy"]
+[ext_resource type="Texture2D" uid="uid://b3t83rjl8i4ny" path="res://art/heartin.png" id="10_trceg"]
+[ext_resource type="Texture2D" uid="uid://bqgdm65ul5kxa" path="res://art/heartout.png" id="11_a8y0u"]
+[ext_resource type="Texture2D" uid="uid://dpnwkudufiq1b" path="res://art/heartoutbeat.png" id="12_jkv2x"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_0wfyh"]
 
@@ -125,3 +129,18 @@ zoom = Vector2(0.75, 0.75)
 
 [node name="UpgradeUI" parent="." instance=ExtResource("7_85g3d")]
 position = Vector2(-192, 756)
+
+[node name="Heart" type="Node2D" parent="."]
+position = Vector2(576.00006, 324.00003)
+scale = Vector2(0.12, 0.12)
+script = ExtResource("9_eb6dy")
+
+[node name="HeartIn" type="Sprite2D" parent="Heart"]
+texture = ExtResource("10_trceg")
+
+[node name="HeartOut" type="Sprite2D" parent="Heart"]
+texture = ExtResource("11_a8y0u")
+
+[node name="HeartOutBeat" type="Sprite2D" parent="Heart"]
+visible = false
+texture = ExtResource("12_jkv2x")

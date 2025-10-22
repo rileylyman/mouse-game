@@ -42,7 +42,7 @@ func _process(_delta: float) -> void:
         apply_force((target.global_position - global_position).normalized() * speed * 10)
 
 func _on_wball_entered(body: RigidBody2D) -> void:
-    if body is not WreckingBallBody or GameManager.wball_durability_curr <= 0:
+    if body is not WreckingBallBody:
         return
     health -= GameManager.wball_damage
     GameManager.wball_durability_curr = max(GameManager.wball_durability_curr - 1, 0) 
