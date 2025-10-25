@@ -1,23 +1,46 @@
-[gd_scene load_steps=6 format=3 uid="uid://c7jus7yiaflfi"]
+[gd_scene load_steps=9 format=3 uid="uid://c7jus7yiaflfi"]
 
+[ext_resource type="AudioStream" uid="uid://bicyxkqh27c4u" path="res://sounds/DONTTOUCHANYTHING instrumental.wav" id="1_o6xl0"]
 [ext_resource type="Script" uid="uid://xrbw2ljcnyxh" path="res://scripts/paddle.gd" id="1_tbgi4"]
+[ext_resource type="Texture2D" uid="uid://fgyenivobnht" path="res://art/iconsDefault.png" id="2_tefeu"]
 [ext_resource type="Script" uid="uid://ce45dugiwp1y1" path="res://scripts/heart.gd" id="9_eb6dy"]
 [ext_resource type="Texture2D" uid="uid://b3t83rjl8i4ny" path="res://art/heartin.png" id="10_trceg"]
 [ext_resource type="Texture2D" uid="uid://bqgdm65ul5kxa" path="res://art/heartout.png" id="11_a8y0u"]
 [ext_resource type="Texture2D" uid="uid://dpnwkudufiq1b" path="res://art/heartoutbeat.png" id="12_jkv2x"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_o6xl0"]
+size = Vector2(49.991432, 49.7778)
+
 [node name="Node2D" type="Node2D"]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("1_o6xl0")
+autoplay = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(576, 324)
 zoom = Vector2(0.75, 0.75)
 
 [node name="Paddle" type="Node2D" parent="."]
-position = Vector2(423, 205)
 script = ExtResource("1_tbgi4")
+
+[node name="Sprite2D" type="Sprite2D" parent="Paddle"]
+visible = false
+position = Vector2(3.8146973e-06, 0)
+scale = Vector2(4.5625, 0.140625)
+texture = ExtResource("2_tefeu")
+region_enabled = true
+region_rect = Rect2(192, 64, 64, 64)
+
+[node name="PaddleArea" type="Area2D" parent="Paddle/Sprite2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Paddle/Sprite2D/PaddleArea"]
+position = Vector2(-0.1373291, 0)
+shape = SubResource("RectangleShape2D_o6xl0")
 
 [node name="Heart" type="Node2D" parent="."]
 unique_name_in_owner = true
+z_index = 1
 position = Vector2(576.00006, 324.00003)
 scale = Vector2(0.07, 0.07)
 script = ExtResource("9_eb6dy")
