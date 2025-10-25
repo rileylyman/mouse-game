@@ -1,8 +1,8 @@
 extends RigidBody2D
 
-@onready var max_health: float = 5.0 + GameManager.num_upgrades * 2.0
-@onready var dps: float = 1.0 + GameManager.num_upgrades
-@onready var speed: float = 50.0 + 10 * GameManager.num_upgrades
+@onready var max_health: float = 2.0
+@onready var dps: float = 1.0
+@onready var speed: float = 50.0
 @onready var all_troves: Node2D = $"/root/Node2D/AllTroves"
 @onready var health_bar: HealthBar = $HealthBar
 
@@ -27,7 +27,7 @@ func _find_target() -> void:
         target = trove_children.pick_random()
 
 func _curr_speed() -> float:
-    return speed * GameManager.round_time_elapsed * 0.01
+    return speed
 
 func _process(_delta: float) -> void:
     _find_target()
@@ -44,12 +44,11 @@ func _process(_delta: float) -> void:
 func _on_wball_entered(body: RigidBody2D) -> void:
     if body is not WreckingBallBody:
         return
-    health -= GameManager.wball_damage
-    GameManager.wball_durability_curr = max(GameManager.wball_durability_curr - 1, 0) 
+    health -= 1.0
     health_bar.health_t = health / max_health
     if health <= 0:
         queue_free()
     if _last_hit + _hit_timeout < Time.get_ticks_msec() / 1000.0:
-        apply_impulse(body.linear_velocity * GameManager.wball_damage * 0.1)
+        apply_impulse(body.linear_velocity * 0.1)
         body.linear_velocity *= 0.5
         # body.apply_impulse(-body.linear_velocity * 0.5)

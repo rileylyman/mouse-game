@@ -7,9 +7,7 @@ func _ready() -> void:
 
 func _spawn_async() -> void:
     while true:
-        await get_tree().create_timer(1.0 - GameManager.num_upgrades * 0.01 - GameManager.round_time_elapsed * 0.005).timeout
-        if not GameManager.in_round:
-            continue
+        await get_tree().create_timer(1.0).timeout
         var enemy: Node2D = enemy_scene.instantiate()
         var r = Utils.ws_rect($"/root/Node2D/Camera2D")
         add_child(enemy)

@@ -1,138 +1,25 @@
-[gd_scene load_steps=18 format=3 uid="uid://c7jus7yiaflfi"]
+[gd_scene load_steps=6 format=3 uid="uid://c7jus7yiaflfi"]
 
-[ext_resource type="Script" uid="uid://3g8djndpdaqe" path="res://scripts/mouse_body.gd" id="1_0wfyh"]
-[ext_resource type="Texture2D" uid="uid://fgyenivobnht" path="res://art/iconsDefault.png" id="1_o5qli"]
-[ext_resource type="Script" uid="uid://5117g2rusoxu" path="res://scripts/enemy_spawner.gd" id="3_tefeu"]
-[ext_resource type="PackedScene" uid="uid://b2n3qics7ro4i" path="res://scenes/wrecking_ball_body.tscn" id="4_o6xl0"]
-[ext_resource type="PackedScene" uid="uid://cii5pxv4kf0rd" path="res://scenes/upgrade_ui.tscn" id="7_85g3d"]
-[ext_resource type="Script" uid="uid://b5u3u0i8p765f" path="res://scripts/durability_bar.gd" id="7_choun"]
-[ext_resource type="Texture2D" uid="uid://btb7g6yqdfe8j" path="res://art/panel-border-000.png" id="7_o6xl0"]
-[ext_resource type="Script" uid="uid://cdblo75mp1uxq" path="res://scripts/gem_label.gd" id="7_tipki"]
+[ext_resource type="Script" uid="uid://xrbw2ljcnyxh" path="res://scripts/paddle.gd" id="1_tbgi4"]
 [ext_resource type="Script" uid="uid://ce45dugiwp1y1" path="res://scripts/heart.gd" id="9_eb6dy"]
 [ext_resource type="Texture2D" uid="uid://b3t83rjl8i4ny" path="res://art/heartin.png" id="10_trceg"]
 [ext_resource type="Texture2D" uid="uid://bqgdm65ul5kxa" path="res://art/heartout.png" id="11_a8y0u"]
 [ext_resource type="Texture2D" uid="uid://dpnwkudufiq1b" path="res://art/heartoutbeat.png" id="12_jkv2x"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_0wfyh"]
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_o6xl0"]
-texture = ExtResource("7_o6xl0")
-texture_margin_left = 12.0
-texture_margin_top = 8.0
-texture_margin_right = 12.0
-texture_margin_bottom = 8.0
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4b4l4"]
-bg_color = Color(0.6, 0.29184902, 0.5052266, 1)
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ya4ey"]
-texture = ExtResource("7_o6xl0")
-texture_margin_left = 12.0
-texture_margin_top = 4.0
-texture_margin_right = 12.0
-texture_margin_bottom = 4.0
-
-[sub_resource type="LabelSettings" id="LabelSettings_4noig"]
-font_size = 24
-
 [node name="Node2D" type="Node2D"]
-
-[node name="AllTroves" type="Node2D" parent="."]
-unique_name_in_owner = true
-position = Vector2(576, 324)
-
-[node name="EnemySpawner" type="Node2D" parent="."]
-position = Vector2(576, 324)
-script = ExtResource("3_tefeu")
-
-[node name="MouseBody" type="RigidBody2D" parent="."]
-unique_name_in_owner = true
-position = Vector2(576, 324)
-collision_mask = 0
-gravity_scale = 0.0
-can_sleep = false
-freeze = true
-freeze_mode = 1
-script = ExtResource("1_0wfyh")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="MouseBody"]
-shape = SubResource("CircleShape2D_0wfyh")
-
-[node name="Sprite2D" type="Sprite2D" parent="MouseBody"]
-visible = false
-texture = ExtResource("1_o5qli")
-region_enabled = true
-region_rect = Rect2(163.27168, 800.6632, 28.728317, 31.336792)
-
-[node name="WreckingBallBody" parent="." instance=ExtResource("4_o6xl0")]
-position = Vector2(576, 324)
-
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer"]
-offset_left = 24.0
-offset_top = 28.0
-offset_right = 110.0
-offset_bottom = 67.0
-theme_override_styles/panel = SubResource("StyleBoxTexture_o6xl0")
-
-[node name="Label" type="Label" parent="CanvasLayer/PanelContainer"]
-layout_mode = 2
-text = "Gems: 5"
-script = ExtResource("7_tipki")
-
-[node name="DurabilityBar" type="MarginContainer" parent="CanvasLayer"]
-custom_minimum_size = Vector2(1000, 0)
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -498.0
-offset_top = 255.0
-offset_right = 502.0
-offset_bottom = 317.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 0
-mouse_behavior_recursive = 2
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 0
-theme_override_constants/margin_bottom = 10
-script = ExtResource("7_choun")
-
-[node name="Panel" type="Panel" parent="CanvasLayer/DurabilityBar"]
-custom_minimum_size = Vector2(39.075, 0)
-layout_mode = 2
-size_flags_horizontal = 0
-mouse_filter = 1
-theme_override_styles/panel = SubResource("StyleBoxFlat_4b4l4")
-
-[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/DurabilityBar"]
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 2
-size_flags_vertical = 4
-mouse_filter = 1
-theme_override_styles/panel = SubResource("StyleBoxTexture_ya4ey")
-
-[node name="Label" type="Label" parent="CanvasLayer/DurabilityBar/PanelContainer"]
-layout_mode = 2
-mouse_filter = 1
-text = "hgellow there"
-label_settings = SubResource("LabelSettings_4noig")
-horizontal_alignment = 1
-vertical_alignment = 1
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(576, 324)
 zoom = Vector2(0.75, 0.75)
 
-[node name="UpgradeUI" parent="." instance=ExtResource("7_85g3d")]
-position = Vector2(-192, 756)
+[node name="Paddle" type="Node2D" parent="."]
+position = Vector2(423, 205)
+script = ExtResource("1_tbgi4")
 
 [node name="Heart" type="Node2D" parent="."]
+unique_name_in_owner = true
 position = Vector2(576.00006, 324.00003)
-scale = Vector2(0.12, 0.12)
+scale = Vector2(0.07, 0.07)
 script = ExtResource("9_eb6dy")
 
 [node name="HeartIn" type="Sprite2D" parent="Heart"]
