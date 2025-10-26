@@ -31,6 +31,7 @@ enabled=PackedStringArray("res://addons/flowerwall_postprocess/plugin.cfg")
 2d_physics/layer_2="Enemy"
 2d_physics/layer_3="Trove"
 2d_physics/layer_4="Dot"
+2d_physics/layer_5="IgnoreMe"
 
 [rendering]
 

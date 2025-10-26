@@ -1,8 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://c7jus7yiaflfi"]
+[gd_scene load_steps=10 format=3 uid="uid://c7jus7yiaflfi"]
 
 [ext_resource type="AudioStream" uid="uid://bicyxkqh27c4u" path="res://sounds/DONTTOUCHANYTHING instrumental.wav" id="1_o6xl0"]
 [ext_resource type="Script" uid="uid://xrbw2ljcnyxh" path="res://scripts/paddle.gd" id="1_tbgi4"]
 [ext_resource type="Texture2D" uid="uid://fgyenivobnht" path="res://art/iconsDefault.png" id="2_tefeu"]
+[ext_resource type="Script" uid="uid://5117g2rusoxu" path="res://scripts/enemy_spawner.gd" id="8_tipki"]
 [ext_resource type="Script" uid="uid://ce45dugiwp1y1" path="res://scripts/heart.gd" id="9_eb6dy"]
 [ext_resource type="Texture2D" uid="uid://b3t83rjl8i4ny" path="res://art/heartin.png" id="10_trceg"]
 [ext_resource type="Texture2D" uid="uid://bqgdm65ul5kxa" path="res://art/heartout.png" id="11_a8y0u"]
@@ -46,7 +47,12 @@ scale = Vector2(0.07, 0.07)
 script = ExtResource("9_eb6dy")
 
 [node name="HeartIn" type="Sprite2D" parent="Heart"]
+position = Vector2(-0.0008719308, 585.7138)
 texture = ExtResource("10_trceg")
+centered = false
+offset = Vector2(-1024, -1120)
+region_enabled = true
+region_rect = Rect2(0, 488, 2048, 1120)
 
 [node name="HeartOut" type="Sprite2D" parent="Heart"]
 texture = ExtResource("11_a8y0u")
@@ -54,3 +60,6 @@ texture = ExtResource("11_a8y0u")
 [node name="HeartOutBeat" type="Sprite2D" parent="Heart"]
 visible = false
 texture = ExtResource("12_jkv2x")
+
+[node name="EnemySpawner" type="Node2D" parent="."]
+script = ExtResource("8_tipki")

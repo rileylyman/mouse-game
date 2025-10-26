@@ -2,7 +2,12 @@ class_name Heart extends Node2D
 
 
 @onready var beat: Node2D = $HeartOutBeat
+@onready var heart_in: Sprite2D = $HeartIn
 @onready var original_scale: Vector2 = scale
+
+@onready var heart_in_offset_y: float = heart_in.offset.y
+@onready var heart_in_region_y: float = heart_in.region_rect.position.y
+@onready var heart_in_region_h: float = heart_in.region_rect.size.y
 
 var heart_ball_scene: PackedScene = preload("res://scenes/heart_ball.tscn")
 var laser_scene: PackedScene = preload("res://scenes/laser.tscn")
@@ -11,22 +16,30 @@ func _ready() -> void:
     _beat_anim_async()
     _run_heart_seq_async()
 
+func _set_heart_in_t(t: float) -> void:
+    heart_in.offset.y = heart_in_offset_y + heart_in_region_h * (1.0 - t)
+    heart_in.region_rect.position.y = heart_in_region_y + heart_in_region_h * (1.0 - t)
+
 func _run_heart_seq_async() -> void:
+    await BeatManager.next_bar
+    await _sweep_laser(0, 180, 8, 24, true)
+    await BeatManager.next_bar
+    await _sweep_laser(0, -180, 8, 24, false)
     await BeatManager.next_bar
     await _sweep_balls(0, 180, 8, 4)
     await BeatManager.next_bar
     await _sweep_balls(0, -180, 8, 8)
     await BeatManager.next_bar
-    _sweep_laser(0, 180, 16)
+    await _sweep_laser(0, 180, 8, 24, true)
     await BeatManager.next_bar
-    _sweep_laser(0, -180, 16)
+    await _sweep_laser(0, -180, 8, 24, false)
     await BeatManager.next_bar
 
-func _sweep_laser(from: float, to: float, sixteens: int) -> void:
+func _sweep_laser(from: float, to: float, charge_interval: int, sixteens: int, wait_charge: bool) -> void:
     var laser = _spawn_laser(from)
-    laser.set_angle(deg_to_rad(from), deg_to_rad(to), BeatManager.secs_per_beat * sixteens / 4)
+    laser.set_angle(deg_to_rad(from), deg_to_rad(to), BeatManager.secs_per_beat * charge_interval / 4, BeatManager.secs_per_beat * sixteens / 4, wait_charge)
     await laser.target_reached
-    laser.queue_free()
+    laser.die()
 
 
 func _sweep_balls(from: float, to: float, count: int, sixteens: int) -> void:

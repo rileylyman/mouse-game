@@ -1,54 +1,45 @@
-extends RigidBody2D
+extends Area2D
 
-@onready var max_health: float = 2.0
-@onready var dps: float = 1.0
-@onready var speed: float = 50.0
-@onready var all_troves: Node2D = $"/root/Node2D/AllTroves"
-@onready var health_bar: HealthBar = $HealthBar
+var health: float = 10
+var in_laser = false
+var dtps = 100.0
+var speed = 150.0
+var dir = Vector2.RIGHT
+var distance = 4000.0
+var dead = false
 
-var health: float
-var target: Trove = null
-var _last_hit: float = 0
-var _hit_timeout: float = 0.5
+@onready var start = global_position
 
 func _ready() -> void:
-    $Area2D.body_entered.connect(_on_wball_entered)
-    health = max_health
-
-    _find_target()
-
-func _find_target() -> void:
-    if target:
-        return
-    if all_troves.get_child_count() == 0:
-        return
-    var trove_children = all_troves.get_child(0).get_children()
-    if trove_children.size() > 0:
-        target = trove_children.pick_random()
-
-func _curr_speed() -> float:
-    return speed
+    area_entered.connect(_on_area_entered)
+    area_exited.connect(_on_area_exited)
 
 func _process(_delta: float) -> void:
-    _find_target()
-    if target == null:
-        return
-    if target.overlaps_area($Area2D):
-        target.take_damage(dps * _delta)
-        return
-
-    var dir = (target.global_position - global_position).normalized()
-    if (linear_velocity.project(dir * speed).length() < speed):
-        apply_force((target.global_position - global_position).normalized() * speed * 10)
-
-func _on_wball_entered(body: RigidBody2D) -> void:
-    if body is not WreckingBallBody:
-        return
-    health -= 1.0
-    health_bar.health_t = health / max_health
+    if in_laser:
+        health -= dtps * _delta
     if health <= 0:
+        die()
+
+    global_position += dir * speed * _delta
+    if global_position.distance_to(start) > distance:
         queue_free()
-    if _last_hit + _hit_timeout < Time.get_ticks_msec() / 1000.0:
-        apply_impulse(body.linear_velocity * 0.1)
-        body.linear_velocity *= 0.5
-        # body.apply_impulse(-body.linear_velocity * 0.5)
+
+func die():
+    if dead:
+        return
+    dead = true
+    $Sprite2D.queue_free()
+    $Particles.emitting = true
+    await get_tree().create_timer(1.5).timeout
+    queue_free()
+
+func _on_area_entered(area: Area2D) -> void:
+    if area is HeartBall:
+        health -= 10
+        area.die()
+    elif area is Laser:
+        in_laser = true
+
+func _on_area_exited(area: Area2D) -> void:
+    if area is Laser:
+        in_laser = false
