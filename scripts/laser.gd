@@ -7,6 +7,7 @@ var next_angle: float = 0.0
 var time = 1.0
 var charge_time = 1.0
 var wait_charge = false
+var show_pre = true
 
 var _elapsed = 0.0
 var reached = false
@@ -38,6 +39,8 @@ func _process(delta: float) -> void:
     else:
         sprite.scale.x = 1.0
         particles.emitting = false
+
+    visible = true if show_pre else _elapsed > charge_time
 
     if _elapsed > charge_time:
         sprite.scale.y = 1.0

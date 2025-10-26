@@ -40,7 +40,7 @@ func _fast_forward(s: String) -> void:
 
 func _run_heart_seq_async() -> void:
     SoundEffects.play_ball_burst()
-    _fast_forward("95:1")
+    _fast_forward("127:1")
 
     # 0-8: Talking
 
@@ -164,6 +164,27 @@ func _run_heart_seq_async() -> void:
     await _ball_seq([0, null, 0, null, 0, 0, null, 0, null, 0, null, 0, 0, 0, 0, 0], 8)
     frame_rotation = 0
 
+    # 112 - 120
+    await _until("112:1")
+    await _ball_oscillate(8, 1, 1, 0, 360 * 4)
+
+    # 120 - 128
+    await _until("120:1")
+    await _ball_oscillate(4, 2, 1, 0, 360 * 2)
+    await _ball_oscillate(2, 4, 1, 0, 360)
+    await _ball_oscillate(1, 8, 1, 0, 180)
+    await _ball_oscillate(1, 16, 1, 180, 360)
+
+    # 128 - 136
+    await _until("128:1")
+    await _laser(4, 0, -720)
+    await _laser(2, 0, -720)
+    await _laser(2, 0, 360)
+
+    # 136 - 144
+    await _until("136:1")
+    await _laser(4, 0, -720 * 2)
+    await _laser(4, 0, -720)
 
 
 func _ball_alternate2(bars: int, on: int, deg1: float, deg2: float) -> void:
@@ -243,12 +264,12 @@ func _rotate_frame(bars: int, from: float, to: float) -> void:
     frame_rotation = 0
 
 
-func _laser(bars: int, from: float, to: float, charge_interval: int = 8, wait_charge: bool = false) -> void:
+func _laser(bars: int, from: float, to: float, show_pre: bool = true) -> void:
     var fn = func():
-        await _rest_bars(0, 0)
         var laser = _spawn_laser(from)
-        var charge_time = BeatManager.secs_per_beat * charge_interval / 4
-        laser.set_angle(deg_to_rad(from), deg_to_rad(to), charge_time, BeatManager.secs_per_beat * bars * 4 - charge_time, wait_charge)
+        var charge_time = HeartBall.take_sixteenths * BeatManager.secs_per_beat / 4
+        laser.set_angle(deg_to_rad(from), deg_to_rad(to), charge_time, BeatManager.secs_per_beat * bars * 4, true)
+        laser.show_pre = show_pre
         await laser.target_reached
         laser.die()
     fn.call()
