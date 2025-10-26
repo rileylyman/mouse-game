@@ -10,7 +10,7 @@ var dead = false
 func _ready() -> void:
     dir = dir.normalized()
     area_entered.connect(_on_area_enter)
-    speed = paddle.radius_max / (BeatManager.secs_per_beat * 2)
+    speed = paddle.radius / (BeatManager.secs_per_beat * 2)
 
 func _process(delta: float) -> void:
     global_position += dir * speed * delta
