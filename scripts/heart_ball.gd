@@ -4,7 +4,7 @@ var dir: Vector2
 var speed: float = 100.0
 var dead = false
 
-static var take_sixteenths: int = 6 
+static var take_sixteenths: int = 8 
 var check_on_sixteenth: int = 0
 
 @onready var heart: Heart = $"/root/Node2D/Heart"

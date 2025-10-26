@@ -22,8 +22,8 @@ func _process(_delta: float) -> void:
             desired_time_scale = 8.0
 
     if BeatManager.fast_forward:
-        Engine.time_scale = 8.0
-        AudioServer.playback_speed_scale = 8.0
+        Engine.time_scale = 10.0
+        AudioServer.playback_speed_scale = 10.0
     else:
         Engine.time_scale = desired_time_scale
         AudioServer.playback_speed_scale = desired_time_scale

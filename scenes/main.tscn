@@ -29,6 +29,7 @@ zoom = Vector2(0.75, 0.75)
 script = ExtResource("1_tbgi4")
 
 [node name="Sprite2D" type="Sprite2D" parent="Paddle"]
+visible = false
 position = Vector2(3.8146973e-06, 0)
 scale = Vector2(4.5625, 0.140625)
 texture = ExtResource("2_tefeu")
