@@ -4,13 +4,26 @@ var dir: Vector2
 var speed: float = 100.0
 var dead = false
 
+static var take_sixteenths: int = 12 
+var check_on_sixteenth: int = 0
+
 @onready var heart: Heart = $"/root/Node2D/Heart"
 @onready var paddle: Paddle = $"/root/Node2D/Paddle"
+@onready var paddle_area: Area2D = $"/root/Node2D/Paddle/Sprite2D/PaddleArea"
 
 func _ready() -> void:
     dir = dir.normalized()
-    area_entered.connect(_on_area_enter)
-    speed = paddle.radius / (BeatManager.secs_per_beat * 2)
+    speed = paddle.radius / ((check_on_sixteenth - BeatManager.curr_sixteenth + 1) * BeatManager.secs_per_beat / 4)
+
+    _check_async()
+
+func _check_async() -> void:
+    await BeatManager.wait_for_sixteenth(check_on_sixteenth - 1)
+    var bv = global_position - heart.global_position
+    var pv = paddle_area.global_position - heart.global_position
+    if abs(bv.normalized().angle_to(pv.normalized())) < paddle.arc_deg / 2 + deg_to_rad(5.0):
+        die()
+        SoundEffects.play_ball_burst()
 
 func _process(delta: float) -> void:
     global_position += dir * speed * delta
@@ -30,5 +43,6 @@ func die() -> void:
     $Sprite2D.queue_free()
     set_collision_layer_value(1, false)
     $Particles.emitting = true
+    SoundEffects.play_ball_burst()
     await get_tree().create_timer(1.0).timeout
     queue_free()

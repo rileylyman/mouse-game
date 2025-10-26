@@ -20,6 +20,7 @@ config/icon="res://icon.svg"
 GameManager="*res://scripts/game_manager.gd"
 flowerwall_crt="*res://addons/flowerwall_postprocess/scenes/flowerwall_pp.tscn"
 BeatManager="*res://scripts/beat_manager.gd"
+SoundEffects="*res://scripts/sound_effects.gd"
 
 [editor_plugins]
 
