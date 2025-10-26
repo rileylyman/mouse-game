@@ -40,15 +40,9 @@ func _fast_forward(s: String) -> void:
 
 func _run_heart_seq_async() -> void:
     SoundEffects.play_ball_burst()
-    # _fast_forward("67:1")
+    _fast_forward("95:1")
 
     # 0-8: Talking
-    _fast_forward("64:1")
-    await _until("1:1")
-
-    _laser(3, 120, 120 -360)
-    _laser(3, 240, 240 -360)
-    await _laser(3, 0, -360)
 
     # 8 - 16
     await _until("8:1")
@@ -77,8 +71,7 @@ func _run_heart_seq_async() -> void:
     # 24 - 32
     await _until("24:1")
     await _ball_oscillate(2, 4, 2, -60, -120)
-    await _ball_syncopate1(1, 8, 0, 0, -180)
-    await _ball_syncopate1(1, 8, -180, -180, 0)
+    await _ball_syncopate1(2, 8, 0, 0, -180)
     await _ball_oscillate(2, 8, 1, 0, 360)
     await _ball_alternate(1, 8, 75, 105)
     await _ball_seq([45, 135, -90], 4)
@@ -126,8 +119,51 @@ func _run_heart_seq_async() -> void:
     # 72 - 80
     await _until("72:1")
 
-    await _rest_bars(6)
+    _rotate_frame(4, 0, 360 * 3)
+    await _ball_seq([0, null, 0, null, 0, 0, null, 0, null, 0, null, 0, 0, 0, 0, 0], 8, 2)
     await _ball_oscillate(2, 16, 1, 0, 360)
+    await _rest_bars(1)
+    await _laser(1, 0, -180)
+
+    # 80 - 88
+    await _until("80:1")
+    await _rest_bars(1)
+    await _ball_oscillate(1, 4, 1, 0, 360)
+    await _ball_oscillate(2, 8, 1, 0, 720)
+    _rotate_frame(4, 0, 360 * 6)
+    await _ball_seq([0, null, 0, null, 0, 0, null, 0, null, 0, null, 0, 0, 0, 0, 0], 8, 2)
+
+    # 88 - 96
+    await _until("88:1")
+    _rotate_frame(4, 0, 360)
+    await _ball_alternate2(4, 8, 0, 45)
+    await _laser(2, 0, 720)
+    await _ball_oscillate(2, 4, 4, 45, 135)
+
+    # 96 - 104
+    await _until("96:1")
+    await _laser(1, -180, 180)
+    await _ball_oscillate(1, 8, 1, -180, 0)
+    await _laser(1, 0, 360, 0)
+    await _ball_oscillate(1, 16, 1, 0, -180)
+    await _laser(1, -180, 0, 0)
+    await _ball_alternate(1, 16, 15, -15)
+    _rotate_frame(2, 0, 720)
+    await _ball_seq([0, null, 0, null, 0, 0, null, 0, null, 0, null, 0, 0, 0, 0, 0], 8)
+
+    # 104 - 112
+    await _until("104:1")
+    await _laser(1, 0, 360)
+    await _ball_oscillate(1, 8, 1, 0, -180)
+    await _laser(1, -180, 180, 0)
+    await _ball_oscillate(1, 16, 1, -180, 0)
+    await _laser(1, 0, -180, 0)
+    await _ball_alternate(1, 16, 15 - 180, -15 - 180)
+    frame_rotation = -180
+    _rotate_frame(2, -180, 720 - 180)
+    await _ball_seq([0, null, 0, null, 0, 0, null, 0, null, 0, null, 0, 0, 0, 0, 0], 8)
+    frame_rotation = 0
+
 
 
 func _ball_alternate2(bars: int, on: int, deg1: float, deg2: float) -> void:
