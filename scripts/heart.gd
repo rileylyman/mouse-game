@@ -43,129 +43,122 @@ func _run_heart_seq_async() -> void:
     # _fast_forward("67:1")
 
     # 0-8: Talking
-    # _fast_forward("32:1")
+    _fast_forward("64:1")
     await _until("1:1")
 
     _laser(3, 120, 120 -360)
     _laser(3, 240, 240 -360)
     await _laser(3, 0, -360)
 
-
-    return
-    # 8-12: Card. dir. shoots
+    # 8 - 16
     await _until("8:1")
-    await _ball_seq([-90], 4, 4)
-    await _ball_seq([180], 4, 4)
-    await _ball_seq([90], 4, 4)
-    await _ball_seq([0], 4, 4)
 
-    # 12-16: Rotations
-    await _until("12:1")
-    await _ball_sweep(0, -180, 4, 4)
-    await _ball_sweep(-180, 0, 4, 4)
-    await _ball_sweep(0, 360, 8, 8)
-    await _ball_sweep(0, 360, 8, 8)
+    await _ball_straight(1, 4, -90)
+    await _ball_straight(1, 4, 90)
 
-    # 16-20: Card. dir. shoots
+    await _ball_oscillate(2, 8, 2, 0, -180)
+
+    await _ball_straight(1, 4, 90)
+    await _ball_straight(1, 4, -90)
+
+    await _ball_oscillate(2, 8, 2, 0, 180)
+
+    # 16 - 24
     await _until("16:1")
-    await _ball_seq([-90], 4, 4)
-    await _ball_seq([180], 4, 4)
-    await _ball_seq([90], 8, 8)
-    await _ball_seq([0], 8, 8)
+    await _ball_straight(1, 4, 0)
+    await _ball_straight(1, 4, -180)
 
-    # 20-22: Back + forth
-    await _until("20:1")
-    await _ball_seq([0, null, -180, -180], 8, 4)
+    await _ball_alternate(2, 4, 45, 135)
+    await _ball_alternate(2, 4, -45, -135)
 
-    await _ball_seq([90], 2, 2)
-    await _ball_seq([-90], 2, 2)
+    await _ball_straight(1, 4, -90)
+    await _ball_straight(1, 4, 90)
 
+    # 24 - 32
     await _until("24:1")
-    await _ball_sweep(0, -180, 4, 8)
-    await _ball_sweep(-180, 0, 4, 8)
-    await _ball_sweep(0, 180, 8, 16)
-    await _ball_sweep(180, 0, 8, 16)
+    await _ball_oscillate(2, 4, 2, -60, -120)
+    await _ball_syncopate1(1, 8, 0, 0, -180)
+    await _ball_syncopate1(1, 8, -180, -180, 0)
+    await _ball_oscillate(2, 8, 1, 0, 360)
+    await _ball_alternate(1, 8, 75, 105)
+    await _ball_seq([45, 135, -90], 4)
 
-    await _ball_sweep(0, 360, 16, 16)
-
+    # 32 - 40
     await _until("32:1")
-    await _ball_sweep(-45, -45, 8, 8)
-    await _ball_sweep(-135, -135, 8, 8)
-    await _ball_sweep(0, 360, 8, 32)
-    await _ball_sweep(0, -360, 8, 32)
+    await _laser(2, 0, -360)
+    await _ball_straight(1, 4, 0)
+    await _ball_syncopate1(1, 8, 0, 0, -180)
+    await _ball_straight(1, 8, -90)
+    await _ball_straight(1, 8, 90)
+    await _ball_oscillate(2, 16, 2, -45, -135)
 
-    # 40 lasers
+    # 40 - 48
     await _until("40:1")
-    _ball_sweep(45, 45, 2, 32)
-    await _until("40:2")
-    _ball_sweep(135, 135, 2, 32)
-    await _until("42:1")
-    _ball_sweep(-45, -45, 2, 32)
-    await _until("42:2")
-    _ball_sweep(-135, -135, 2, 32)
-    await _until("44:1")
-    await _laser(0, -360, 8, 32, false)
-    await _laser(0, 360, 0, 32, false)
+    await _ball_alternate(2, 4, -45, -135)
+    await _ball_oscillate(1, 8, 1, -45, 45)
+    await _ball_alternate(3, 4, 45, 135)
+    await _laser(2, 0, 720)
 
+    # 48 - 56
+    # talking
+
+
+    # 56 - 64
     await _until("56:1")
-    await _ball_sweep(-90, -90, 4, 16)
-    await _ball_sweep(180, 180, 4, 16)
-    await _ball_sweep(90, 90, 4, 16)
-    await _ball_sweep(0, 0, 4, 16)
 
-    await _until("60:1")
-    _ball_sweep(45, 45, 2, 32)
-    await _until("60:2")
-    _ball_sweep(135, 135, 2, 32)
-    await _until("62:1")
-    _ball_sweep(-45, -45, 2, 32)
-    await _until("62:2")
-    _ball_sweep(-135, -135, 2, 32)
+    _rotate_frame(4, 0, 360 * 3)
+    await _ball_seq([0, null, 0, null, 0, 0, null, 0, null, 0, null, 0, 0, 0, 0, 0], 8, 2)
 
+    await _ball_syncopate1(2, 8, 0, 0, -180)
+
+    await _ball_oscillate(1, 8, 1, 180, 0)
+
+    await _ball_seq([-45, -90, -135], 4)
+
+    # 64 - 72
     await _until("64:1")
-    await _laser(0, 360, 4, 32, false)
-    _laser(0, 360, 0, 28, false)
 
-    await _until("68:1")
-    await _ball_sweep(0, 0, 8, 4)
-    await _ball_sweep(-180, -180, 8, 2)
-    await _until("68:3")
-    await _ball_sweep(0, 0, 8, 4)
-    await _ball_sweep(-180, -180, 8, 2)
-    await _until("69:1")
-    await _ball_sweep(0, 0, 8, 4)
-    await _ball_sweep(180, 180, 8, 2)
-    await _until("69:3")
-    await _ball_sweep(0, 0, 8, 4)
-    await _ball_sweep(180, 180, 8, 2)
-    await _until("70:1")
-    await _ball_sweep(0, 0, 8, 4)
-    await _ball_sweep(-180, -180, 8, 2)
-    await _until("70:3")
-    await _ball_sweep(0, 0, 8, 4)
-    await _ball_sweep(-180, -180, 8, 2)
-    await _until("71:1")
-    await _ball_sweep(0, 0, 8, 4)
-    await _ball_sweep(180, 180, 8, 2)
-    await _until("71:3")
-    await _ball_sweep(0, 0, 8, 4)
-    await _ball_sweep(180, 180, 8, 2)
+    await _laser(2, 0, 360)
+    await _ball_alternate2(2, 8, 30, -30)
+    await _ball_syncopate1(2, 8, 0, 0, -180)
+    await _ball_syncopate1(2, 16, 0, 15, -15)
 
+    # 72 - 80
     await _until("72:1")
-    await _ball_sweep(-180, 180, 8, 32)
-    await _ball_sweep(-180, 180, 16, 32)
+
+    await _rest_bars(6)
+    await _ball_oscillate(2, 16, 1, 0, 360)
+
+
+func _ball_alternate2(bars: int, on: int, deg1: float, deg2: float) -> void:
+    var fn = func():
+        await _ball_seq([deg1, deg1, deg2, deg2], on, bars * int(on / 4.0))
+    fn.call()
+    await _rest_bars(bars)
 
 func _ball_alternate(bars: int, on: int, deg1: float, deg2: float) -> void:
-    await _ball_seq([deg1, deg2, deg1, deg2], on, bars * int(on / 4.0))
+    var fn = func():
+        await _ball_seq([deg1, deg2, deg1, deg2], on, bars * int(on / 4.0))
+    fn.call()
+    await _rest_bars(bars)
 
 func _ball_syncopate1(bars: int, on: int, deg1: float, deg2: float, deg3: float) -> void:
-    await _ball_seq([deg1, deg2, deg3, null], on, bars * int(on / 4.0))
+    var fn = func():
+        await _ball_seq([deg1, deg2, deg3, null], on, bars * int(on / 4.0))
+    fn.call()
+    await _rest_bars(bars)
 
 func _ball_syncopate2(bars: int, on: int, deg1: float, deg2: float, deg3: float) -> void:
-    await _ball_seq([deg1, deg2, null, deg3], on, bars * int(on / 4.0))
+    var fn = func():
+        await _ball_seq([deg1, deg2, null, deg3], on, bars * int(on / 4.0))
+    fn.call()
+    await _rest_bars(bars)
 
 func _ball_straight(bars: int, on: int, deg: float) -> void:
-    await _ball_seq([deg, deg, deg, deg], on, bars * int(on / 4.0))
+    var fn = func():
+        await _ball_seq([deg, deg, deg, deg], on, bars * int(on / 4.0))
+    fn.call()
+    await _rest_bars(bars)
 
 func _ball_seq(seq: Array, on: int, repeat: int = 1) -> void:
     for i in repeat:
@@ -175,29 +168,22 @@ func _ball_seq(seq: Array, on: int, repeat: int = 1) -> void:
             await BeatManager.wait(on, 1)
 
 func _ball_oscillate(bars: int, on: int, periods: int, deg1: float, deg2: float, repeats: int = 1) -> void:
-    for i in repeats:
-        var count = int(bars * on / float(periods))
-        var angle = deg1
-        var step = (deg2 - deg1) / count
-        for j in range(periods):
-            for k in range(count):
-                _spawn_ball(angle)
-                angle += step
-                await BeatManager.wait(on, 1)
-            step *= -1
+    var fn = func():
+        for i in repeats:
+            var count = int(bars * on / float(periods))
+            var angle = deg1
+            var step = (deg2 - deg1) / count
+            for j in range(periods):
+                for k in range(count):
+                    _spawn_ball(angle)
+                    angle += step
+                    await BeatManager.wait(on, 1)
+                step *= -1
+    fn.call()
+    await _rest_bars(bars * repeats)
 
-func _ball_sweep(bars: int, on: int, from: float, to: float) -> void:
-    var count = bars * on
-    var angle = from
-    var step: float = (to - from) / count
-    for i in range(count):
-        _spawn_ball(angle)
-        angle += step
-        await BeatManager.wait(on, 1)
-
-func _rest_bars(bars: int) -> void:
-    await BeatManager.wait_for_bar("%d:1" % (int(BeatManager.curr_sixteenth / 16.0) + 1 + bars), -HeartBall.take_sixteenths)
-
+func _rest_bars(bars: int, sixteens: int = -HeartBall.take_sixteenths) -> void:
+    await BeatManager.wait_for_bar("%d:1" % (int(BeatManager.curr_sixteenth / 16.0) + 1 + bars), sixteens)
 
 func _until(s: String) -> void:
     await BeatManager.wait_for_bar(s, -HeartBall.take_sixteenths)
@@ -211,14 +197,26 @@ func _set_text(s: String, sixteens: int) -> void:
         curr_len += 1
     bubble.text = ""
 
+func _rotate_frame(bars: int, from: float, to: float) -> void:
+    frame_rotation = from
+    var count = bars * 16
+    var step = (to - from) / count
+    for i in count:
+        frame_rotation += step
+        await BeatManager.wait(16, 1)
+    frame_rotation = 0
+
 
 func _laser(bars: int, from: float, to: float, charge_interval: int = 8, wait_charge: bool = false) -> void:
-    if charge_interval == -1:
-        charge_interval = 4 * bars
-    var laser = _spawn_laser(from)
-    laser.set_angle(deg_to_rad(from), deg_to_rad(to), BeatManager.secs_per_beat * charge_interval / 4, BeatManager.secs_per_beat * bars * 4, wait_charge)
-    await laser.target_reached
-    laser.die()
+    var fn = func():
+        await _rest_bars(0, 0)
+        var laser = _spawn_laser(from)
+        var charge_time = BeatManager.secs_per_beat * charge_interval / 4
+        laser.set_angle(deg_to_rad(from), deg_to_rad(to), charge_time, BeatManager.secs_per_beat * bars * 4 - charge_time, wait_charge)
+        await laser.target_reached
+        laser.die()
+    fn.call()
+    await _rest_bars(bars)
 
 func _spawn_laser(deg: float) -> Laser:
     var laser: Laser = laser_scene.instantiate()
