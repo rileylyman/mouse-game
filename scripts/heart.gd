@@ -28,39 +28,57 @@ func _run_text_seq_async() -> void:
     await _set_text("but honestly, they need your protection more than me", 48)
     await _set_text("here they come", 48)
 
-func _fast_forward(bar: int) -> void:
+func _fast_forward(s: String) -> void:
     BeatManager.fast_forward = true
-    await _until(bar)
+    await _until(s)
     BeatManager.fast_forward = false
 
 func _run_heart_seq_async() -> void:
     SoundEffects.play_ball_burst()
-    _fast_forward(8)
+    _fast_forward("40:1")
 
-    await _until(1)
-    await _balls(0, 0, 16, 16)
-    await _balls(-180, -180, 16, 16)
+    # 0-8: Talking
 
-    await _until(8)
+    # 8-12: Card. dir. shoots
+    await _until("8:1")
+    await _balls(-90, -90, 4, 16)
+    await _balls(180, 180, 4, 16)
+    await _balls(90, 90, 4, 16)
+    await _balls(0, 0, 4, 16)
+    # 12-16: Rotations
     await _balls(0, -180, 4, 16)
-    await _until(9)
-    await _balls(0, -180, 8, 16)
+    await _balls(-180, 0, 4, 16)
+    await _balls(0, 360, 8, 16)
+    _balls(0, 360, 8, 16)
 
-    await _until(26)
+    await _until("16:1")
+    await _balls(0, 0, 4, 16)
+
+    await _until("26:1")
 
     await _balls(-45, -45, 4, 16)
     await _balls(-135, -135, 4, 16)
     await _balls(45, 45, 8, 16)
     await _balls(135, 135, 8, 16)
 
-    await _until(32)
+    await _until("32:1")
     await _balls(-45, -45, 8, 8)
     await _balls(-135, -135, 8, 8)
     await _balls(0, 360, 8, 32)
     await _balls(0, -360, 8, 32)
 
-func _until(bar: int) -> void:
-    await BeatManager.wait_for_bar(bar, -HeartBall.take_sixteenths)
+    # 40 lasers
+    await _until("40:1")
+    _balls(45, 45, 2, 64)
+    await _until("40:2")
+    _balls(135, 135, 2, 64)
+    await _until("44:1")
+    _balls(-45, -45, 2, 32)
+    await _until("44:2")
+    _balls(-135, -135, 2, 32)
+
+func _until(s: String) -> void:
+    await BeatManager.wait_for_bar(s, -HeartBall.take_sixteenths)
 
 func _set_text(s: String, sixteens: int) -> void:
     var curr_len = 0

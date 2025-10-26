@@ -1,6 +1,7 @@
 extends Node
 
 @onready var beat_label: Label = $"/root/Node2D/BeatLabel"
+@onready var bg_music: AudioStreamPlayer = $"/root/Node2D/BgMusic"
 
 var bpm: float = 158
 
@@ -8,6 +9,7 @@ var secs_per_beat: float = 60.0 / bpm
 var secs_per_sixteenth: float = secs_per_beat / 4
 
 var accum: float = 0
+# var total: float = 0
 var curr_sixteenth: int = -4
 
 var fast_forward: bool = false
@@ -18,8 +20,15 @@ signal next_4
 signal next_2
 signal next_bar
 
-func _process(delta: float) -> void:
+var last_playback_pos: float = 0
+
+func _process(_delta: float) -> void:
+    var playback_head = bg_music.get_playback_position() + AudioServer.get_time_since_last_mix()
+    var delta = playback_head - last_playback_pos
+    last_playback_pos = playback_head
     accum += delta
+    # total += delta
+    # print("diff: %f, total: %f, track: %f" % [total - playback_head, total, playback_head])
 
     if accum >= secs_per_sixteenth:
         accum -= secs_per_sixteenth
@@ -38,10 +47,14 @@ func _process(delta: float) -> void:
     if beat_label:
         beat_label.text = "%d:%d.%d" % [int(curr_sixteenth / 16.0), int((curr_sixteenth % 16) / 4.0) + 1, (curr_sixteenth % 4) + 1]
 
-func wait_for_bar(bar: int, offset_sixteenths: int = 0) -> void:
-    if curr_sixteenth > bar * 16 + offset_sixteenths:
+func wait_for_bar(s: String, offset_sixteenths: int = 0) -> void:
+    var parts = s.split(":")
+    var bar = int(parts[0])
+    var beat = int(parts[1])
+    var sixteenth = bar * 16 + (beat - 1) * 4 + offset_sixteenths
+    if curr_sixteenth > sixteenth:
         push_error("wait_for_bar: curr_sixteenth (%d) > bar * 16 (%d)" % [curr_sixteenth, bar * 16])
-    while curr_sixteenth < bar * 16 + offset_sixteenths:
+    while curr_sixteenth < sixteenth:
         await next_16
 
 func wait_for_sixteenth(sixteenth: int) -> void:

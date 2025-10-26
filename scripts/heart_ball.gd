@@ -4,7 +4,7 @@ var dir: Vector2
 var speed: float = 100.0
 var dead = false
 
-static var take_sixteenths: int = 12 
+static var take_sixteenths: int = 6 
 var check_on_sixteenth: int = 0
 
 @onready var heart: Heart = $"/root/Node2D/Heart"
@@ -13,7 +13,7 @@ var check_on_sixteenth: int = 0
 
 func _ready() -> void:
     dir = dir.normalized()
-    speed = paddle.radius / ((check_on_sixteenth - BeatManager.curr_sixteenth + 1) * BeatManager.secs_per_beat / 4)
+    speed = paddle.radius / ((check_on_sixteenth - BeatManager.curr_sixteenth) * BeatManager.secs_per_beat / 4)
 
     _check_async()
 
