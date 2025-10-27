@@ -16,11 +16,16 @@ var check_on_sixteenth: int = 0
 func _ready() -> void:
     dir = dir.normalized()
     speed = paddle.radius / ((check_on_sixteenth - BeatManager.curr_sixteenth) * BeatManager.secs_per_beat / 4)
+    global_scale = Vector2.ONE
+    global_rotation = 0
+    global_position = heart.global_position
 
     _check_async()
 
 func _check_async() -> void:
     await BeatManager.wait_for_sixteenth(check_on_sixteenth - 1)
+    if heart.is_dead():
+        return
     _check_paddle(paddle_area1)
     if heart.triple:
         _check_paddle(paddle_area2)
@@ -33,6 +38,8 @@ func _check_paddle(paddle_area: Area2D) -> void:
         die()
 
 func _process(delta: float) -> void:
+    if heart.is_dead():
+        return
     global_position += dir * speed * delta
 
     var r = global_position.distance_to(heart.global_position)

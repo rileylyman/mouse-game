@@ -17,6 +17,7 @@ var reached = false
 @onready var paddle_area2: Area2D = $"/root/Node2D/Paddle/Sprite2D2/PaddleArea"
 @onready var paddle_area3: Area2D = $"/root/Node2D/Paddle/Sprite2D3/PaddleArea"
 @onready var sprite: Sprite2D = $Sprite2D
+@onready var heart: Heart = $"/root/Node2D/Heart"
 var particles_scene: PackedScene = preload("res://scenes/laser_particles.tscn")
 var particles: CPUParticles2D
 
@@ -38,6 +39,8 @@ func _get_overlapping_paddle() -> Area2D:
     return null
 
 func _process(delta: float) -> void:
+    if heart.is_dead():
+        return
     _elapsed += delta
 
     var overlapping_paddle = _get_overlapping_paddle()

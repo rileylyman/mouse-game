@@ -1,5 +1,6 @@
 extends Node
 
+@onready var heart: Heart = $"/root/Node2D/Heart"
 @onready var beat_label: Label = $"/root/Node2D/BeatLabel"
 @onready var bg_music: AudioStreamPlayer = $"/root/Node2D/BgMusic"
 
@@ -46,6 +47,11 @@ func _process(_delta: float) -> void:
 
     if beat_label:
         beat_label.text = "%d:%d" % [int(curr_sixteenth / 16.0), int((curr_sixteenth % 16) / 4.0) + 1]
+        if heart.is_dead():
+            beat_label.queue_free()
+
+    if heart.is_dead():
+        bg_music.stop()
 
 func wait_for_bar(s: String, offset_sixteenths: int = 0) -> void:
     var parts = s.split(":")

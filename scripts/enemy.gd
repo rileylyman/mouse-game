@@ -9,12 +9,15 @@ var distance = 4000.0
 var dead = false
 
 @onready var start = global_position
+@onready var heart: Heart = $"/root/Node2D/Heart"
 
 func _ready() -> void:
     area_entered.connect(_on_area_entered)
     area_exited.connect(_on_area_exited)
 
 func _process(_delta: float) -> void:
+    if heart.is_dead():
+        return
     if in_laser:
         health -= dtps * _delta
     if health <= 0:
@@ -28,6 +31,7 @@ func die():
     if dead:
         return
     dead = true
+    $"/root/Node2D/Heart".take_damage()
     $Sprite2D.queue_free()
     $Particles.emitting = true
     await get_tree().create_timer(1.5).timeout

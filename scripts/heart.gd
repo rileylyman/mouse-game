@@ -4,16 +4,28 @@ class_name Heart extends Node2D
 @onready var heart_in: Sprite2D = $HeartIn
 @onready var original_scale: Vector2 = scale
 @onready var bubble = %SpeechBubble
+@onready var heart_proj_cont: Node2D = $"/root/Node2D/HeartProjectileContainer"
 
 @onready var heart_in_offset_y: float = heart_in.offset.y
 @onready var heart_in_region_y: float = heart_in.region_rect.position.y
 @onready var heart_in_region_h: float = heart_in.region_rect.size.y
+
+var max_health: int = 20
+var health: int = max_health
 
 var frame_rotation: float = 0.0
 var triple: bool = false
 
 var heart_ball_scene: PackedScene = preload("res://scenes/heart_ball.tscn")
 var laser_scene: PackedScene = preload("res://scenes/laser.tscn")
+
+func take_damage() -> void:
+    health -= 1
+    health = max(0, health)
+    _set_heart_in_t(float(health) / max_health)
+
+func is_dead() -> bool:
+    return health == 0
 
 func _ready() -> void:
     _beat_anim_async()
@@ -32,9 +44,9 @@ func _run_heart_seq_async() -> void:
     #_fast_forward("152:1")
 
     # 0-8: Talking
-    await _set_text(3, "ok, i'll let you be my bodyguard")
-    await _set_text(3, "but honestly, they need your protection more than me")
-    await _set_text(2, "here they come")
+    # await _set_text(3, "ok, i'll let you be my bodyguard")
+    # await _set_text(3, "but honestly, they need your protection more than me")
+    # await _set_text(2, "here they come")
 
     # 8 - 16
     await _until("8:1")
@@ -314,6 +326,8 @@ func _laser(bars: int, from: float, to: float, show_pre: bool = true) -> void:
         await _laser_internal(bars, from, to, show_pre)
 
 func _laser_internal(bars: int, from: float, to: float, show_pre: bool = true) -> void:
+    if is_dead():
+        await get_tree().create_timer(10.0).timeout
     var fn = func():
         var laser = _spawn_laser(from)
         var charge_time = HeartBall.take_sixteenths * BeatManager.secs_per_beat / 4
@@ -328,7 +342,7 @@ func _spawn_laser(deg: float) -> Laser:
     var laser: Laser = laser_scene.instantiate()
     laser.global_position = global_position
     laser.curr_angle = deg_to_rad(deg)
-    get_tree().current_scene.add_child.call_deferred(laser)
+    heart_proj_cont.add_child.call_deferred(laser)
     return laser
 
 func _spawn_ball(deg: float) -> void:
@@ -338,19 +352,17 @@ func _spawn_ball(deg: float) -> void:
         _spawn_ball_internal(deg - 120)
 
 func _spawn_ball_internal(deg: float) -> void:
+    if is_dead():
+        await get_tree().create_timer(10.0).timeout
     var ball: HeartBall = heart_ball_scene.instantiate()
-    ball.global_position = global_position
     ball.dir = Vector2.RIGHT.rotated(deg_to_rad(deg + frame_rotation))
     ball.speed = 100.0
     ball.check_on_sixteenth = BeatManager.curr_sixteenth + HeartBall.take_sixteenths
-    get_tree().current_scene.add_child.call_deferred(ball)
+    heart_proj_cont.add_child.call_deferred(ball)
 
 func _beat_anim_async() -> void:
     beat.visible = false
-    while true:
+    while not is_dead():
         await BeatManager.next_4
-        beat.visible = true
-        scale = original_scale * 1.25
-        await BeatManager.next_4
-        beat.visible = false
-        scale = original_scale
+        beat.visible = not beat.visible
+        scale = original_scale if scale.length() > original_scale.length() else original_scale * 1.25

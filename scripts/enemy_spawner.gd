@@ -1,5 +1,6 @@
 class_name EnemySpawner extends Node2D
 
+@onready var heart: Heart = %Heart
 var enemy_scene: PackedScene = preload("res://scenes/enemy.tscn")
 
 func _ready() -> void:
@@ -13,7 +14,7 @@ func _spawn_all_sides(interval: float, duration: float) -> void:
     var camr = Utils.ws_rect($"/root/Node2D/Camera2D")
     var pad = camr.size * 0.1
     var start = GameManager.time_s
-    while GameManager.time_s - start < duration:
+    while not heart.is_dead() and GameManager.time_s - start < duration:
         for p in [
                 [camr.position + Vector2.DOWN * pad.y, Vector2.RIGHT], 
                 [camr.position + Vector2(camr.size.x, 0) + Vector2.LEFT * pad.x, Vector2.DOWN], 
