@@ -20,12 +20,15 @@ var heart_ball_scene: PackedScene = preload("res://scenes/heart_ball.tscn")
 var laser_scene: PackedScene = preload("res://scenes/laser.tscn")
 
 func take_damage() -> void:
+    if Engine.time_scale != 1.0:
+        return
     health -= 1
     health = max(0, health)
     _set_heart_in_t(float(health) / max_health)
 
 func is_dead() -> bool:
-    return health == 0
+    return false
+    # return health == 0
 
 func _ready() -> void:
     _beat_anim_async()
@@ -41,12 +44,14 @@ func _fast_forward(s: String) -> void:
     BeatManager.fast_forward = false
 
 func _run_heart_seq_async() -> void:
-    #_fast_forward("152:1")
+    # _fast_forward("44:1")
 
-    # 0-8: Talking
-    # await _set_text(3, "ok, i'll let you be my bodyguard")
-    # await _set_text(3, "but honestly, they need your protection more than me")
-    # await _set_text(2, "here they come")
+    await _set_text(2, "I can't control myself")
+    await _set_text(2, "Maybe you can help me")
+    await _set_text(2, "I keep hurting people")
+    await _set_text(2, "Try to protect them")
+
+    await _set_text(2, "If you can...")
 
     # 8 - 16
     await _until("8:1")
@@ -99,6 +104,15 @@ func _run_heart_seq_async() -> void:
     # 48 - 56
     # talking
 
+    await _until("48:1")
+    var text_async = func():
+        await _until("48:3")
+        if health < max_health / 2.0:
+            await _set_text(4, "Things got pretty dicey back there")
+        else:
+            await _set_text(4, "Wow, you're doing a great job")
+        await _set_text(3, "But it's going to get a bit tougher")
+    text_async.call()
 
     # 56 - 64
     await _until("56:1")
@@ -169,10 +183,22 @@ func _run_heart_seq_async() -> void:
 
     # 112 - 120
     await _until("112:1")
+    text_async = func():
+        await _until("114:1")
+        await _set_text(2, "Yeah!! Feel the groove!")
+        await _set_text(2, "I can feel myself cooling down")
+        await _set_text(2, "Just a bit longer.")
+    text_async.call()
     await _ball_oscillate(8, 1, 1, 0, 360 * 4)
 
     # 120 - 128
     await _until("120:1")
+    text_async = func():
+        await _until("122:1")
+        await _set_text(2, "Wait...")
+        await _set_text(2, "I feel a bit strange.")
+        await _set_text(2, "I'm sorry...")
+    text_async.call()
     await _ball_oscillate(4, 2, 1, 0, 360 * 2)
     await _ball_oscillate(2, 4, 1, 0, 360)
     await _ball_oscillate(1, 8, 1, 0, 180)
@@ -202,7 +228,9 @@ func _run_heart_seq_async() -> void:
         triple = false
     disable_triple.call()
     _rotate_frame(8, 0, 720 * 3)
-    await _ball_seq([0, 0, 0, null, 0, null, 0, 0, 0, 0, 0, 0, 0, 0, 0, null], 8, 1)
+    # await _ball_seq([0, 0, 0, null, 0, null, 0, 0, 0, 0, 0, 0, 0, 0, 0, null], 8, 1)
+    await _rest_bars(1)
+    await _ball_seq([0, 0, 0, 0, 0, 0, 0, null], 8, 1)
     await _ball_seq([0, null, 0, null, 0, null, null, 0, 0, 0, 0, 0, 0, 0, 0, 0], 8, 1)
     await _ball_seq([0, 0, 0, null, 0, null, 0, 0, 0, 0, 0, 0, 0, 0, 0, null], 8, 1)
     await _ball_seq([0, null, 0, null, 0, null, null, 0, 0, 0, 0, 0, 0, 0, 0, 0], 8, 1)
@@ -300,8 +328,8 @@ func _until(s: String) -> void:
 
 func _set_text(bars: int, s: String) -> void:
     var curr_len = 0
-    var end = BeatManager.curr_sixteenth + bars * 16
-    while BeatManager.curr_sixteenth < end:
+    var end = GameManager.time_s + BeatManager.secs_per_beat * 4 * bars
+    while GameManager.time_s < end:
         bubble.text = s.substr(0, curr_len)
         await get_tree().create_timer(BeatManager.secs_per_sixteenth / 2).timeout
         curr_len += 1

@@ -23,6 +23,16 @@ signal next_bar
 
 var last_playback_pos: float = 0
 
+signal start_signal
+
+func _ready() -> void:
+    _start_sequence()
+
+func _start_sequence() -> void:
+    await get_tree().create_timer(secs_per_beat * 4 * 8).timeout
+    bg_music.play()
+    start_signal.emit()
+
 func _process(_delta: float) -> void:
     var playback_head = bg_music.get_playback_position() + AudioServer.get_time_since_last_mix()
     var delta = playback_head - last_playback_pos

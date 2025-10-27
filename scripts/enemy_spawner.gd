@@ -8,6 +8,7 @@ func _ready() -> void:
     pass
 
 func _spawn_async() -> void:
+    await BeatManager.start_signal
     await _spawn_all_sides(2.0, 4 * 60.0)
 
 func _spawn_all_sides(interval: float, duration: float) -> void:

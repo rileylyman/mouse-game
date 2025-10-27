@@ -22,6 +22,10 @@ flowerwall_crt="*res://addons/flowerwall_postprocess/scenes/flowerwall_pp.tscn"
 BeatManager="*res://scripts/beat_manager.gd"
 SoundEffects="*res://scripts/sound_effects.gd"
 
+[display]
+
+window/stretch/mode="viewport"
+
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/flowerwall_postprocess/plugin.cfg")

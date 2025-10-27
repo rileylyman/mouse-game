@@ -19,7 +19,6 @@ font_size = 48
 
 [node name="BgMusic" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("1_o6xl0")
-autoplay = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(576, 324)
@@ -99,10 +98,10 @@ script = ExtResource("8_tipki")
 
 [node name="SpeechBubble" type="Label" parent="."]
 unique_name_in_owner = true
-offset_left = 381.0
-offset_top = 492.0
-offset_right = 775.0
-offset_bottom = 585.0
+offset_left = 114.0
+offset_top = 540.0
+offset_right = 1037.0
+offset_bottom = 633.0
 label_settings = SubResource("LabelSettings_tipki")
 horizontal_alignment = 1
 autowrap_mode = 3
