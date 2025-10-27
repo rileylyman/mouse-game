@@ -114,8 +114,7 @@ func _run_heart_seq_async() -> void:
     _rotate_frame(4, 0, 360 * 3)
     await _ball_seq([0, null, 0, null, 0, 0, null, 0, null, 0, null, 0, 0, 0, 0, 0], 8, 2)
     await _ball_oscillate(2, 16, 1, 0, 360)
-    await _rest_bars(1)
-    await _laser(1, 0, -180)
+    await _laser(2, 0, -180)
 
     # 80 - 88
     await _until("80:1")
@@ -186,7 +185,10 @@ func _run_heart_seq_async() -> void:
 
     # 144 - 152
     await _until("144:1")
-    triple = false
+    var disable_triple = func():
+        await BeatManager.next_bar
+        triple = false
+    disable_triple.call()
     _rotate_frame(8, 0, 720 * 3)
     await _ball_seq([0, 0, 0, null, 0, null, 0, 0, 0, 0, 0, 0, 0, 0, 0, null], 8, 1)
     await _ball_seq([0, null, 0, null, 0, null, null, 0, 0, 0, 0, 0, 0, 0, 0, 0], 8, 1)
