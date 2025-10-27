@@ -1,6 +1,5 @@
 class_name Heart extends Node2D
 
-
 @onready var beat: Node2D = $HeartOutBeat
 @onready var heart_in: Sprite2D = $HeartIn
 @onready var original_scale: Vector2 = scale
@@ -11,6 +10,7 @@ class_name Heart extends Node2D
 @onready var heart_in_region_h: float = heart_in.region_rect.size.y
 
 var frame_rotation: float = 0.0
+var triple: bool = false
 
 var heart_ball_scene: PackedScene = preload("res://scenes/heart_ball.tscn")
 var laser_scene: PackedScene = preload("res://scenes/laser.tscn")
@@ -18,20 +18,10 @@ var laser_scene: PackedScene = preload("res://scenes/laser.tscn")
 func _ready() -> void:
     _beat_anim_async()
     _run_heart_seq_async()
-    _run_text_seq_async()
-
-# func _process(delta: float) -> void:
-#     frame_rotation += delta * 5
 
 func _set_heart_in_t(t: float) -> void:
     heart_in.offset.y = heart_in_offset_y + heart_in_region_h * (1.0 - t)
     heart_in.region_rect.position.y = heart_in_region_y + heart_in_region_h * (1.0 - t)
-
-func _run_text_seq_async() -> void:
-    await BeatManager.next_bar
-    await _set_text("ok, i'll let you be my bodyguard", 48)
-    await _set_text("but honestly, they need your protection more than me", 48)
-    await _set_text("here they come", 48)
 
 func _fast_forward(s: String) -> void:
     BeatManager.fast_forward = true
@@ -39,10 +29,12 @@ func _fast_forward(s: String) -> void:
     BeatManager.fast_forward = false
 
 func _run_heart_seq_async() -> void:
-    SoundEffects.play_ball_burst()
-    _fast_forward("127:1")
+    #_fast_forward("152:1")
 
     # 0-8: Talking
+    await _set_text(3, "ok, i'll let you be my bodyguard")
+    await _set_text(3, "but honestly, they need your protection more than me")
+    await _set_text(2, "here they come")
 
     # 8 - 16
     await _until("8:1")
@@ -176,15 +168,62 @@ func _run_heart_seq_async() -> void:
     await _ball_oscillate(1, 16, 1, 180, 360)
 
     # 128 - 136
+    triple = true
     await _until("128:1")
-    await _laser(4, 0, -720)
-    await _laser(2, 0, -720)
-    await _laser(2, 0, 360)
+    await _laser(4, 0, 360)
+    await _ball_straight(1, 8, 0)
+    await _ball_straight(1, 8, -90)
+    await _ball_straight(1, 8, -180)
+    await _ball_straight(1, 8, 90)
 
     # 136 - 144
     await _until("136:1")
-    await _laser(4, 0, -720 * 2)
-    await _laser(4, 0, -720)
+    await _laser(4, 0, -360)
+    await _ball_straight(1, 8, 90)
+    await _ball_straight(1, 8, -180)
+    await _ball_straight(1, 8, -90)
+    await _ball_straight(1, 8, 0)
+
+    # 144 - 152
+    await _until("144:1")
+    triple = false
+    _rotate_frame(8, 0, 720 * 3)
+    await _ball_seq([0, 0, 0, null, 0, null, 0, 0, 0, 0, 0, 0, 0, 0, 0, null], 8, 1)
+    await _ball_seq([0, null, 0, null, 0, null, null, 0, 0, 0, 0, 0, 0, 0, 0, 0], 8, 1)
+    await _ball_seq([0, 0, 0, null, 0, null, 0, 0, 0, 0, 0, 0, 0, 0, 0, null], 8, 1)
+    await _ball_seq([0, null, 0, null, 0, null, null, 0, 0, 0, 0, 0, 0, 0, 0, 0], 8, 1)
+
+
+    # 152 - 160
+    await _until("152:1")
+    _rotate_frame(8, 0, -720 * 3)
+    await _ball_seq([0, 0, 0, null, 0, null, 0, 0, 0, 0, 0, 0, 0, 0, 0, null], 8, 1)
+    await _ball_seq([0, null, 0, null, 0, null, null, 0, 0, 0, 0, 0, 0, 0, 0, 0], 8, 1)
+    _crt_async_change()
+    await _ball_seq([0, 0, 0, null, 0, null, 0, 0, 0, 0, 0, 0, 0, 0, 0, null], 8, 1)
+    await _ball_seq([0, null, 0, null, 0, null, null, 0], 8, 1)
+
+
+func _crt_async_change() -> void:
+    var mat: ShaderMaterial = flowerwall_crt.crt.get_child(0).material
+    var wiggle_orig = mat.get_shader_parameter("wiggle")
+    var wiggle_max = 0.5
+    var chroma_orig = mat.get_shader_parameter("chromatic_aberration_strength")
+    var chroma_max = 10.0
+    var vignette_orig = mat.get_shader_parameter("vignette_size")
+    var vignette_max = 100.0
+    
+    var slider = 0.0
+    while slider < 1.0:
+        await get_tree().create_timer(0.1).timeout
+        slider += 0.0075
+        flowerwall_crt._on_vhs_wiggle_strength_slider_value_changed(lerpf(wiggle_orig, wiggle_max, slider))
+        flowerwall_crt._on_chroma_aberr_strength_slider_value_changed(lerpf(chroma_orig, chroma_max, slider))
+        flowerwall_crt._on_vignette_size_slider_value_changed(lerpf(vignette_orig, vignette_max, slider * slider * slider))
+
+    $"/root/Node2D/Paddle".visible = false
+    await get_tree().create_timer(5.0).timeout
+    get_tree().quit()
 
 
 func _ball_alternate2(bars: int, on: int, deg1: float, deg2: float) -> void:
@@ -245,9 +284,9 @@ func _rest_bars(bars: int, sixteens: int = -HeartBall.take_sixteenths) -> void:
 func _until(s: String) -> void:
     await BeatManager.wait_for_bar(s, -HeartBall.take_sixteenths)
 
-func _set_text(s: String, sixteens: int) -> void:
+func _set_text(bars: int, s: String) -> void:
     var curr_len = 0
-    var end = BeatManager.curr_sixteenth + sixteens
+    var end = BeatManager.curr_sixteenth + bars * 16
     while BeatManager.curr_sixteenth < end:
         bubble.text = s.substr(0, curr_len)
         await get_tree().create_timer(BeatManager.secs_per_sixteenth / 2).timeout
@@ -265,6 +304,14 @@ func _rotate_frame(bars: int, from: float, to: float) -> void:
 
 
 func _laser(bars: int, from: float, to: float, show_pre: bool = true) -> void:
+    if triple:
+        _laser_internal(bars, from, to, show_pre)
+        _laser_internal(bars, from + 120, to + 120, show_pre)
+        await _laser_internal(bars, from - 120, to - 120, show_pre)
+    else:
+        await _laser_internal(bars, from, to, show_pre)
+
+func _laser_internal(bars: int, from: float, to: float, show_pre: bool = true) -> void:
     var fn = func():
         var laser = _spawn_laser(from)
         var charge_time = HeartBall.take_sixteenths * BeatManager.secs_per_beat / 4
@@ -283,6 +330,12 @@ func _spawn_laser(deg: float) -> Laser:
     return laser
 
 func _spawn_ball(deg: float) -> void:
+    _spawn_ball_internal(deg)
+    if triple:
+        _spawn_ball_internal(deg + 120)
+        _spawn_ball_internal(deg - 120)
+
+func _spawn_ball_internal(deg: float) -> void:
     var ball: HeartBall = heart_ball_scene.instantiate()
     ball.global_position = global_position
     ball.dir = Vector2.RIGHT.rotated(deg_to_rad(deg + frame_rotation))

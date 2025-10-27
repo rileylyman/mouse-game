@@ -3,11 +3,11 @@ class_name EnemySpawner extends Node2D
 var enemy_scene: PackedScene = preload("res://scenes/enemy.tscn")
 
 func _ready() -> void:
-    # _spawn_async()
+    _spawn_async()
     pass
 
 func _spawn_async() -> void:
-    await _spawn_all_sides(2.0, 30.0)
+    await _spawn_all_sides(2.0, 4 * 60.0)
 
 func _spawn_all_sides(interval: float, duration: float) -> void:
     var camr = Utils.ws_rect($"/root/Node2D/Camera2D")

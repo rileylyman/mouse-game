@@ -9,7 +9,9 @@ var check_on_sixteenth: int = 0
 
 @onready var heart: Heart = $"/root/Node2D/Heart"
 @onready var paddle: Paddle = $"/root/Node2D/Paddle"
-@onready var paddle_area: Area2D = $"/root/Node2D/Paddle/Sprite2D/PaddleArea"
+@onready var paddle_area1: Area2D = $"/root/Node2D/Paddle/Sprite2D/PaddleArea"
+@onready var paddle_area2: Area2D = $"/root/Node2D/Paddle/Sprite2D2/PaddleArea"
+@onready var paddle_area3: Area2D = $"/root/Node2D/Paddle/Sprite2D3/PaddleArea"
 
 func _ready() -> void:
     dir = dir.normalized()
@@ -19,11 +21,16 @@ func _ready() -> void:
 
 func _check_async() -> void:
     await BeatManager.wait_for_sixteenth(check_on_sixteenth - 1)
+    _check_paddle(paddle_area1)
+    if heart.triple:
+        _check_paddle(paddle_area2)
+        _check_paddle(paddle_area3)
+
+func _check_paddle(paddle_area: Area2D) -> void:
     var bv = global_position - heart.global_position
     var pv = paddle_area.global_position - heart.global_position
     if abs(bv.normalized().angle_to(pv.normalized())) < paddle.arc_deg / 2 + deg_to_rad(5.0):
         die()
-        SoundEffects.play_ball_burst()
 
 func _process(delta: float) -> void:
     global_position += dir * speed * delta
@@ -40,6 +47,7 @@ func die() -> void:
     if dead:
         return
     dead = true
+    SoundEffects.play_ball_burst()
     $Sprite2D.queue_free()
     set_collision_layer_value(1, false)
     $Particles.emitting = true

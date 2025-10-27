@@ -45,7 +45,7 @@ func _process(_delta: float) -> void:
             next_bar.emit()
 
     if beat_label:
-        beat_label.text = "%d:%d.%d" % [int(curr_sixteenth / 16.0), int((curr_sixteenth % 16) / 4.0) + 1, (curr_sixteenth % 4) + 1]
+        beat_label.text = "%d:%d" % [int(curr_sixteenth / 16.0), int((curr_sixteenth % 16) / 4.0) + 1]
 
 func wait_for_bar(s: String, offset_sixteenths: int = 0) -> void:
     var parts = s.split(":")

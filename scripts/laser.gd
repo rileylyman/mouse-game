@@ -13,7 +13,9 @@ var _elapsed = 0.0
 var reached = false
 
 @onready var paddle: Paddle = $"/root/Node2D/Paddle"
-@onready var paddle_area: Area2D = $"/root/Node2D/Paddle/Sprite2D/PaddleArea"
+@onready var paddle_area1: Area2D = $"/root/Node2D/Paddle/Sprite2D/PaddleArea"
+@onready var paddle_area2: Area2D = $"/root/Node2D/Paddle/Sprite2D2/PaddleArea"
+@onready var paddle_area3: Area2D = $"/root/Node2D/Paddle/Sprite2D3/PaddleArea"
 @onready var sprite: Sprite2D = $Sprite2D
 var particles_scene: PackedScene = preload("res://scenes/laser_particles.tscn")
 var particles: CPUParticles2D
@@ -26,14 +28,24 @@ func _ready() -> void:
     scale.x = 1000.0 / 64.0
     sprite.scale.y = 0.1
 
+func _get_overlapping_paddle() -> Area2D:
+    if overlaps_area(paddle_area1):
+        return paddle_area1
+    if overlaps_area(paddle_area2):
+        return paddle_area2
+    if overlaps_area(paddle_area3):
+        return paddle_area3
+    return null
+
 func _process(delta: float) -> void:
     _elapsed += delta
 
-    if overlaps_area(paddle_area):
+    var overlapping_paddle = _get_overlapping_paddle()
+    if overlapping_paddle != null:
         sprite.scale.x = paddle.radius / 1000.0
-        particles.global_position = paddle_area.global_position
+        particles.global_position = overlapping_paddle.global_position
         particles.emitting = true
-        var to_center = global_position - paddle_area.global_position
+        var to_center = global_position - overlapping_paddle.global_position
         particles.gravity = to_center.normalized() * 980 
         particles.direction = to_center.normalized()
     else:
@@ -44,7 +56,7 @@ func _process(delta: float) -> void:
 
     if _elapsed > charge_time:
         sprite.scale.y = 1.0
-        set_collision_layer_value(1, !overlaps_area(paddle_area))
+        set_collision_layer_value(1, overlapping_paddle == null)
     else:
         sprite.scale.y = 0.1
         set_collision_layer_value(1, false)
