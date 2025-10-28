@@ -5,12 +5,13 @@ class_name Heart extends Node2D
 @onready var original_scale: Vector2 = scale
 @onready var bubble = %SpeechBubble
 @onready var heart_proj_cont: Node2D = $"/root/Node2D/HeartProjectileContainer"
+@onready var paddle = %Paddle
 
 @onready var heart_in_offset_y: float = heart_in.offset.y
 @onready var heart_in_region_y: float = heart_in.region_rect.position.y
 @onready var heart_in_region_h: float = heart_in.region_rect.size.y
 
-var max_health: int = 20
+var max_health: int = 30 
 var health: int = max_health
 
 var frame_rotation: float = 0.0
@@ -27,8 +28,7 @@ func take_damage() -> void:
     _set_heart_in_t(float(health) / max_health)
 
 func is_dead() -> bool:
-    return false
-    # return health == 0
+    return health == 0
 
 func _ready() -> void:
     _beat_anim_async()
@@ -44,14 +44,15 @@ func _fast_forward(s: String) -> void:
     BeatManager.fast_forward = false
 
 func _run_heart_seq_async() -> void:
-    # _fast_forward("44:1")
+    _fast_forward("136:1")
 
-    await _set_text(2, "I can't control myself")
-    await _set_text(2, "Maybe you can help me")
     await _set_text(2, "I keep hurting people")
-    await _set_text(2, "Try to protect them")
+    await _set_text(2, "Maybe you can help me")
 
-    await _set_text(2, "If you can...")
+    await _set_text(2, "See them?")
+    await _set_text(2, "Protect them")
+    await _set_text(2, "Keep my energy from hitting them")
+    _set_text(2, "Follow the rhythm")
 
     # 8 - 16
     await _until("8:1")
@@ -117,7 +118,7 @@ func _run_heart_seq_async() -> void:
     # 56 - 64
     await _until("56:1")
 
-    _rotate_frame(4, 0, 360 * 3)
+    _rotate_frame(4, 0, 360 * 2)
     await _ball_seq([0, null, 0, null, 0, 0, null, 0, null, 0, null, 0, 0, 0, 0, 0], 8, 2)
 
     await _ball_syncopate1(2, 8, 0, 0, -180)
@@ -132,6 +133,7 @@ func _run_heart_seq_async() -> void:
     await _laser(2, 0, 360)
     await _ball_alternate2(2, 8, 30, -30)
     await _ball_syncopate1(2, 8, 0, 0, -180)
+    _rotate_frame(2, -90, 0)
     await _ball_syncopate1(2, 16, 0, 15, -15)
 
     # 72 - 80
@@ -147,7 +149,7 @@ func _run_heart_seq_async() -> void:
     await _rest_bars(1)
     await _ball_oscillate(1, 4, 1, 0, 360)
     await _ball_oscillate(2, 8, 1, 0, 720)
-    _rotate_frame(4, 0, 360 * 6)
+    _rotate_frame(4, 0, 360 * 5)
     await _ball_seq([0, null, 0, null, 0, 0, null, 0, null, 0, null, 0, 0, 0, 0, 0], 8, 2)
 
     # 88 - 96
@@ -161,9 +163,9 @@ func _run_heart_seq_async() -> void:
     await _until("96:1")
     await _laser(1, -180, 180)
     await _ball_oscillate(1, 8, 1, -180, 0)
-    await _laser(1, 0, 360, 0)
+    await _laser(1, 0, 360)
     await _ball_oscillate(1, 16, 1, 0, -180)
-    await _laser(1, -180, 0, 0)
+    await _laser(1, -180, 0)
     await _ball_alternate(1, 16, 15, -15)
     _rotate_frame(2, 0, 720)
     await _ball_seq([0, null, 0, null, 0, 0, null, 0, null, 0, null, 0, 0, 0, 0, 0], 8)
@@ -172,9 +174,9 @@ func _run_heart_seq_async() -> void:
     await _until("104:1")
     await _laser(1, 0, 360)
     await _ball_oscillate(1, 8, 1, 0, -180)
-    await _laser(1, -180, 180, 0)
+    await _laser(1, -180, 180)
     await _ball_oscillate(1, 16, 1, -180, 0)
-    await _laser(1, 0, -180, 0)
+    await _laser(1, 0, -180)
     await _ball_alternate(1, 16, 15 - 180, -15 - 180)
     frame_rotation = -180
     _rotate_frame(2, -180, 720 - 180)
@@ -206,6 +208,7 @@ func _run_heart_seq_async() -> void:
 
     # 128 - 136
     triple = true
+    paddle.triple = true
     await _until("128:1")
     await _laser(4, 0, 360)
     await _ball_straight(1, 8, 0)
@@ -223,21 +226,12 @@ func _run_heart_seq_async() -> void:
 
     # 144 - 152
     await _until("144:1")
-    var disable_triple = func():
-        await BeatManager.next_bar
-        triple = false
-    disable_triple.call()
-    _rotate_frame(8, 0, 720 * 3)
-    # await _ball_seq([0, 0, 0, null, 0, null, 0, 0, 0, 0, 0, 0, 0, 0, 0, null], 8, 1)
-    await _rest_bars(1)
-    await _ball_seq([0, 0, 0, 0, 0, 0, 0, null], 8, 1)
-    await _ball_seq([0, null, 0, null, 0, null, null, 0, 0, 0, 0, 0, 0, 0, 0, 0], 8, 1)
-    await _ball_seq([0, 0, 0, null, 0, null, 0, 0, 0, 0, 0, 0, 0, 0, 0, null], 8, 1)
-    await _ball_seq([0, null, 0, null, 0, null, null, 0, 0, 0, 0, 0, 0, 0, 0, 0], 8, 1)
-
+    await _ball_oscillate(8, 16, 4, 0, -180)
+    triple = false
 
     # 152 - 160
     await _until("152:1")
+    paddle.triple = false
     _rotate_frame(8, 0, -720 * 3)
     await _ball_seq([0, 0, 0, null, 0, null, 0, 0, 0, 0, 0, 0, 0, 0, 0, null], 8, 1)
     await _ball_seq([0, null, 0, null, 0, null, null, 0, 0, 0, 0, 0, 0, 0, 0, 0], 8, 1)
@@ -345,22 +339,23 @@ func _rotate_frame(bars: int, from: float, to: float) -> void:
     frame_rotation = 0
 
 
-func _laser(bars: int, from: float, to: float, show_pre: bool = true) -> void:
+func _laser(bars: int, from: float, to: float) -> void:
     if triple:
-        _laser_internal(bars, from, to, show_pre)
-        _laser_internal(bars, from + 120, to + 120, show_pre)
-        await _laser_internal(bars, from - 120, to - 120, show_pre)
+        _laser_internal(bars, from, to)
+        _laser_internal(bars, from + 120, to + 120)
+        await _laser_internal(bars, from - 120, to - 120)
     else:
-        await _laser_internal(bars, from, to, show_pre)
+        await _laser_internal(bars, from, to)
 
-func _laser_internal(bars: int, from: float, to: float, show_pre: bool = true) -> void:
+func _laser_internal(bars: int, from: float, to: float) -> void:
     if is_dead():
         await get_tree().create_timer(10.0).timeout
     var fn = func():
+        await BeatManager.next_bar
         var laser = _spawn_laser(from)
         var charge_time = HeartBall.take_sixteenths * BeatManager.secs_per_beat / 4
-        laser.set_angle(deg_to_rad(from), deg_to_rad(to), charge_time, BeatManager.secs_per_beat * bars * 4, true)
-        laser.show_pre = show_pre
+        laser.set_angle(deg_to_rad(from), deg_to_rad(to), charge_time, BeatManager.secs_per_beat * bars * 4 - charge_time, false)
+        laser.show_pre = true
         await laser.target_reached
         laser.die()
     fn.call()

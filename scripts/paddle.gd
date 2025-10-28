@@ -8,6 +8,7 @@ class_name Paddle extends Node2D
 var angle: float = 0.0
 var radius: float = 200.0
 var arc_deg: float = deg_to_rad(60.0)
+var triple = false
 
 func _ready() -> void:
     global_position = heart.global_position
@@ -36,7 +37,7 @@ func _process(_delta: float) -> void:
     paddle1.global_position = heart.global_position + Vector2.RIGHT.rotated(angle) * radius
     paddle1.rotation = angle + PI / 2
 
-    if heart.triple:
+    if triple:
         paddle2.global_position = heart.global_position + Vector2.RIGHT.rotated(angle + TAU / 3) * radius
         paddle2.rotation = (angle + TAU / 3) + PI / 2
         paddle3.global_position = heart.global_position + Vector2.RIGHT.rotated(angle + 2 * TAU / 3) * radius
@@ -48,6 +49,6 @@ func _process(_delta: float) -> void:
 
 func _draw() -> void:
     draw_arc(Vector2.ZERO, radius, angle - arc_deg / 2, angle + arc_deg / 2, 32, Color.WHITE, 16, false)
-    if heart.triple:
+    if triple:
         draw_arc(Vector2.ZERO, radius, angle + TAU / 3 - arc_deg / 2, angle + TAU / 3 + arc_deg / 2, 32, Color.WHITE, 16, false)
         draw_arc(Vector2.ZERO, radius, angle + 2 * TAU / 3 - arc_deg / 2, angle + 2 * TAU / 3 + arc_deg / 2, 32, Color.WHITE, 16, false)

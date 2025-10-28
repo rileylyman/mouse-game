@@ -25,6 +25,7 @@ position = Vector2(576, 324)
 zoom = Vector2(0.75, 0.75)
 
 [node name="Paddle" type="Node2D" parent="."]
+unique_name_in_owner = true
 script = ExtResource("1_tbgi4")
 
 [node name="Sprite2D" type="Sprite2D" parent="Paddle"]

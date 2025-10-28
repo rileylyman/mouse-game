@@ -29,7 +29,7 @@ func _ready() -> void:
     _start_sequence()
 
 func _start_sequence() -> void:
-    await get_tree().create_timer(secs_per_beat * 4 * 8).timeout
+    await get_tree().create_timer(secs_per_beat * 4 * 4).timeout
     bg_music.play()
     start_signal.emit()
 
