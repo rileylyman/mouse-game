@@ -6,6 +6,7 @@ class_name Heart extends Node2D
 @onready var bubble = %SpeechBubble
 @onready var heart_proj_cont: Node2D = $"/root/Node2D/HeartProjectileContainer"
 @onready var paddle = %Paddle
+@onready var text_blips = %TextBlips
 
 @onready var heart_in_offset_y: float = heart_in.offset.y
 @onready var heart_in_region_y: float = heart_in.region_rect.position.y
@@ -44,10 +45,14 @@ func _fast_forward(s: String) -> void:
     BeatManager.fast_forward = false
 
 func _run_heart_seq_async() -> void:
-    _fast_forward("136:1")
+    # _fast_forward("136:1")
+
+    await BeatManager.click_signal
 
     await _set_text(2, "I keep hurting people")
-    await _set_text(2, "Maybe you can help me")
+    _set_text(2, "Maybe you can help me")
+
+    await BeatManager.start_signal
 
     await _set_text(2, "See them?")
     await _set_text(2, "Protect them")
@@ -261,7 +266,7 @@ func _crt_async_change() -> void:
         flowerwall_crt._on_vignette_size_slider_value_changed(lerpf(vignette_orig, vignette_max, slider * slider * slider))
 
     await get_tree().create_timer(5.0).timeout
-    get_tree().quit()
+    GameManager.quit()
 
 
 func _ball_alternate2(bars: int, on: int, deg1: float, deg2: float) -> void:
@@ -323,12 +328,19 @@ func _until(s: String) -> void:
     await BeatManager.wait_for_bar(s, -HeartBall.take_sixteenths)
 
 func _set_text(bars: int, s: String) -> void:
+    text_blips.play()
+    var stopped = false
     var curr_len = 0
     var end = GameManager.time_s + BeatManager.secs_per_beat * 4 * bars
     while GameManager.time_s < end:
         bubble.text = s.substr(0, curr_len)
         await get_tree().create_timer(BeatManager.secs_per_sixteenth / 2).timeout
-        curr_len += 1
+        if curr_len >= s.length():
+            if not stopped:
+                text_blips.stop()
+                stopped = true
+        else:
+            curr_len += 1
     bubble.text = ""
 
 func _rotate_frame(bars: int, from: float, to: float) -> void:

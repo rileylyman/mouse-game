@@ -25,7 +25,7 @@ func _ready() -> void:
     area_entered.connect(_on_area_enter)
 
     _check_on(check_on_sixteenth - 1)
-    _check_on(check_on_sixteenth + 3)
+    _check_on(check_on_sixteenth)
 
 func _check_on(on: int) -> void:
     await BeatManager.wait_for_sixteenth(on)

@@ -1,7 +1,8 @@
-[gd_scene load_steps=11 format=3 uid="uid://c7jus7yiaflfi"]
+[gd_scene load_steps=12 format=3 uid="uid://c7jus7yiaflfi"]
 
 [ext_resource type="AudioStream" uid="uid://bicyxkqh27c4u" path="res://sounds/DONTTOUCHANYTHING instrumental.wav" id="1_o6xl0"]
 [ext_resource type="Script" uid="uid://xrbw2ljcnyxh" path="res://scripts/paddle.gd" id="1_tbgi4"]
+[ext_resource type="AudioStream" uid="uid://cnx368ex20xq" path="res://sounds/TextBlips.wav" id="2_85g3d"]
 [ext_resource type="Texture2D" uid="uid://fgyenivobnht" path="res://art/iconsDefault.png" id="2_tefeu"]
 [ext_resource type="Script" uid="uid://5117g2rusoxu" path="res://scripts/enemy_spawner.gd" id="8_tipki"]
 [ext_resource type="Script" uid="uid://ce45dugiwp1y1" path="res://scripts/heart.gd" id="9_eb6dy"]
@@ -19,6 +20,10 @@ font_size = 48
 
 [node name="BgMusic" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("1_o6xl0")
+
+[node name="TextBlips" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("2_85g3d")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(576, 324)
@@ -103,6 +108,7 @@ offset_left = 114.0
 offset_top = 540.0
 offset_right = 1037.0
 offset_bottom = 633.0
+text = "Click to start"
 label_settings = SubResource("LabelSettings_tipki")
 horizontal_alignment = 1
 autowrap_mode = 3

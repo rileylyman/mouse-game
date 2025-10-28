@@ -16,6 +16,9 @@ func _process(_delta: float) -> void:
         _end()
     time_s += _delta
 
+    if Input.is_physical_key_pressed(KEY_ESCAPE):
+        quit()
+
     if Input.is_physical_key_pressed(KEY_ALT):
         if Input.is_physical_key_pressed(KEY_1):
             desired_time_scale = 1.0
@@ -50,4 +53,10 @@ func _end():
         c.queue_free()
     paddle.queue_free()
     await get_tree().create_timer(3.0).timeout
-    get_tree().quit()
+    quit()
+
+func quit() -> void: 
+    if BeatManager.on_web:
+        JavaScriptBridge.eval("window.location.reload()")
+    else:
+        get_tree().quit()

@@ -22,6 +22,10 @@ signal next_2
 signal next_bar
 
 var last_playback_pos: float = 0
+var playing: bool = false
+@onready var on_web: bool = OS.get_name() == "Web"
+
+signal click_signal
 
 signal start_signal
 
@@ -29,17 +33,32 @@ func _ready() -> void:
     _start_sequence()
 
 func _start_sequence() -> void:
-    await get_tree().create_timer(secs_per_beat * 4 * 4).timeout
+    await click_signal
+    print("OS: " + OS.get_name())
+
+    var orig_vol = bg_music.volume_linear
+    bg_music.volume_linear = 0.01 
     bg_music.play()
+
+    await get_tree().create_timer(secs_per_beat * 4 * 4).timeout
+
+    bg_music.seek(0)
+    bg_music.volume_linear = orig_vol
+    playing = true
     start_signal.emit()
+
+func _input(event: InputEvent) -> void:
+    if event is InputEventMouseButton:
+        if event.button_index == MOUSE_BUTTON_LEFT:
+            click_signal.emit()
 
 func _process(_delta: float) -> void:
     var playback_head = bg_music.get_playback_position() + AudioServer.get_time_since_last_mix()
     var delta = playback_head - last_playback_pos
+    if not playing:
+        return
     last_playback_pos = playback_head
-    accum += delta
-    # total += delta
-    # print("diff: %f, total: %f, track: %f" % [total - playback_head, total, playback_head])
+    accum += _delta if on_web else delta
 
     if accum >= secs_per_sixteenth:
         accum -= secs_per_sixteenth
