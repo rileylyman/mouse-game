@@ -48,5 +48,6 @@ func _end():
         p.emitting = true
         get_tree().current_scene.add_child.call_deferred(p)
         c.queue_free()
+    paddle.queue_free()
     await get_tree().create_timer(3.0).timeout
     get_tree().quit()

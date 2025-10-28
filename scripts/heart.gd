@@ -231,7 +231,10 @@ func _run_heart_seq_async() -> void:
 
     # 152 - 160
     await _until("152:1")
-    paddle.triple = false
+    var disable_paddle = func():
+        await BeatManager.next_bar
+        paddle.triple = false
+    disable_paddle.call()
     _rotate_frame(8, 0, -720 * 3)
     await _ball_seq([0, 0, 0, null, 0, null, 0, 0, 0, 0, 0, 0, 0, 0, 0, null], 8, 1)
     await _ball_seq([0, null, 0, null, 0, null, null, 0, 0, 0, 0, 0, 0, 0, 0, 0], 8, 1)
@@ -257,7 +260,6 @@ func _crt_async_change() -> void:
         flowerwall_crt._on_chroma_aberr_strength_slider_value_changed(lerpf(chroma_orig, chroma_max, slider))
         flowerwall_crt._on_vignette_size_slider_value_changed(lerpf(vignette_orig, vignette_max, slider * slider * slider))
 
-    $"/root/Node2D/Paddle".visible = false
     await get_tree().create_timer(5.0).timeout
     get_tree().quit()
 

@@ -7,6 +7,8 @@ var dead = false
 static var take_sixteenths: int = 8 
 var check_on_sixteenth: int = 0
 
+var touched_paddle = false
+
 @onready var heart: Heart = $"/root/Node2D/Heart"
 @onready var paddle: Paddle = $"/root/Node2D/Paddle"
 @onready var paddle_area1: Area2D = $"/root/Node2D/Paddle/Sprite2D/PaddleArea"
@@ -20,10 +22,13 @@ func _ready() -> void:
     global_rotation = 0
     global_position = heart.global_position
 
-    _check_async()
+    area_entered.connect(_on_area_enter)
 
-func _check_async() -> void:
-    await BeatManager.wait_for_sixteenth(check_on_sixteenth - 1)
+    _check_on(check_on_sixteenth - 1)
+    _check_on(check_on_sixteenth + 3)
+
+func _check_on(on: int) -> void:
+    await BeatManager.wait_for_sixteenth(on)
     if heart.is_dead():
         return
     _check_paddle(paddle_area1)
@@ -31,10 +36,12 @@ func _check_async() -> void:
         _check_paddle(paddle_area2)
         _check_paddle(paddle_area3)
 
-func _check_paddle(paddle_area: Area2D) -> void:
-    var bv = global_position - heart.global_position
-    var pv = paddle_area.global_position - heart.global_position
-    if abs(bv.normalized().angle_to(pv.normalized())) < paddle.arc_deg / 2 + deg_to_rad(5.0):
+func _check_paddle(_paddle_area: Area2D) -> void:
+    # var bv = global_position - heart.global_position
+    # var pv = paddle_area.global_position - heart.global_position
+    # if abs(bv.normalized().angle_to(pv.normalized())) < paddle.arc_deg / 2 + deg_to_rad(5.0):
+    #     die()
+    if touched_paddle:
         die()
 
 func _process(delta: float) -> void:
@@ -48,7 +55,7 @@ func _process(delta: float) -> void:
 
 func _on_area_enter(area: Area2D) -> void:
     if area.name == "PaddleArea":
-        die()
+        touched_paddle = true
 
 func die() -> void:
     if dead:
