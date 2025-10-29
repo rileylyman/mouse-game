@@ -12,6 +12,7 @@ var show_pre = true
 var _elapsed = 0.0
 var reached = false
 
+@onready var laser_effects: LaserEffects = $"/root/Node2D/LaserEffects"
 @onready var paddle: Paddle = $"/root/Node2D/Paddle"
 @onready var paddle_area1: Area2D = $"/root/Node2D/Paddle/Sprite2D/PaddleArea"
 @onready var paddle_area2: Area2D = $"/root/Node2D/Paddle/Sprite2D2/PaddleArea"
@@ -45,6 +46,7 @@ func _process(delta: float) -> void:
 
     var overlapping_paddle = _get_overlapping_paddle()
     if overlapping_paddle != null:
+        laser_effects.start_laser()
         sprite.scale.x = paddle.radius / 1000.0
         particles.global_position = overlapping_paddle.global_position
         particles.emitting = true
@@ -52,6 +54,7 @@ func _process(delta: float) -> void:
         particles.gravity = to_center.normalized() * 980 
         particles.direction = to_center.normalized()
     else:
+        laser_effects.stop_laser()
         sprite.scale.x = 1.0
         particles.emitting = false
 
@@ -74,6 +77,7 @@ func _process(delta: float) -> void:
 func die() -> void:
     queue_free()
     particles.emitting = false
+    laser_effects.stop_laser()
     await get_tree().create_timer(1.5).timeout
     particles.queue_free()
 

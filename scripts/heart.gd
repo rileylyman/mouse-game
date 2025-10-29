@@ -7,6 +7,7 @@ class_name Heart extends Node2D
 @onready var heart_proj_cont: Node2D = $"/root/Node2D/HeartProjectileContainer"
 @onready var paddle = %Paddle
 @onready var text_blips = %TextBlips
+@onready var laser_effects: LaserEffects = %LaserEffects
 
 @onready var heart_in_offset_y: float = heart_in.offset.y
 @onready var heart_in_region_y: float = heart_in.region_rect.position.y
@@ -114,10 +115,11 @@ func _run_heart_seq_async() -> void:
     var text_async = func():
         await _until("48:3")
         if health < max_health / 2.0:
-            await _set_text(4, "Things got pretty dicey back there")
+            await _set_text(2, "Things got pretty dicey back there")
         else:
-            await _set_text(4, "Wow, you're doing a great job")
-        await _set_text(3, "But it's going to get a bit tougher")
+            await _set_text(2, "Wow, you're doing a great job")
+        await _set_text(2, "But it's going to get a bit tougher")
+        await _set_text(2, "Keep it up!")
     text_async.call()
 
     # 56 - 64
@@ -366,12 +368,14 @@ func _laser_internal(bars: int, from: float, to: float) -> void:
         await get_tree().create_timer(10.0).timeout
     var fn = func():
         await BeatManager.next_bar
+        # laser_effects.start_laser()
         var laser = _spawn_laser(from)
         var charge_time = HeartBall.take_sixteenths * BeatManager.secs_per_beat / 4
         laser.set_angle(deg_to_rad(from), deg_to_rad(to), charge_time, BeatManager.secs_per_beat * bars * 4 - charge_time, false)
         laser.show_pre = true
         await laser.target_reached
         laser.die()
+        # laser_effects.stop_laser()
     fn.call()
     await _rest_bars(bars)
 

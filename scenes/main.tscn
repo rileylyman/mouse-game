@@ -1,9 +1,10 @@
-[gd_scene load_steps=12 format=3 uid="uid://c7jus7yiaflfi"]
+[gd_scene load_steps=13 format=3 uid="uid://c7jus7yiaflfi"]
 
 [ext_resource type="AudioStream" uid="uid://bicyxkqh27c4u" path="res://sounds/DONTTOUCHANYTHING instrumental.wav" id="1_o6xl0"]
 [ext_resource type="Script" uid="uid://xrbw2ljcnyxh" path="res://scripts/paddle.gd" id="1_tbgi4"]
 [ext_resource type="AudioStream" uid="uid://cnx368ex20xq" path="res://sounds/TextBlips.wav" id="2_85g3d"]
 [ext_resource type="Texture2D" uid="uid://fgyenivobnht" path="res://art/iconsDefault.png" id="2_tefeu"]
+[ext_resource type="Script" uid="uid://dc7q4veqao0fi" path="res://scripts/laser_effects.gd" id="3_choun"]
 [ext_resource type="Script" uid="uid://5117g2rusoxu" path="res://scripts/enemy_spawner.gd" id="8_tipki"]
 [ext_resource type="Script" uid="uid://ce45dugiwp1y1" path="res://scripts/heart.gd" id="9_eb6dy"]
 [ext_resource type="Texture2D" uid="uid://b3t83rjl8i4ny" path="res://art/heartin.png" id="10_trceg"]
@@ -24,6 +25,10 @@ stream = ExtResource("1_o6xl0")
 [node name="TextBlips" type="AudioStreamPlayer" parent="."]
 unique_name_in_owner = true
 stream = ExtResource("2_85g3d")
+
+[node name="LaserEffects" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+script = ExtResource("3_choun")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(576, 324)

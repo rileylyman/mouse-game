@@ -1,18 +1,18 @@
-[gd_scene load_steps=4 format=3 uid="uid://osuj67lbw80y"]
+[gd_scene load_steps=4 format=3 uid="uid://mawoltr14x1s"]
 
-[ext_resource type="Script" uid="uid://bmetacr8rydnt" path="res://scripts/enemy.gd" id="1_md0e3"]
-[ext_resource type="Texture2D" uid="uid://dldl0qyw5xd30" path="res://art/small_heart_filled.png" id="2_md0e3"]
+[ext_resource type="Script" uid="uid://bmetacr8rydnt" path="res://scripts/enemy.gd" id="1_3neu4"]
+[ext_resource type="Texture2D" uid="uid://dshum7flkw4hr" path="res://art/blue_cat4.png" id="2_3neu4"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tbgi4"]
 size = Vector2(55, 62)
 
 [node name="Enemy" type="Area2D"]
-script = ExtResource("1_md0e3")
+script = ExtResource("1_3neu4")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(-1.9073486e-06, 13.999998)
+position = Vector2(0, 3.000001)
 scale = Vector2(0.07153321, 0.07153321)
-texture = ExtResource("2_md0e3")
+texture = ExtResource("2_3neu4")
 region_rect = Rect2(768, 64, 64, 64)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
