@@ -70,8 +70,8 @@ scale = Vector2(8.0078125, 2)
 texture = ExtResource("3_id182")
 
 [node name="LaserSprite" type="AnimatedSprite2D" parent="LaserMask"]
-position = Vector2(-55.75805, 66.5)
-rotation = -1.5707964
+position = Vector2(-7.6800003, -67.5)
+rotation = 1.5707964
 scale = Vector2(1, 0.2497561)
 sprite_frames = SubResource("SpriteFrames_tg066")
 animation = &"big"

@@ -51,6 +51,7 @@ func _process(delta: float) -> void:
         return
     _elapsed += delta
 
+    GameManager.camera_shake(true)
     var overlapping_paddle = _get_overlapping_paddle()
     if overlapping_paddle != null:
         laser_effects.start_laser()
@@ -64,7 +65,7 @@ func _process(delta: float) -> void:
         var to_center = global_position - overlapping_paddle.global_position
         particles.gravity = to_center.normalized() * 980 
         particles.direction = to_center.normalized()
-        GameManager.camera_shake(true)
+        # GameManager.camera_shake(true)
     else:
         laser_effects.stop_laser()
         sprite_mask.position.x = sprite_mask_orig_pos.x 
@@ -72,7 +73,7 @@ func _process(delta: float) -> void:
         sprite2.position.x = sprite2_orig_pos.x
         # sprite.scale.x = 1.0
         particles.emitting = false
-        GameManager.camera_shake(false)
+        # GameManager.camera_shake(false)
 
     visible = true if show_pre else _elapsed > charge_time
 
