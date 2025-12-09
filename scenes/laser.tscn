@@ -1,21 +1,92 @@
-[gd_scene load_steps=4 format=3 uid="uid://d3bqoakc6xcnu"]
+[gd_scene load_steps=13 format=3 uid="uid://d3bqoakc6xcnu"]
 
 [ext_resource type="Texture2D" uid="uid://fgyenivobnht" path="res://art/iconsDefault.png" id="1_xmihv"]
 [ext_resource type="Script" uid="uid://2cltvvyxxv5f" path="res://scripts/laser.gd" id="2_a7dhc"]
+[ext_resource type="Texture2D" uid="uid://lgmlh3de87id" path="res://builds/web/index.icon.png" id="3_id182"]
+[ext_resource type="Texture2D" uid="uid://ujhxif40pywp" path="res://art/laser1.png" id="3_iuany"]
+[ext_resource type="Texture2D" uid="uid://bkgiywwi7wbal" path="res://art/laser2.png" id="4_id182"]
+[ext_resource type="Texture2D" uid="uid://bx5bgyme8tnuj" path="res://art/laser3.png" id="5_y4m2n"]
+[ext_resource type="Texture2D" uid="uid://j4i4mc5jdj4w" path="res://art/laser4.png" id="6_6j5fe"]
+[ext_resource type="Texture2D" uid="uid://dkhu46vdtvnvf" path="res://art/laser_small1.png" id="7_dk18q"]
+[ext_resource type="Texture2D" uid="uid://1aqipd4n2m6w" path="res://art/laser_small2.png" id="8_7c0by"]
+[ext_resource type="Texture2D" uid="uid://dtpfi0j5t2yfs" path="res://art/laser_small3.png" id="9_758si"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xmihv"]
-size = Vector2(64, 64)
+size = Vector2(1025, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_tg066"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_iuany")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_id182")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_y4m2n")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_6j5fe")
+}],
+"loop": true,
+"name": &"big",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_dk18q")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_7c0by")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_758si")
+}],
+"loop": true,
+"name": &"small",
+"speed": 10.0
+}]
 
 [node name="Laser" type="Area2D"]
 script = ExtResource("2_a7dhc")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(32, 0)
+position = Vector2(512.5, 0)
 shape = SubResource("RectangleShape2D_xmihv")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
 texture = ExtResource("1_xmihv")
 centered = false
 offset = Vector2(0, -32)
 region_enabled = true
 region_rect = Rect2(1280, 128, 64, 64)
+
+[node name="LaserMask" type="Sprite2D" parent="."]
+clip_children = 1
+position = Vector2(511.5, 0)
+scale = Vector2(8.0078125, 2)
+texture = ExtResource("3_id182")
+
+[node name="LaserSprite" type="AnimatedSprite2D" parent="LaserMask"]
+position = Vector2(-55.75805, 66.5)
+rotation = -1.5707964
+scale = Vector2(1, 0.2497561)
+sprite_frames = SubResource("SpriteFrames_tg066")
+animation = &"big"
+frame = 2
+frame_progress = 0.9703621
+centered = false
+offset = Vector2(0, -32)
+
+[node name="LaserSprite2" type="AnimatedSprite2D" parent="LaserMask"]
+position = Vector2(8.179512, 65)
+rotation = -1.5707964
+scale = Vector2(1, 0.2497561)
+sprite_frames = SubResource("SpriteFrames_tg066")
+animation = &"big"
+frame = 2
+frame_progress = 0.9703621
+centered = false
+offset = Vector2(0, -32)

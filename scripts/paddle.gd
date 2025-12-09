@@ -6,7 +6,7 @@ class_name Paddle extends Node2D
 @onready var paddle3: Node2D = $Sprite2D3
 
 var angle: float = 0.0
-var radius: float = 200.0
+var radius: float = 300.0
 var arc_deg: float = deg_to_rad(60.0)
 var triple = false
 
