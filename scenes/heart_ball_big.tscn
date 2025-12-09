@@ -1,0 +1,40 @@
+[gd_scene load_steps=4 format=3 uid="uid://df117o4gark5q"]
+
+[ext_resource type="Script" uid="uid://dmnj1jadi2ejs" path="res://scripts/heart_ball.gd" id="1_v70cd"]
+[ext_resource type="Texture2D" uid="uid://fgyenivobnht" path="res://art/iconsDefault.png" id="2_qx1f6"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kda61"]
+size = Vector2(52, 55)
+
+[node name="HeartBall" type="Area2D"]
+scale = Vector2(0.75, 0.75)
+script = ExtResource("1_v70cd")
+is_big = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -0.5)
+scale = Vector2(1.5, 1.5)
+shape = SubResource("RectangleShape2D_kda61")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("2_qx1f6")
+region_enabled = true
+region_rect = Rect2(512, 640, 64, 64)
+
+[node name="Particles" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 20
+one_shot = true
+explosiveness = 0.95
+emission_shape = 1
+emission_sphere_radius = 9.54
+direction = Vector2(0, 0)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 307.55
+initial_velocity_max = 515.88
+damping_min = 84.283
+damping_max = 100.0
+scale_amount_min = 7.5
+scale_amount_max = 12.5

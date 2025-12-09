@@ -20,6 +20,7 @@ var frame_rotation: float = 0.0
 var triple: bool = false
 
 var heart_ball_scene: PackedScene = preload("res://scenes/heart_ball.tscn")
+var heart_ball_big_scene: PackedScene = preload("res://scenes/heart_ball_big.tscn")
 var laser_scene: PackedScene = preload("res://scenes/laser.tscn")
 
 func take_damage() -> void:
@@ -46,7 +47,7 @@ func _fast_forward(s: String) -> void:
     BeatManager.fast_forward = false
 
 func _run_heart_seq_async() -> void:
-    # _fast_forward("136:1")
+    _fast_forward("148:1")
 
     await BeatManager.click_signal
 
@@ -69,7 +70,7 @@ func _run_heart_seq_async() -> void:
     await _ball_oscillate(2, 8, 2, 0, -180)
 
     await _ball_straight(1, 4, 90)
-    await _ball_straight(1, 4, -90)
+    await _ball_straight(1, 4, -90, true)
 
     await _ball_oscillate(2, 8, 2, 0, 180)
 
@@ -82,7 +83,7 @@ func _run_heart_seq_async() -> void:
     await _ball_alternate(2, 4, -45, -135)
 
     await _ball_straight(1, 4, -90)
-    await _ball_straight(1, 4, 90)
+    await _ball_straight(1, 4, 90, true)
 
     # 24 - 32
     await _until("24:1")
@@ -90,7 +91,7 @@ func _run_heart_seq_async() -> void:
     await _ball_syncopate1(2, 8, 0, 0, -180)
     await _ball_oscillate(2, 8, 1, 0, 360)
     await _ball_alternate(1, 8, 75, 105)
-    await _ball_seq([45, 135, -90], 4)
+    await _ball_seq([45, 135, -90], 4, true)
 
     # 32 - 40
     await _until("32:1")
@@ -99,13 +100,14 @@ func _run_heart_seq_async() -> void:
     await _ball_syncopate1(1, 8, 0, 0, -180)
     await _ball_straight(1, 8, -90)
     await _ball_straight(1, 8, 90)
-    await _ball_oscillate(2, 16, 2, -45, -135)
+    await _ball_oscillate(2, 16, 2, -45, -135, true)
 
     # 40 - 48
     await _until("40:1")
-    await _ball_alternate(2, 4, -45, -135)
+    await _ball_alternate(2, 4, -45, -135, true)
     await _ball_oscillate(1, 8, 1, -45, 45)
-    await _ball_alternate(3, 4, 45, 135)
+    await _ball_alternate(1, 4, 45, 135)
+    await _ball_alternate(2, 4, 45, 135, true)
     await _laser(2, 0, 720)
 
     # 48 - 56
@@ -132,7 +134,7 @@ func _run_heart_seq_async() -> void:
 
     await _ball_oscillate(1, 8, 1, 180, 0)
 
-    await _ball_seq([-45, -90, -135], 4)
+    await _ball_seq([-45, -90, -135], 4, true)
 
     # 64 - 72
     await _until("64:1")
@@ -147,7 +149,7 @@ func _run_heart_seq_async() -> void:
     await _until("72:1")
 
     _rotate_frame(4, 0, 360 * 3)
-    await _ball_seq([0, null, 0, null, 0, 0, null, 0, null, 0, null, 0, 0, 0, 0, 0], 8, 2)
+    await _ball_seq([0, null, 0, null, 0, 0, null, 0, null, 0, null, 0, 0, 0, 0, 0], 8, 2, true)
     await _ball_oscillate(2, 16, 1, 0, 360)
     await _laser(2, 0, -180)
 
@@ -157,14 +159,14 @@ func _run_heart_seq_async() -> void:
     await _ball_oscillate(1, 4, 1, 0, 360)
     await _ball_oscillate(2, 8, 1, 0, 720)
     _rotate_frame(4, 0, 360 * 5)
-    await _ball_seq([0, null, 0, null, 0, 0, null, 0, null, 0, null, 0, 0, 0, 0, 0], 8, 2)
+    await _ball_seq([0, null, 0, null, 0, 0, null, 0, null, 0, null, 0, 0, 0, 0, 0], 8, 2, true)
 
     # 88 - 96
     await _until("88:1")
     _rotate_frame(4, 0, 360)
     await _ball_alternate2(4, 8, 0, 45)
     await _laser(2, 0, 720)
-    await _ball_oscillate(2, 4, 4, 45, 135)
+    await _ball_oscillate(2, 4, 4, 45, 135, true)
 
     # 96 - 104
     await _until("96:1")
@@ -175,7 +177,7 @@ func _run_heart_seq_async() -> void:
     await _laser(1, -180, 0)
     await _ball_alternate(1, 16, 15, -15)
     _rotate_frame(2, 0, 720)
-    await _ball_seq([0, null, 0, null, 0, 0, null, 0, null, 0, null, 0, 0, 0, 0, 0], 8)
+    await _ball_seq([0, null, 0, null, 0, 0, null, 0, null, 0, null, 0, 0, 0, 0, 0], 8, true)
 
     # 104 - 112
     await _until("104:1")
@@ -187,7 +189,7 @@ func _run_heart_seq_async() -> void:
     await _ball_alternate(1, 16, 15 - 180, -15 - 180)
     frame_rotation = -180
     _rotate_frame(2, -180, 720 - 180)
-    await _ball_seq([0, null, 0, null, 0, 0, null, 0, null, 0, null, 0, 0, 0, 0, 0], 8)
+    await _ball_seq([0, null, 0, null, 0, 0, null, 0, null, 0, null, 0, 0, 0, 0, 0], 8, true)
     frame_rotation = 0
 
     # 112 - 120
@@ -209,9 +211,9 @@ func _run_heart_seq_async() -> void:
         await _set_text(2, "I'm sorry...")
     text_async.call()
     await _ball_oscillate(4, 2, 1, 0, 360 * 2)
-    await _ball_oscillate(2, 4, 1, 0, 360)
-    await _ball_oscillate(1, 8, 1, 0, 180)
-    await _ball_oscillate(1, 16, 1, 180, 360)
+    await _ball_oscillate(2, 4, 1, 0, 360, 1, true)
+    await _ball_oscillate(1, 8, 1, 0, 180, 1, true)
+    await _ball_oscillate(1, 16, 1, 180, 360, 1, true)
 
     # 128 - 136
     triple = true
@@ -226,9 +228,9 @@ func _run_heart_seq_async() -> void:
     # 136 - 144
     await _until("136:1")
     await _laser(4, 0, -360)
-    await _ball_straight(1, 8, 90)
+    await _ball_straight(1, 8, 90, true)
     await _ball_straight(1, 8, -180)
-    await _ball_straight(1, 8, -90)
+    await _ball_straight(1, 8, -90, true)
     await _ball_straight(1, 8, 0)
 
     # 144 - 152
@@ -243,11 +245,11 @@ func _run_heart_seq_async() -> void:
         paddle.triple = false
     disable_paddle.call()
     _rotate_frame(8, 0, -720 * 3)
-    await _ball_seq([0, 0, 0, null, 0, null, 0, 0, 0, 0, 0, 0, 0, 0, 0, null], 8, 1)
-    await _ball_seq([0, null, 0, null, 0, null, null, 0, 0, 0, 0, 0, 0, 0, 0, 0], 8, 1)
+    await _ball_seq([0, 0, 0, null, 0, null, 0, 0, 0, 0, 0, 0, 0, 0, 0, null], 8, 1, true)
+    await _ball_seq([0, null, 0, null, 0, null, null, 0, 0, 0, 0, 0, 0, 0, 0, 0], 8, 1, true)
     _crt_async_change()
-    await _ball_seq([0, 0, 0, null, 0, null, 0, 0, 0, 0, 0, 0, 0, 0, 0, null], 8, 1)
-    await _ball_seq([0, null, 0, null, 0, null, null, 0], 8, 1)
+    await _ball_seq([0, 0, 0, null, 0, null, 0, 0, 0, 0, 0, 0, 0, 0, 0, null], 8, 1, true)
+    await _ball_seq([0, null, 0, null, 0, null, null, 0], 8, 1, true)
 
 
 func _crt_async_change() -> void:
@@ -271,44 +273,44 @@ func _crt_async_change() -> void:
     GameManager.quit()
 
 
-func _ball_alternate2(bars: int, on: int, deg1: float, deg2: float) -> void:
+func _ball_alternate2(bars: int, on: int, deg1: float, deg2: float, big: bool = false) -> void:
     var fn = func():
-        await _ball_seq([deg1, deg1, deg2, deg2], on, bars * int(on / 4.0))
+        await _ball_seq([deg1, deg1, deg2, deg2], on, bars * int(on / 4.0), big)
     fn.call()
     await _rest_bars(bars)
 
-func _ball_alternate(bars: int, on: int, deg1: float, deg2: float) -> void:
+func _ball_alternate(bars: int, on: int, deg1: float, deg2: float, big: bool = false) -> void:
     var fn = func():
-        await _ball_seq([deg1, deg2, deg1, deg2], on, bars * int(on / 4.0))
+        await _ball_seq([deg1, deg2, deg1, deg2], on, bars * int(on / 4.0), big)
     fn.call()
     await _rest_bars(bars)
 
-func _ball_syncopate1(bars: int, on: int, deg1: float, deg2: float, deg3: float) -> void:
+func _ball_syncopate1(bars: int, on: int, deg1: float, deg2: float, deg3: float, big: bool = false) -> void:
     var fn = func():
-        await _ball_seq([deg1, deg2, deg3, null], on, bars * int(on / 4.0))
+        await _ball_seq([deg1, deg2, deg3, null], on, bars * int(on / 4.0), big)
     fn.call()
     await _rest_bars(bars)
 
-func _ball_syncopate2(bars: int, on: int, deg1: float, deg2: float, deg3: float) -> void:
+func _ball_syncopate2(bars: int, on: int, deg1: float, deg2: float, deg3: float, big: bool = false) -> void:
     var fn = func():
-        await _ball_seq([deg1, deg2, null, deg3], on, bars * int(on / 4.0))
+        await _ball_seq([deg1, deg2, null, deg3], on, bars * int(on / 4.0), big)
     fn.call()
     await _rest_bars(bars)
 
-func _ball_straight(bars: int, on: int, deg: float) -> void:
+func _ball_straight(bars: int, on: int, deg: float, big: bool = false) -> void:
     var fn = func():
-        await _ball_seq([deg, deg, deg, deg], on, bars * int(on / 4.0))
+        await _ball_seq([deg, deg, deg, deg], on, bars * int(on / 4.0), big)
     fn.call()
     await _rest_bars(bars)
 
-func _ball_seq(seq: Array, on: int, repeat: int = 1) -> void:
+func _ball_seq(seq: Array, on: int, repeat: int = 1, big: bool = false) -> void:
     for i in repeat:
         for deg in seq:
             if deg != null:
-                _spawn_ball(deg)
+                _spawn_ball(deg, big)
             await BeatManager.wait(on, 1)
 
-func _ball_oscillate(bars: int, on: int, periods: int, deg1: float, deg2: float, repeats: int = 1) -> void:
+func _ball_oscillate(bars: int, on: int, periods: int, deg1: float, deg2: float, repeats: int = 1, big: bool = false) -> void:
     var fn = func():
         for i in repeats:
             var count = int(bars * on / float(periods))
@@ -316,7 +318,7 @@ func _ball_oscillate(bars: int, on: int, periods: int, deg1: float, deg2: float,
             var step = (deg2 - deg1) / count
             for j in range(periods):
                 for k in range(count):
-                    _spawn_ball(angle)
+                    _spawn_ball(angle, big)
                     angle += step
                     await BeatManager.wait(on, 1)
                 step *= -1
@@ -386,16 +388,16 @@ func _spawn_laser(deg: float) -> Laser:
     heart_proj_cont.add_child.call_deferred(laser)
     return laser
 
-func _spawn_ball(deg: float) -> void:
-    _spawn_ball_internal(deg)
+func _spawn_ball(deg: float, big: bool) -> void:
+    _spawn_ball_internal(deg, big)
     if triple:
-        _spawn_ball_internal(deg + 120)
-        _spawn_ball_internal(deg - 120)
+        _spawn_ball_internal(deg + 120, big)
+        _spawn_ball_internal(deg - 120, big)
 
-func _spawn_ball_internal(deg: float) -> void:
+func _spawn_ball_internal(deg: float, big: bool) -> void:
     if is_dead():
         await get_tree().create_timer(10.0).timeout
-    var ball: HeartBall = heart_ball_scene.instantiate()
+    var ball: HeartBall = heart_ball_scene.instantiate() if not big else heart_ball_big_scene.instantiate()
     ball.dir = Vector2.RIGHT.rotated(deg_to_rad(deg + frame_rotation))
     ball.speed = 100.0
     ball.check_on_sixteenth = BeatManager.curr_sixteenth + HeartBall.take_sixteenths

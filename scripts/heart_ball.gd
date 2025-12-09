@@ -1,5 +1,7 @@
 class_name HeartBall extends Area2D
 
+@export var is_big: bool
+
 var dir: Vector2
 var speed: float = 100.0
 var dead = false
@@ -61,6 +63,8 @@ func die() -> void:
     if dead:
         return
     dead = true
+    if is_big:
+        GameManager.camera_shake_oneshot()
     SoundEffects.play_ball_burst()
     $Sprite2D.queue_free()
     set_collision_layer_value(1, false)

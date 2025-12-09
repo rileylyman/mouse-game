@@ -53,10 +53,12 @@ func _process(delta: float) -> void:
         var to_center = global_position - overlapping_paddle.global_position
         particles.gravity = to_center.normalized() * 980 
         particles.direction = to_center.normalized()
+        GameManager.camera_shake(true)
     else:
         laser_effects.stop_laser()
         sprite.scale.x = 1.0
         particles.emitting = false
+        GameManager.camera_shake(false)
 
     visible = true if show_pre else _elapsed > charge_time
 
@@ -76,6 +78,7 @@ func _process(delta: float) -> void:
 
 func die() -> void:
     queue_free()
+    GameManager.camera_shake(false)
     particles.emitting = false
     laser_effects.stop_laser()
     await get_tree().create_timer(1.5).timeout

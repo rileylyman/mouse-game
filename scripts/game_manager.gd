@@ -4,6 +4,8 @@ extends Node
 @onready var heart_proj_cont: Node2D = $"/root/Node2D/HeartProjectileContainer"
 @onready var paddle: Paddle = $"/root/Node2D/Paddle"
 @onready var enemy_spawner: EnemySpawner = $"/root/Node2D/EnemySpawner"
+@onready var camera: Camera2D = $"/root/Node2D/Camera2D"
+@onready var camera_ap: AnimationPlayer = $"/root/Node2D/Camera2D/AnimationPlayer"
 var final_particles: PackedScene = preload("res://scenes/final_particles.tscn")
 
 var time_s: float = 0
@@ -60,3 +62,22 @@ func quit() -> void:
         JavaScriptBridge.eval("window.location.reload()")
     else:
         get_tree().quit()
+
+var camera_shaking := false
+func camera_shake(enable: bool) -> void:
+    if not camera_shaking and enable:
+        camera_shaking = true
+        camera_ap.play("screen_shake")
+    elif camera_shaking and not enable:
+        camera_shaking = false
+        await get_tree().create_timer(0.5).timeout
+        if not camera_shaking:
+            camera_ap.play("RESET")
+
+func camera_shake_oneshot() -> void:
+    if camera_shaking:
+        return
+    camera_ap.play("screen_shake")
+    await camera_ap.shake_loop
+    if not camera_shaking:
+        camera_ap.play("RESET")
