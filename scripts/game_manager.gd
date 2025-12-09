@@ -81,3 +81,12 @@ func camera_shake_oneshot() -> void:
     await camera_ap.shake_loop
     if not camera_shaking:
         camera_ap.play("RESET")
+
+func camera_shake_lite_oneshot() -> void:
+    if camera_shaking or camera_ap.current_animation != "":
+        return
+    camera_ap.play("screen_shake_lite")
+    await camera_ap.shake_loop
+    if not camera_shaking and camera_ap.current_animation == "screen_shake_lite":
+        camera_ap.play("RESET")
+    

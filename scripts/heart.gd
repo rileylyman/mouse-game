@@ -1,7 +1,8 @@
 class_name Heart extends Node2D
 
-@onready var beat: Node2D = $HeartOutBeat
-@onready var heart_in: Sprite2D = $HeartIn
+@onready var viscont: Node2D = $VisualContainer
+@onready var beat: Node2D = $VisualContainer/HeartOutBeat
+@onready var heart_in: Sprite2D = $VisualContainer/HeartIn
 @onready var original_scale: Vector2 = scale
 @onready var bubble = %SpeechBubble
 @onready var heart_proj_cont: Node2D = $"/root/Node2D/HeartProjectileContainer"
@@ -47,7 +48,7 @@ func _fast_forward(s: String) -> void:
     BeatManager.fast_forward = false
 
 func _run_heart_seq_async() -> void:
-    _fast_forward("148:1")
+    # _fast_forward("148:1")
 
     await BeatManager.click_signal
 

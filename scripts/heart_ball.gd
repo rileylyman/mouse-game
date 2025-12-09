@@ -17,9 +17,12 @@ var touched_paddle = false
 @onready var paddle_area2: Area2D = $"/root/Node2D/Paddle/Sprite2D2/PaddleArea"
 @onready var paddle_area3: Area2D = $"/root/Node2D/Paddle/Sprite2D3/PaddleArea"
 
+@onready var sprite_container: Node2D = $SpriteContainer
+
 func _ready() -> void:
     dir = dir.normalized()
-    speed = paddle.radius / ((check_on_sixteenth - BeatManager.curr_sixteenth) * BeatManager.secs_per_beat / 4)
+    var total_time = (check_on_sixteenth - BeatManager.curr_sixteenth) * BeatManager.secs_per_beat / 4
+    speed = paddle.radius / total_time
     global_scale = Vector2.ONE
     global_rotation = 0
     global_position = heart.global_position
@@ -28,6 +31,15 @@ func _ready() -> void:
 
     _check_on(check_on_sixteenth - 1)
     _check_on(check_on_sixteenth)
+
+    sprite_container.rotation = -dir.angle_to(Vector2.UP)
+    sprite_container.scale = Vector2(2, 0.75)
+    var tween_time := 0.25
+    var tween_time2 := 0.25
+    var tween = create_tween()
+    tween.parallel().tween_property(sprite_container, "scale:x", 0.75, tween_time)
+    tween.parallel().tween_property(sprite_container, "scale:y", 1.25, tween_time)
+    tween.tween_property(sprite_container, "scale", Vector2(0.9, 1.1), tween_time2)
 
 func _check_on(on: int) -> void:
     await BeatManager.wait_for_sixteenth(on)
@@ -58,6 +70,20 @@ func _process(delta: float) -> void:
 func _on_area_enter(area: Area2D) -> void:
     if area.name == "PaddleArea":
         touched_paddle = true
+        death_anim()
+
+var played_death_anim := false
+func death_anim() -> void:
+    if played_death_anim:
+        return
+    played_death_anim = true
+    speed = 0
+    sprite_container.modulate = Color.hex(0xff004e)
+    sprite_container.modulate = Color.RED
+    var tween = create_tween()
+    tween.tween_property(sprite_container, "scale", Vector2(2, 0.25), 0.05)
+    tween.tween_property(sprite_container, "scale", Vector2(1.5, 0.5), 0.025)
+    tween.tween_callback(sprite_container.queue_free)
 
 func die() -> void:
     if dead:
@@ -65,10 +91,12 @@ func die() -> void:
     dead = true
     if is_big:
         GameManager.camera_shake_oneshot()
+    else:
+        GameManager.camera_shake_lite_oneshot()
     SoundEffects.play_ball_burst()
-    $Sprite2D.queue_free()
-    set_collision_layer_value(1, false)
     $Particles.emitting = true
     SoundEffects.play_ball_burst()
+    set_collision_layer_value(1, false)
+
     await get_tree().create_timer(1.0).timeout
     queue_free()

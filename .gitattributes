@@ -100,3 +100,5 @@ addons/** linguist-vendored
 *.a                     lfs
 *.reason                lfs
 *.rns                   lfs
+*.aseprite              lfs
+*.ase                   lfs
