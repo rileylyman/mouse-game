@@ -13,9 +13,9 @@ var touched_paddle = false
 
 @onready var heart: Heart = $"/root/Node2D/Heart"
 @onready var paddle: Paddle = $"/root/Node2D/Paddle"
-@onready var paddle_area1: Area2D = $"/root/Node2D/Paddle/Sprite2D/PaddleArea"
-@onready var paddle_area2: Area2D = $"/root/Node2D/Paddle/Sprite2D2/PaddleArea"
-@onready var paddle_area3: Area2D = $"/root/Node2D/Paddle/Sprite2D3/PaddleArea"
+@onready var paddle_area1: Area2D = $"/root/Node2D/Paddle/Paddle/PaddleArea"
+@onready var paddle_area2: Area2D = $"/root/Node2D/Paddle/Paddle2/PaddleArea"
+@onready var paddle_area3: Area2D = $"/root/Node2D/Paddle/Paddle3/PaddleArea"
 
 @onready var sprite_container: Node2D = $SpriteContainer
 @onready var sprite: AnimatedSprite2D = $SpriteContainer/AnimatedSprite2D
@@ -35,7 +35,7 @@ func _ready() -> void:
     _check_on(check_on_sixteenth)
 
     sprite_container.rotation = -dir.angle_to(Vector2.UP)
-    sprite_container.scale = Vector2(2, 0.75)
+    sprite_container.scale = Vector2(2, 0.75) if is_big else Vector2(4, 0.5)
     var tween_time := 0.25
     var tween_time2 := 0.25
     var tween = create_tween()
@@ -58,6 +58,7 @@ func _check_paddle(_paddle_area: Area2D) -> void:
     # if abs(bv.normalized().angle_to(pv.normalized())) < paddle.arc_deg / 2 + deg_to_rad(5.0):
     #     die()
     if touched_paddle:
+        paddle.shake_paddles()
         die()
 
 func _process(delta: float) -> void:

@@ -1,16 +1,13 @@
-[gd_scene load_steps=18 format=3 uid="uid://c7jus7yiaflfi"]
+[gd_scene load_steps=14 format=3 uid="uid://c7jus7yiaflfi"]
 
+[ext_resource type="Texture2D" uid="uid://b8wbxhhnx15v8" path="res://art/bg.png" id="1_85g3d"]
 [ext_resource type="AudioStream" uid="uid://bicyxkqh27c4u" path="res://sounds/DONTTOUCHANYTHING instrumental.wav" id="1_o6xl0"]
-[ext_resource type="Script" uid="uid://xrbw2ljcnyxh" path="res://scripts/paddle.gd" id="1_tbgi4"]
 [ext_resource type="AudioStream" uid="uid://cnx368ex20xq" path="res://sounds/TextBlips.wav" id="2_85g3d"]
-[ext_resource type="Texture2D" uid="uid://fgyenivobnht" path="res://art/iconsDefault.png" id="2_tefeu"]
 [ext_resource type="Script" uid="uid://dc7q4veqao0fi" path="res://scripts/laser_effects.gd" id="3_choun"]
 [ext_resource type="Script" uid="uid://cwkgm2x7ggbg8" path="res://scripts/shake_ap.gd" id="4_ya4ey"]
+[ext_resource type="PackedScene" uid="uid://dfseo20q1xemb" path="res://scenes/paddle.tscn" id="6_tipki"]
+[ext_resource type="PackedScene" uid="uid://dkexfesly1wva" path="res://scenes/heart.tscn" id="7_tipki"]
 [ext_resource type="Script" uid="uid://5117g2rusoxu" path="res://scripts/enemy_spawner.gd" id="8_tipki"]
-[ext_resource type="Script" uid="uid://ce45dugiwp1y1" path="res://scripts/heart.gd" id="9_eb6dy"]
-[ext_resource type="Texture2D" uid="uid://b3t83rjl8i4ny" path="res://art/heartin.png" id="10_trceg"]
-[ext_resource type="Texture2D" uid="uid://bqgdm65ul5kxa" path="res://art/heartout.png" id="11_a8y0u"]
-[ext_resource type="Texture2D" uid="uid://dpnwkudufiq1b" path="res://art/heartoutbeat.png" id="12_jkv2x"]
 
 [sub_resource type="Animation" id="Animation_choun"]
 resource_name = "screen_shake"
@@ -98,13 +95,15 @@ _data = {
 &"screen_shake_lite": SubResource("Animation_eb6dy")
 }
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_o6xl0"]
-size = Vector2(49.991432, 49.7778)
-
 [sub_resource type="LabelSettings" id="LabelSettings_tipki"]
 font_size = 48
 
 [node name="Node2D" type="Node2D"]
+
+[node name="Bg" type="Sprite2D" parent="."]
+position = Vector2(575.1111, 324.5)
+scale = Vector2(5.333, 5.333)
+texture = ExtResource("1_85g3d")
 
 [node name="BgMusic" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("1_o6xl0")
@@ -127,77 +126,14 @@ libraries = {
 }
 script = ExtResource("4_ya4ey")
 
-[node name="Paddle" type="Node2D" parent="."]
+[node name="Paddle" parent="." instance=ExtResource("6_tipki")]
 unique_name_in_owner = true
-script = ExtResource("1_tbgi4")
-
-[node name="Sprite2D" type="Sprite2D" parent="Paddle"]
-visible = false
-position = Vector2(3.8146973e-06, 0)
-scale = Vector2(4.5625, 0.140625)
-texture = ExtResource("2_tefeu")
-region_enabled = true
-region_rect = Rect2(192, 64, 64, 64)
-
-[node name="PaddleArea" type="Area2D" parent="Paddle/Sprite2D"]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Paddle/Sprite2D/PaddleArea"]
-position = Vector2(-0.1373291, 0)
-shape = SubResource("RectangleShape2D_o6xl0")
-
-[node name="Sprite2D2" type="Sprite2D" parent="Paddle"]
-visible = false
-position = Vector2(3.8146973e-06, 0)
-scale = Vector2(4.5625, 0.140625)
-texture = ExtResource("2_tefeu")
-region_enabled = true
-region_rect = Rect2(192, 64, 64, 64)
-
-[node name="PaddleArea" type="Area2D" parent="Paddle/Sprite2D2"]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Paddle/Sprite2D2/PaddleArea"]
-position = Vector2(-0.1373291, 0)
-shape = SubResource("RectangleShape2D_o6xl0")
-
-[node name="Sprite2D3" type="Sprite2D" parent="Paddle"]
-visible = false
-position = Vector2(3.8146973e-06, 0)
-scale = Vector2(4.5625, 0.140625)
-texture = ExtResource("2_tefeu")
-region_enabled = true
-region_rect = Rect2(192, 64, 64, 64)
-
-[node name="PaddleArea" type="Area2D" parent="Paddle/Sprite2D3"]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Paddle/Sprite2D3/PaddleArea"]
-position = Vector2(-0.1373291, 0)
-shape = SubResource("RectangleShape2D_o6xl0")
 
 [node name="HeartProjectileContainer" type="Node2D" parent="."]
 
-[node name="Heart" type="Node2D" parent="."]
+[node name="Heart" parent="." instance=ExtResource("7_tipki")]
 unique_name_in_owner = true
-z_index = 1
 position = Vector2(576.00006, 324.00003)
-scale = Vector2(0.07, 0.07)
-script = ExtResource("9_eb6dy")
-
-[node name="VisualContainer" type="Node2D" parent="Heart"]
-
-[node name="HeartIn" type="Sprite2D" parent="Heart/VisualContainer"]
-position = Vector2(-0.0009765625, 585.71387)
-texture = ExtResource("10_trceg")
-centered = false
-offset = Vector2(-1024, -1120)
-region_enabled = true
-region_rect = Rect2(0, 488, 2048, 1120)
-
-[node name="HeartOut" type="Sprite2D" parent="Heart/VisualContainer"]
-texture = ExtResource("11_a8y0u")
-
-[node name="HeartOutBeat" type="Sprite2D" parent="Heart/VisualContainer"]
-visible = false
-texture = ExtResource("12_jkv2x")
 
 [node name="EnemySpawner" type="Node2D" parent="."]
 script = ExtResource("8_tipki")

@@ -1,0 +1,68 @@
+[gd_scene load_steps=11 format=3 uid="uid://dkexfesly1wva"]
+
+[ext_resource type="Script" uid="uid://ce45dugiwp1y1" path="res://scripts/heart.gd" id="1_txm48"]
+[ext_resource type="Texture2D" uid="uid://b3t83rjl8i4ny" path="res://art/heartin.png" id="2_8nnyc"]
+[ext_resource type="Texture2D" uid="uid://bqgdm65ul5kxa" path="res://art/heartout.png" id="3_4mtg8"]
+[ext_resource type="Texture2D" uid="uid://dpnwkudufiq1b" path="res://art/heartoutbeat.png" id="4_u10h0"]
+[ext_resource type="Texture2D" uid="uid://b4xavdhocupb7" path="res://art/heart1.png" id="5_oquu7"]
+[ext_resource type="Texture2D" uid="uid://dbni54p7ci128" path="res://art/heart2.png" id="6_0fb81"]
+[ext_resource type="Shader" uid="uid://dn6n7xn21vrmi" path="res://scripts/glow.gdshader" id="7_uj202"]
+[ext_resource type="Texture2D" uid="uid://cdataowa84i21" path="res://art/ball_large.png" id="8_0uc88"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_rpd80"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_oquu7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_0fb81")
+}],
+"loop": true,
+"name": &"default",
+"speed": 2.0
+}]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1cu63"]
+shader = ExtResource("7_uj202")
+shader_parameter/glow_color = Color(0.69411767, 0.019607844, 0.52156866, 1)
+shader_parameter/intensity = 0.9530000452675
+shader_parameter/spread = 2.0
+shader_parameter/pulse_speed = 0.0
+
+[node name="Heart" type="Node2D"]
+z_index = 1
+scale = Vector2(0.07, 0.07)
+script = ExtResource("1_txm48")
+
+[node name="VisualContainer" type="Node2D" parent="."]
+
+[node name="HeartIn" type="Sprite2D" parent="VisualContainer"]
+visible = false
+position = Vector2(-0.0009765625, 585.71387)
+texture = ExtResource("2_8nnyc")
+centered = false
+offset = Vector2(-1024, -1120)
+region_enabled = true
+region_rect = Rect2(0, 488, 2048, 1120)
+
+[node name="HeartOut" type="Sprite2D" parent="VisualContainer"]
+visible = false
+texture = ExtResource("3_4mtg8")
+
+[node name="HeartOutBeat" type="Sprite2D" parent="VisualContainer"]
+visible = false
+texture = ExtResource("4_u10h0")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="VisualContainer"]
+scale = Vector2(25, 25)
+sprite_frames = SubResource("SpriteFrames_rpd80")
+autoplay = "default"
+frame_progress = 0.6095348
+
+[node name="Glow" type="Sprite2D" parent="VisualContainer/AnimatedSprite2D"]
+show_behind_parent = true
+material = SubResource("ShaderMaterial_1cu63")
+position = Vector2(2, 0)
+scale = Vector2(4, 4)
+texture = ExtResource("8_0uc88")

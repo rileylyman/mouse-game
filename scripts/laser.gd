@@ -17,9 +17,9 @@ var particles: CPUParticles2D
 
 @onready var laser_effects: LaserEffects = $"/root/Node2D/LaserEffects"
 @onready var paddle: Paddle = $"/root/Node2D/Paddle"
-@onready var paddle_area1: Area2D = $"/root/Node2D/Paddle/Sprite2D/PaddleArea"
-@onready var paddle_area2: Area2D = $"/root/Node2D/Paddle/Sprite2D2/PaddleArea"
-@onready var paddle_area3: Area2D = $"/root/Node2D/Paddle/Sprite2D3/PaddleArea"
+@onready var paddle_area1: Area2D = $"/root/Node2D/Paddle/Paddle/PaddleArea"
+@onready var paddle_area2: Area2D = $"/root/Node2D/Paddle/Paddle2/PaddleArea"
+@onready var paddle_area3: Area2D = $"/root/Node2D/Paddle/Paddle3/PaddleArea"
 @onready var heart: Heart = $"/root/Node2D/Heart"
 
 @onready var sprite_mask: Sprite2D = $LaserMask
