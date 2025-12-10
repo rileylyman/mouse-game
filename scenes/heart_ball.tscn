@@ -84,7 +84,7 @@ shape = SubResource("RectangleShape2D_kda61")
 
 [node name="Particles" type="CPUParticles2D" parent="."]
 emitting = false
-amount = 2
+amount = 10
 one_shot = true
 explosiveness = 0.95
 emission_shape = 1
