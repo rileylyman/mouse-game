@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://d3bqoakc6xcnu"]
+[gd_scene load_steps=16 format=3 uid="uid://d3bqoakc6xcnu"]
 
 [ext_resource type="Texture2D" uid="uid://fgyenivobnht" path="res://art/iconsDefault.png" id="1_xmihv"]
 [ext_resource type="Script" uid="uid://2cltvvyxxv5f" path="res://scripts/laser.gd" id="2_a7dhc"]
@@ -10,6 +10,8 @@
 [ext_resource type="Texture2D" uid="uid://dkhu46vdtvnvf" path="res://art/laser_small1.png" id="7_dk18q"]
 [ext_resource type="Texture2D" uid="uid://1aqipd4n2m6w" path="res://art/laser_small2.png" id="8_7c0by"]
 [ext_resource type="Texture2D" uid="uid://dtpfi0j5t2yfs" path="res://art/laser_small3.png" id="9_758si"]
+[ext_resource type="Shader" uid="uid://dn6n7xn21vrmi" path="res://scripts/glow.gdshader" id="11_6j5fe"]
+[ext_resource type="Texture2D" uid="uid://cdataowa84i21" path="res://art/ball_large.png" id="12_dk18q"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xmihv"]
 size = Vector2(1025, 64)
@@ -48,6 +50,13 @@ animations = [{
 "speed": 10.0
 }]
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7c0by"]
+shader = ExtResource("11_6j5fe")
+shader_parameter/glow_color = Color(0.30588236, 0.43137255, 0.65882355, 1)
+shader_parameter/intensity = 1.6550000786124999
+shader_parameter/spread = 2.0
+shader_parameter/pulse_speed = 0.0
+
 [node name="Laser" type="Area2D"]
 script = ExtResource("2_a7dhc")
 
@@ -65,14 +74,14 @@ region_rect = Rect2(1280, 128, 64, 64)
 
 [node name="LaserMask" type="Sprite2D" parent="."]
 clip_children = 1
-position = Vector2(511.5, 0)
-scale = Vector2(8.0078125, 2)
+position = Vector2(319.24997, 0)
+scale = Vector2(11, 4)
 texture = ExtResource("3_id182")
 
 [node name="LaserSprite" type="AnimatedSprite2D" parent="LaserMask"]
-position = Vector2(-7.6800003, -67.5)
+position = Vector2(11.704548, -33.5)
 rotation = 1.5707964
-scale = Vector2(1, 0.2497561)
+scale = Vector2(0.5, 0.182)
 sprite_frames = SubResource("SpriteFrames_tg066")
 animation = &"big"
 frame = 2
@@ -80,13 +89,20 @@ frame_progress = 0.9703621
 centered = false
 offset = Vector2(0, -32)
 
+[node name="Glow" type="Sprite2D" parent="LaserMask/LaserSprite"]
+show_behind_parent = true
+material = SubResource("ShaderMaterial_7c0by")
+position = Vector2(68.847115, -29.975174)
+scale = Vector2(2.404959, 15.204543)
+texture = ExtResource("12_dk18q")
+
 [node name="LaserSprite2" type="AnimatedSprite2D" parent="LaserMask"]
-position = Vector2(8.179512, 65)
+position = Vector2(23.250002, 33)
 rotation = -1.5707964
-scale = Vector2(1, 0.2497561)
+scale = Vector2(0.5, 0.182)
 sprite_frames = SubResource("SpriteFrames_tg066")
 animation = &"big"
-frame = 2
-frame_progress = 0.9703621
+frame = 1
+frame_progress = 0.10604433
 centered = false
 offset = Vector2(0, -32)

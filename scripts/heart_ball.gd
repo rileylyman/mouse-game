@@ -18,6 +18,8 @@ var touched_paddle = false
 @onready var paddle_area3: Area2D = $"/root/Node2D/Paddle/Sprite2D3/PaddleArea"
 
 @onready var sprite_container: Node2D = $SpriteContainer
+@onready var sprite: AnimatedSprite2D = $SpriteContainer/AnimatedSprite2D
+@onready var explosion: AnimatedSprite2D = $SpriteContainer/Explosion
 
 func _ready() -> void:
     dir = dir.normalized()
@@ -78,12 +80,16 @@ func death_anim() -> void:
         return
     played_death_anim = true
     speed = 0
-    sprite_container.modulate = Color.hex(0xff004e)
-    sprite_container.modulate = Color.RED
-    var tween = create_tween()
-    tween.tween_property(sprite_container, "scale", Vector2(2, 0.25), 0.05)
-    tween.tween_property(sprite_container, "scale", Vector2(1.5, 0.5), 0.025)
-    tween.tween_callback(sprite_container.queue_free)
+
+
+    # sprite_container.modulate = Color.hex(0xff004e)
+    # sprite_container.modulate = Color.RED
+    # var tween = create_tween()
+    # tween.tween_property(sprite_container, "scale", Vector2(2, 0.25), 0.05)
+    # tween.tween_property(sprite_container, "scale", Vector2(1.5, 0.5), 0.025)
+    # tween.tween_callback(sprite_container.queue_free)
+    sprite.visible = false
+    explosion.play("default")
 
 func die() -> void:
     if dead:

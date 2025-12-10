@@ -1,11 +1,77 @@
-[gd_scene load_steps=5 format=3 uid="uid://df117o4gark5q"]
+[gd_scene load_steps=18 format=3 uid="uid://df117o4gark5q"]
 
 [ext_resource type="Script" uid="uid://dmnj1jadi2ejs" path="res://scripts/heart_ball.gd" id="1_v70cd"]
-[ext_resource type="Texture2D" uid="uid://fgyenivobnht" path="res://art/iconsDefault.png" id="2_qx1f6"]
 [ext_resource type="Texture2D" uid="uid://cdataowa84i21" path="res://art/ball_large.png" id="3_qx1f6"]
+[ext_resource type="Texture2D" uid="uid://bk3qpiulx8421" path="res://art/ball1.png" id="4_3dhe2"]
+[ext_resource type="Texture2D" uid="uid://dhno4yi223idr" path="res://art/ball2.png" id="5_d41mq"]
+[ext_resource type="Texture2D" uid="uid://d11ftll8um3jx" path="res://art/ball3.png" id="6_tm01m"]
+[ext_resource type="Texture2D" uid="uid://b3ahglj1xhl3t" path="res://art/ball4.png" id="7_4kmdv"]
+[ext_resource type="Shader" uid="uid://dn6n7xn21vrmi" path="res://scripts/glow.gdshader" id="7_6dwco"]
+[ext_resource type="Texture2D" uid="uid://bo0s4h7lgwkod" path="res://art/ball5.png" id="8_n6u3v"]
+[ext_resource type="Texture2D" uid="uid://dbcnice7hiqlu" path="res://art/explosion_big1.png" id="9_6dwco"]
+[ext_resource type="Texture2D" uid="uid://bfap047nvqtd5" path="res://art/explosion_big2.png" id="10_qsdrg"]
+[ext_resource type="Texture2D" uid="uid://bxbeo1mr7siu2" path="res://art/explosion_big3.png" id="11_rgalc"]
+[ext_resource type="Texture2D" uid="uid://dqa0njiu0h5ri" path="res://art/explosion_big4.png" id="12_2kame"]
+[ext_resource type="Texture2D" uid="uid://molexfc2whjn" path="res://art/explosion_big5.png" id="13_dhuj1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kda61"]
 size = Vector2(52, 55)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_6dwco"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_3dhe2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_d41mq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_tm01m")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_4kmdv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_n6u3v")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qsdrg"]
+shader = ExtResource("7_6dwco")
+shader_parameter/glow_color = Color(0.30588236, 0.43137255, 0.65882355, 1)
+shader_parameter/intensity = 0.86000004085
+shader_parameter/spread = 1.47900006699262
+shader_parameter/pulse_speed = 0.0
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_g1x4g"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("9_6dwco")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_qsdrg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_rgalc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_2kame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_dhuj1")
+}, {
+"duration": 1.0,
+"texture": null
+}],
+"loop": false,
+"name": &"default",
+"speed": 15.0
+}]
 
 [node name="HeartBall" type="Area2D"]
 scale = Vector2(0.75, 0.75)
@@ -19,17 +85,25 @@ shape = SubResource("RectangleShape2D_kda61")
 
 [node name="SpriteContainer" type="Node2D" parent="."]
 
-[node name="Sprite2D" type="Sprite2D" parent="SpriteContainer"]
-visible = false
-scale = Vector2(1.5, 1.5)
-texture = ExtResource("2_qx1f6")
-region_enabled = true
-region_rect = Rect2(512, 640, 64, 64)
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="SpriteContainer"]
+scale = Vector2(3.5, 3.5)
+sprite_frames = SubResource("SpriteFrames_6dwco")
+autoplay = "default"
+frame = 1
+frame_progress = 0.4274573
 
-[node name="Sprite2D2" type="Sprite2D" parent="SpriteContainer"]
-scale = Vector2(2.5, 2.5)
+[node name="Glow" type="Sprite2D" parent="SpriteContainer/AnimatedSprite2D"]
+show_behind_parent = true
+material = SubResource("ShaderMaterial_qsdrg")
+position = Vector2(2, 0)
 texture = ExtResource("3_qx1f6")
-region_rect = Rect2(512, 640, 64, 64)
+
+[node name="Explosion" type="AnimatedSprite2D" parent="SpriteContainer"]
+rotation = 3.1415927
+scale = Vector2(3.5, 3.5)
+sprite_frames = SubResource("SpriteFrames_g1x4g")
+frame = 5
+frame_progress = 1.0
 
 [node name="Particles" type="CPUParticles2D" parent="."]
 emitting = false

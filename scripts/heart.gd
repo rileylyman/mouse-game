@@ -48,7 +48,7 @@ func _fast_forward(s: String) -> void:
     BeatManager.fast_forward = false
 
 func _run_heart_seq_async() -> void:
-    _fast_forward("80:1")
+    _fast_forward("25:1")
 
     # await BeatManager.click_signal
     # await BeatManager.start_signal
@@ -96,7 +96,7 @@ func _run_heart_seq_async() -> void:
     await _ball_syncopate1(2, 8, 0, 0, -180)
     await _ball_oscillate(2, 8, 1, 0, 360)
     await _ball_alternate(1, 8, 75, 105)
-    await _ball_seq([45, 135, -90], 4, true)
+    await _ball_seq([45, 135, -90], 4, 1, true)
 
     # 32 - 40
     await _until("32:1")

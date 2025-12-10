@@ -24,10 +24,13 @@ var particles: CPUParticles2D
 
 @onready var sprite_mask: Sprite2D = $LaserMask
 @onready var sprite_mask_orig_pos: Vector2 = sprite_mask.position
+@onready var sprite_mask_orig_rect: Rect2 = sprite_mask.get_rect()
 @onready var sprite: AnimatedSprite2D = $LaserMask/LaserSprite
 @onready var sprite_orig_pos: Vector2 = sprite.position
 @onready var sprite2: AnimatedSprite2D = $LaserMask/LaserSprite2
 @onready var sprite2_orig_pos: Vector2 = sprite2.position
+@onready var glow: Sprite2D = $LaserMask/LaserSprite/Glow
+@onready var glow_orig_scale: Vector2 = glow.scale
 
 func _ready() -> void:
     particles = particles_scene.instantiate()
@@ -56,10 +59,10 @@ func _process(delta: float) -> void:
     if overlapping_paddle != null:
         laser_effects.start_laser()
         # sprite.scale.x = paddle.radius / 1000.0
-        var offset = sprite_mask.get_rect().size.x * sprite_mask.scale.x - paddle.radius
-        sprite_mask.position.x = sprite_mask_orig_pos.x - offset
-        sprite.position.x = sprite_orig_pos.x + offset * 1.0 / sprite_mask.scale.x
-        sprite2.position.x = sprite2_orig_pos.x + offset * 1.0 / sprite_mask.scale.x
+        var offset = sprite_mask_orig_rect.end.x * sprite_mask.scale.x - paddle.radius
+        sprite_mask.position.x = - offset
+        sprite.position.x = sprite_orig_pos.x + (sprite_mask_orig_pos.x + offset) * 1.0 / sprite_mask.scale.x
+        sprite2.position.x = sprite2_orig_pos.x + (sprite_mask_orig_pos.x + offset) * 1.0 / sprite_mask.scale.x
         particles.global_position = overlapping_paddle.global_position
         particles.emitting = true
         var to_center = global_position - overlapping_paddle.global_position
@@ -78,10 +81,12 @@ func _process(delta: float) -> void:
     visible = true if show_pre else _elapsed > charge_time
 
     if _elapsed > charge_time:
+        glow.scale.x = glow_orig_scale.x
         sprite.play("big")
         sprite2.play("big")
         set_collision_layer_value(1, overlapping_paddle == null)
     else:
+        glow.scale.x = glow_orig_scale.x * 0.5
         sprite.play("small")
         sprite2.play("small")
         set_collision_layer_value(1, false)

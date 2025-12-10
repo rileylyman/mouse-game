@@ -1,17 +1,84 @@
-[gd_scene load_steps=5 format=3 uid="uid://caoyl56uvmlsg"]
+[gd_scene load_steps=18 format=3 uid="uid://caoyl56uvmlsg"]
 
 [ext_resource type="Script" uid="uid://dmnj1jadi2ejs" path="res://scripts/heart_ball.gd" id="1_ak1jm"]
-[ext_resource type="Texture2D" uid="uid://fgyenivobnht" path="res://art/iconsDefault.png" id="2_k47q1"]
-[ext_resource type="Texture2D" uid="uid://c41hpwdajt5it" path="res://art/ball.png" id="3_k47q1"]
+[ext_resource type="Shader" uid="uid://dn6n7xn21vrmi" path="res://scripts/glow.gdshader" id="2_0rvq0"]
+[ext_resource type="Texture2D" uid="uid://cdataowa84i21" path="res://art/ball_large.png" id="3_fi54w"]
+[ext_resource type="Texture2D" uid="uid://bgp3ctkrtcghf" path="res://art/ball_large1.png" id="4_78uuh"]
+[ext_resource type="Texture2D" uid="uid://cs71rxyui53l0" path="res://art/ball_large2.png" id="5_gnkb2"]
+[ext_resource type="Texture2D" uid="uid://dw7onxsr2akw4" path="res://art/ball_large3.png" id="6_i7dje"]
+[ext_resource type="Texture2D" uid="uid://cqwkw8ul748l2" path="res://art/ball_large4.png" id="7_2sde1"]
+[ext_resource type="Texture2D" uid="uid://b2ch5jfar2eop" path="res://art/ball_large5.png" id="8_o1e3u"]
+[ext_resource type="Texture2D" uid="uid://dwwsit1j1ec6m" path="res://art/explosion1.png" id="9_0rvq0"]
+[ext_resource type="Texture2D" uid="uid://jpr2xtislyue" path="res://art/explosion2.png" id="10_fi54w"]
+[ext_resource type="Texture2D" uid="uid://c5w6ig1nyoupw" path="res://art/explosion3.png" id="11_g66ml"]
+[ext_resource type="Texture2D" uid="uid://bni7lae2vjlcq" path="res://art/explosion4.png" id="12_5qjw8"]
+[ext_resource type="Texture2D" uid="uid://fiyfs2llikgr" path="res://art/explosion5.png" id="13_vj25q"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kda61"]
 size = Vector2(52, 55)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0rvq0"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_78uuh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_gnkb2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_i7dje")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_2sde1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_o1e3u")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_g66ml"]
+shader = ExtResource("2_0rvq0")
+shader_parameter/glow_color = Color(0.69411767, 0.019607844, 0.52156866, 1)
+shader_parameter/intensity = 0.86000004085
+shader_parameter/spread = 1.47900006699262
+shader_parameter/pulse_speed = 0.0
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_cr6tn"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("9_0rvq0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_fi54w")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_g66ml")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_5qjw8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_vj25q")
+}, {
+"duration": 1.0,
+"texture": null
+}],
+"loop": false,
+"name": &"default",
+"speed": 15.0
+}]
 
 [node name="HeartBall2" type="Area2D"]
 scale = Vector2(0.75, 0.75)
 script = ExtResource("1_ak1jm")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2(0, -0.5)
 shape = SubResource("RectangleShape2D_kda61")
 
@@ -34,13 +101,22 @@ scale_amount_max = 12.5
 
 [node name="SpriteContainer" type="Node2D" parent="."]
 
-[node name="Sprite2D" type="Sprite2D" parent="SpriteContainer"]
-visible = false
-texture = ExtResource("2_k47q1")
-region_enabled = true
-region_rect = Rect2(512, 640, 64, 64)
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="SpriteContainer"]
+scale = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_0rvq0")
+autoplay = "default"
+frame = 4
+frame_progress = 0.35000423
 
-[node name="Sprite2D2" type="Sprite2D" parent="SpriteContainer"]
-scale = Vector2(1.5, 1.5)
-texture = ExtResource("3_k47q1")
-region_rect = Rect2(512, 640, 64, 64)
+[node name="Glow" type="Sprite2D" parent="SpriteContainer/AnimatedSprite2D"]
+show_behind_parent = true
+material = SubResource("ShaderMaterial_g66ml")
+position = Vector2(2, 0)
+texture = ExtResource("3_fi54w")
+
+[node name="Explosion" type="AnimatedSprite2D" parent="SpriteContainer"]
+rotation = 3.1415927
+scale = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_cr6tn")
+frame = 5
+frame_progress = 1.0
