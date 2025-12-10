@@ -56,9 +56,9 @@ func _fast_forward(s: String) -> void:
 func _run_heart_seq_async() -> void:
     _fast_forward("8:1")
 
-    # await BeatManager.click_signal
-    # await BeatManager.start_signal
-    # await _laser(32, 0, -360 * 10)
+    await BeatManager.click_signal
+    await BeatManager.start_signal
+    await _laser(32, 0, -360 * 10)
 
     await BeatManager.click_signal
 

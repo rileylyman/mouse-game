@@ -1,8 +1,8 @@
-[gd_scene load_steps=16 format=3 uid="uid://d3bqoakc6xcnu"]
+[gd_scene load_steps=23 format=3 uid="uid://d3bqoakc6xcnu"]
 
 [ext_resource type="Texture2D" uid="uid://fgyenivobnht" path="res://art/iconsDefault.png" id="1_xmihv"]
 [ext_resource type="Script" uid="uid://2cltvvyxxv5f" path="res://scripts/laser.gd" id="2_a7dhc"]
-[ext_resource type="Texture2D" uid="uid://lgmlh3de87id" path="res://builds/web/index.icon.png" id="3_id182"]
+[ext_resource type="Texture2D" uid="uid://bcmjmetuy2urw" path="res://icon.svg" id="3_6j5fe"]
 [ext_resource type="Texture2D" uid="uid://ujhxif40pywp" path="res://art/laser1.png" id="3_iuany"]
 [ext_resource type="Texture2D" uid="uid://bkgiywwi7wbal" path="res://art/laser2.png" id="4_id182"]
 [ext_resource type="Texture2D" uid="uid://bx5bgyme8tnuj" path="res://art/laser3.png" id="5_y4m2n"]
@@ -12,6 +12,10 @@
 [ext_resource type="Texture2D" uid="uid://dtpfi0j5t2yfs" path="res://art/laser_small3.png" id="9_758si"]
 [ext_resource type="Shader" uid="uid://dn6n7xn21vrmi" path="res://scripts/glow.gdshader" id="11_6j5fe"]
 [ext_resource type="Texture2D" uid="uid://cdataowa84i21" path="res://art/ball_large.png" id="12_dk18q"]
+[ext_resource type="Texture2D" uid="uid://dwucyq4dbbxn2" path="res://art/laser_hit1.png" id="13_tg066"]
+[ext_resource type="Texture2D" uid="uid://cwjvg6pkvequp" path="res://art/laser_hit2.png" id="14_i3mv8"]
+[ext_resource type="Texture2D" uid="uid://lgrl57n3q241" path="res://art/laser_hit3.png" id="15_2niam"]
+[ext_resource type="Texture2D" uid="uid://do0drfevsxpar" path="res://art/laser_hit4.png" id="16_5g87f"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xmihv"]
 size = Vector2(1025, 64)
@@ -53,8 +57,42 @@ animations = [{
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7c0by"]
 shader = ExtResource("11_6j5fe")
 shader_parameter/glow_color = Color(0.30588236, 0.43137255, 0.65882355, 1)
-shader_parameter/intensity = 1.6550000786124999
+shader_parameter/intensity = 1.6550000786125
 shader_parameter/spread = 2.0
+shader_parameter/pulse_speed = 0.0
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ekgfj"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("13_tg066")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_i3mv8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_2niam")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_5g87f")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tg066"]
+shader = ExtResource("11_6j5fe")
+shader_parameter/glow_color = Color(0.30588236, 0.43137255, 0.65882355, 1)
+shader_parameter/intensity = 0.822000039045
+shader_parameter/spread = 1.72900007886762
+shader_parameter/pulse_speed = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_i3mv8"]
+shader = ExtResource("11_6j5fe")
+shader_parameter/glow_color = Color(0.30588236, 0.43137255, 0.65882355, 1)
+shader_parameter/intensity = 0.7810000370975
+shader_parameter/spread = 1.83200008376012
 shader_parameter/pulse_speed = 0.0
 
 [node name="Laser" type="Area2D"]
@@ -76,7 +114,7 @@ region_rect = Rect2(1280, 128, 64, 64)
 clip_children = 1
 position = Vector2(319.24997, 0)
 scale = Vector2(11, 4)
-texture = ExtResource("3_id182")
+texture = ExtResource("3_6j5fe")
 
 [node name="LaserSprite" type="AnimatedSprite2D" parent="LaserMask"]
 position = Vector2(11.704548, -33.5)
@@ -106,3 +144,28 @@ frame = 1
 frame_progress = 0.10604433
 centered = false
 offset = Vector2(0, -32)
+
+[node name="LaserHitEffect" type="Node2D" parent="."]
+
+[node name="LaserHitEffect" type="AnimatedSprite2D" parent="LaserHitEffect"]
+position = Vector2(-81, 10)
+rotation = -1.5707961
+scale = Vector2(1.25, 1.251)
+sprite_frames = SubResource("SpriteFrames_ekgfj")
+autoplay = "default"
+frame_progress = 0.03338699
+
+[node name="Glow" type="Sprite2D" parent="LaserHitEffect/LaserHitEffect"]
+show_behind_parent = true
+material = SubResource("ShaderMaterial_tg066")
+position = Vector2(6, 23.976017)
+rotation = 3.1415925
+scale = Vector2(3, 3)
+texture = ExtResource("12_dk18q")
+
+[node name="Glow2" type="Sprite2D" parent="LaserHitEffect/LaserHitEffect"]
+material = SubResource("ShaderMaterial_i3mv8")
+position = Vector2(6.0000043, 39.960033)
+rotation = 3.1415925
+scale = Vector2(3, 3)
+texture = ExtResource("12_dk18q")

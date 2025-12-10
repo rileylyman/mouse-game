@@ -14,6 +14,7 @@ var reached = false
 
 var particles_scene: PackedScene = preload("res://scenes/laser_particles.tscn")
 var particles: CPUParticles2D
+var particles_glow: Node2D
 
 @onready var laser_effects: LaserEffects = $"/root/Node2D/LaserEffects"
 @onready var paddle: Paddle = $"/root/Node2D/Paddle"
@@ -27,13 +28,18 @@ var particles: CPUParticles2D
 @onready var sprite_mask_orig_rect: Rect2 = sprite_mask.get_rect()
 @onready var sprite: AnimatedSprite2D = $LaserMask/LaserSprite
 @onready var sprite_orig_pos: Vector2 = sprite.position
+@onready var sprite_orig_scale: Vector2 = sprite.scale
 @onready var sprite2: AnimatedSprite2D = $LaserMask/LaserSprite2
 @onready var sprite2_orig_pos: Vector2 = sprite2.position
 @onready var glow: Sprite2D = $LaserMask/LaserSprite/Glow
 @onready var glow_orig_scale: Vector2 = glow.scale
+@onready var hit_effect: Node2D = $LaserHitEffect
+@onready var hit_effect_orig_pos: Vector2 = hit_effect.position
 
 func _ready() -> void:
     particles = particles_scene.instantiate()
+    particles_glow = particles.get_node("Glow")
+    particles_glow.scale = Vector2(0.5, 0.5)
     particles.emitting = false
     get_tree().current_scene.add_child(particles)
     rotation = curr_angle
@@ -61,32 +67,42 @@ func _process(delta: float) -> void:
         # sprite.scale.x = paddle.radius / 1000.0
         var offset = sprite_mask_orig_rect.end.x * sprite_mask.scale.x - paddle.radius
         sprite_mask.position.x = - offset
-        sprite.position.x = sprite_orig_pos.x + (sprite_mask_orig_pos.x + offset) * 1.0 / sprite_mask.scale.x
+        var sprite_move = (sprite_mask_orig_pos.x + offset) * 1.0 / sprite_mask.scale.x
+        sprite.position.x = sprite_orig_pos.x + sprite_move
+        hit_effect.visible = true
+        hit_effect.position.x = hit_effect_orig_pos.x + paddle.radius
         sprite2.position.x = sprite2_orig_pos.x + (sprite_mask_orig_pos.x + offset) * 1.0 / sprite_mask.scale.x
         particles.global_position = overlapping_paddle.global_position
         particles.emitting = true
+        particles_glow.visible = true
         var to_center = global_position - overlapping_paddle.global_position
         particles.gravity = to_center.normalized() * 980 
         particles.direction = to_center.normalized()
         # GameManager.camera_shake(true)
     else:
+        hit_effect.visible = false
         laser_effects.stop_laser()
         sprite_mask.position.x = sprite_mask_orig_pos.x 
         sprite.position.x = sprite_orig_pos.x
         sprite2.position.x = sprite2_orig_pos.x
         # sprite.scale.x = 1.0
         particles.emitting = false
+        particles_glow.visible = false
         # GameManager.camera_shake(false)
 
     visible = true if show_pre else _elapsed > charge_time
 
     if _elapsed > charge_time:
         glow.scale.x = glow_orig_scale.x
+        particles_glow.scale = Vector2.ONE
+        hit_effect.scale = Vector2.ONE
         sprite.play("big")
         sprite2.play("big")
         set_collision_layer_value(1, overlapping_paddle == null)
     else:
         glow.scale.x = glow_orig_scale.x * 0.5
+        particles_glow.scale = Vector2(0.5, 0.5)
+        hit_effect.scale = Vector2(0.5, 0.5)
         sprite.play("small")
         sprite2.play("small")
         set_collision_layer_value(1, false)
@@ -102,6 +118,7 @@ func die() -> void:
     queue_free()
     GameManager.camera_shake(false)
     particles.emitting = false
+    particles_glow.visible = false
     laser_effects.stop_laser()
     await get_tree().create_timer(1.5).timeout
     particles.queue_free()
