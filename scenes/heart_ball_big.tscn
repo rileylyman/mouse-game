@@ -43,8 +43,8 @@ animations = [{
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_qsdrg"]
 shader = ExtResource("7_6dwco")
 shader_parameter/glow_color = Color(0.30588236, 0.43137255, 0.65882355, 1)
-shader_parameter/intensity = 0.86000004085
-shader_parameter/spread = 1.47900006699262
+shader_parameter/intensity = 0.962000045695
+shader_parameter/spread = 1.8500000846151199
 shader_parameter/pulse_speed = 0.0
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_g1x4g"]
@@ -96,6 +96,7 @@ frame_progress = 0.4274573
 show_behind_parent = true
 material = SubResource("ShaderMaterial_qsdrg")
 position = Vector2(2, 0)
+scale = Vector2(2, 2)
 texture = ExtResource("3_qx1f6")
 
 [node name="Explosion" type="AnimatedSprite2D" parent="SpriteContainer"]

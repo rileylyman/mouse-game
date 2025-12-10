@@ -13,7 +13,7 @@ var _elapsed = 0.0
 var reached = false
 
 var particles_scene: PackedScene = preload("res://scenes/laser_particles.tscn")
-var particles: CPUParticles2D
+var particles: GPUParticles2D
 var particles_glow: Node2D
 
 @onready var laser_effects: LaserEffects = $"/root/Node2D/LaserEffects"
@@ -75,9 +75,11 @@ func _process(delta: float) -> void:
         particles.global_position = overlapping_paddle.global_position
         particles.emitting = true
         particles_glow.visible = true
-        var to_center = global_position - overlapping_paddle.global_position
-        particles.gravity = to_center.normalized() * 980 
-        particles.direction = to_center.normalized()
+        var to_center = (global_position - overlapping_paddle.global_position).normalized()
+        particles.process_material.direction = Vector3(to_center.x, to_center.y, 0.0)
+        particles.process_material.gravity = Vector3(to_center.x, to_center.y, 0.0) * 980
+        # particles.gravity = to_center.normalized() * 980 
+        # particles.direction = to_center.normalized()
         # GameManager.camera_shake(true)
     else:
         hit_effect.visible = false

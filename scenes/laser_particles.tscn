@@ -1,8 +1,32 @@
-[gd_scene load_steps=5 format=3 uid="uid://bdmljcqw0n1ri"]
+[gd_scene load_steps=7 format=3 uid="uid://bdmljcqw0n1ri"]
 
-[ext_resource type="Texture2D" uid="uid://cm1b1qlv4imfj" path="res://art/particle.png" id="1_qg8bc"]
 [ext_resource type="Shader" uid="uid://dn6n7xn21vrmi" path="res://scripts/glow.gdshader" id="1_wiodn"]
 [ext_resource type="Texture2D" uid="uid://cdataowa84i21" path="res://art/ball_large.png" id="2_qg8bc"]
+
+[sub_resource type="Gradient" id="Gradient_wiodn"]
+offsets = PackedFloat32Array(0.37435898, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0.32941177)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_qg8bc"]
+gradient = SubResource("Gradient_wiodn")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_wiodn"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 15.04
+angle_min = -253.7
+angle_max = 253.70001
+direction = Vector3(0, 1, 0)
+spread = 104.502
+initial_velocity_min = 395.24
+initial_velocity_max = 428.56
+gravity = Vector3(0, 980, 0)
+scale_min = 10.0
+scale_max = 10.0
+color = Color(0.6784314, 0.83137256, 0.98039216, 1)
+color_ramp = SubResource("GradientTexture1D_qg8bc")
+hue_variation_min = -0.010000022
+hue_variation_max = 0.009999977
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ur32v"]
 shader = ExtResource("1_wiodn")
@@ -11,18 +35,11 @@ shader_parameter/intensity = 0.8210000389975
 shader_parameter/spread = 2.0
 shader_parameter/pulse_speed = 0.0
 
-[node name="LaserParticles" type="CPUParticles2D"]
-amount = 100
-texture = ExtResource("1_qg8bc")
-lifetime = 0.42
-fixed_fps = 10
-particle_flag_align_y = true
-direction = Vector2(0, 1)
-spread = 87.28
-initial_velocity_min = 500.0
-initial_velocity_max = 775.0
-scale_amount_min = 0.5
-scale_amount_max = 0.5
+[node name="LaserParticles" type="GPUParticles2D"]
+amount = 200
+lifetime = 0.35000000000000003
+fixed_fps = 20
+process_material = SubResource("ParticleProcessMaterial_wiodn")
 
 [node name="Glow" type="Node2D" parent="."]
 

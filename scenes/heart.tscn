@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://dkexfesly1wva"]
+[gd_scene load_steps=11 format=3 uid="uid://csrd8pwabi41o"]
 
 [ext_resource type="Script" uid="uid://ce45dugiwp1y1" path="res://scripts/heart.gd" id="1_txm48"]
 [ext_resource type="Texture2D" uid="uid://b3t83rjl8i4ny" path="res://art/heartin.png" id="2_8nnyc"]
@@ -64,5 +64,5 @@ frame_progress = 0.6095348
 show_behind_parent = true
 material = SubResource("ShaderMaterial_1cu63")
 position = Vector2(2, 0)
-scale = Vector2(4, 4)
+scale = Vector2(6, 6)
 texture = ExtResource("8_0uc88")
