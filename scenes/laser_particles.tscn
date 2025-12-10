@@ -3,12 +3,12 @@
 [ext_resource type="Shader" uid="uid://dn6n7xn21vrmi" path="res://scripts/glow.gdshader" id="1_wiodn"]
 [ext_resource type="Texture2D" uid="uid://cdataowa84i21" path="res://art/ball_large.png" id="2_qg8bc"]
 
-[sub_resource type="Gradient" id="Gradient_wiodn"]
-offsets = PackedFloat32Array(0.37435898, 1)
+[sub_resource type="Gradient" id="Gradient_6dwco"]
+offsets = PackedFloat32Array(0.2, 0.5923077)
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0.32941177)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_qg8bc"]
-gradient = SubResource("Gradient_wiodn")
+gradient = SubResource("Gradient_6dwco")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_wiodn"]
 particle_flag_disable_z = true
@@ -17,12 +17,12 @@ emission_sphere_radius = 15.04
 angle_min = -253.7
 angle_max = 253.70001
 direction = Vector3(0, 1, 0)
-spread = 104.502
-initial_velocity_min = 395.24
-initial_velocity_max = 428.56
+spread = 142.263
+initial_velocity_min = -4.7599998
+initial_velocity_max = 828.56
 gravity = Vector3(0, 980, 0)
 scale_min = 10.0
-scale_max = 10.0
+scale_max = 15.0
 color = Color(0.6784314, 0.83137256, 0.98039216, 1)
 color_ramp = SubResource("GradientTexture1D_qg8bc")
 hue_variation_min = -0.010000022
@@ -36,8 +36,8 @@ shader_parameter/spread = 2.0
 shader_parameter/pulse_speed = 0.0
 
 [node name="LaserParticles" type="GPUParticles2D"]
-amount = 200
-lifetime = 0.35000000000000003
+amount = 150
+lifetime = 0.6900000000000001
 fixed_fps = 20
 process_material = SubResource("ParticleProcessMaterial_wiodn")
 

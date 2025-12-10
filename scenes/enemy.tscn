@@ -1,7 +1,16 @@
-[gd_scene load_steps=4 format=3 uid="uid://osuj67lbw80y"]
+[gd_scene load_steps=7 format=3 uid="uid://osuj67lbw80y"]
 
 [ext_resource type="Script" uid="uid://bmetacr8rydnt" path="res://scripts/enemy.gd" id="1_md0e3"]
 [ext_resource type="Texture2D" uid="uid://dldl0qyw5xd30" path="res://art/small_heart_filled.png" id="2_md0e3"]
+[ext_resource type="Shader" uid="uid://dn6n7xn21vrmi" path="res://scripts/glow.gdshader" id="3_5uy6h"]
+[ext_resource type="Texture2D" uid="uid://cdataowa84i21" path="res://art/ball_large.png" id="4_c4w8v"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xwavj"]
+shader = ExtResource("3_5uy6h")
+shader_parameter/glow_color = Color(1, 0.36078432, 1, 1)
+shader_parameter/intensity = 0.50000002375
+shader_parameter/spread = 2.0
+shader_parameter/pulse_speed = 0.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tbgi4"]
 size = Vector2(55, 62)
@@ -14,6 +23,12 @@ position = Vector2(-1.9073486e-06, 13.999998)
 scale = Vector2(0.07153321, 0.07153321)
 texture = ExtResource("2_md0e3")
 region_rect = Rect2(768, 64, 64, 64)
+
+[node name="Glow" type="Sprite2D" parent="."]
+show_behind_parent = true
+material = SubResource("ShaderMaterial_xwavj")
+scale = Vector2(4, 4)
+texture = ExtResource("4_c4w8v")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-0.5, 0)

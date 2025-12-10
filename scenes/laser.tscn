@@ -148,12 +148,12 @@ offset = Vector2(0, -32)
 [node name="LaserHitEffect" type="Node2D" parent="."]
 
 [node name="LaserHitEffect" type="AnimatedSprite2D" parent="LaserHitEffect"]
-position = Vector2(-81, 10)
+position = Vector2(-126.99999, 10)
 rotation = -1.5707961
-scale = Vector2(1.25, 1.251)
+scale = Vector2(2, 2.001)
 sprite_frames = SubResource("SpriteFrames_ekgfj")
 autoplay = "default"
-frame_progress = 0.03338699
+frame_progress = 0.1409709
 
 [node name="Glow" type="Sprite2D" parent="LaserHitEffect/LaserHitEffect"]
 show_behind_parent = true

@@ -1,7 +1,16 @@
-[gd_scene load_steps=4 format=3 uid="uid://mawoltr14x1s"]
+[gd_scene load_steps=7 format=3 uid="uid://mawoltr14x1s"]
 
 [ext_resource type="Script" uid="uid://bmetacr8rydnt" path="res://scripts/enemy.gd" id="1_3neu4"]
 [ext_resource type="Texture2D" uid="uid://dshum7flkw4hr" path="res://art/blue_cat4.png" id="2_3neu4"]
+[ext_resource type="Shader" uid="uid://dn6n7xn21vrmi" path="res://scripts/glow.gdshader" id="3_23kvp"]
+[ext_resource type="Texture2D" uid="uid://cdataowa84i21" path="res://art/ball_large.png" id="4_4e2ig"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lsk8u"]
+shader = ExtResource("3_23kvp")
+shader_parameter/glow_color = Color(0, 0.96862745, 1, 1)
+shader_parameter/intensity = 0.50000002375
+shader_parameter/spread = 2.0
+shader_parameter/pulse_speed = 0.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tbgi4"]
 size = Vector2(55, 62)
@@ -14,6 +23,12 @@ position = Vector2(0, 3.000001)
 scale = Vector2(0.07153321, 0.07153321)
 texture = ExtResource("2_3neu4")
 region_rect = Rect2(768, 64, 64, 64)
+
+[node name="Glow" type="Sprite2D" parent="."]
+show_behind_parent = true
+material = SubResource("ShaderMaterial_lsk8u")
+scale = Vector2(4, 4)
+texture = ExtResource("4_4e2ig")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-0.5, 0)

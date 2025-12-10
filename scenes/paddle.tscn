@@ -1,8 +1,17 @@
-[gd_scene load_steps=5 format=3 uid="uid://dfseo20q1xemb"]
+[gd_scene load_steps=8 format=3 uid="uid://dfcpgjcluxjmc"]
 
 [ext_resource type="Script" uid="uid://xrbw2ljcnyxh" path="res://scripts/paddle.gd" id="1_y7wee"]
 [ext_resource type="Texture2D" uid="uid://fgyenivobnht" path="res://art/iconsDefault.png" id="2_mo4dg"]
 [ext_resource type="Texture2D" uid="uid://dsoikj2sc387a" path="res://art/paddle.png" id="2_pacq5"]
+[ext_resource type="Shader" uid="uid://dn6n7xn21vrmi" path="res://scripts/glow.gdshader" id="4_kvcsl"]
+[ext_resource type="Texture2D" uid="uid://cdataowa84i21" path="res://art/ball_large.png" id="5_nk5r3"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qjacl"]
+shader = ExtResource("4_kvcsl")
+shader_parameter/glow_color = Color(0, 0.96862745, 1, 1)
+shader_parameter/intensity = 0.922000043795
+shader_parameter/spread = 1.6570000754476202
+shader_parameter/pulse_speed = 0.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_o6xl0"]
 size = Vector2(49.991432, 49.7778)
@@ -25,6 +34,14 @@ position = Vector2(-8.3609797e-07, 156.44446)
 scale = Vector2(0.499, 16.195002)
 texture = ExtResource("2_pacq5")
 
+[node name="Glow" type="Sprite2D" parent="Paddle/Sprite"]
+show_behind_parent = true
+z_index = 1
+material = SubResource("ShaderMaterial_qjacl")
+position = Vector2(5.364418e-07, 7.1111145)
+scale = Vector2(0.83561647, 8.222222)
+texture = ExtResource("5_nk5r3")
+
 [node name="PaddleArea" type="Area2D" parent="Paddle"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Paddle/PaddleArea"]
@@ -46,6 +63,14 @@ position = Vector2(-8.3609797e-07, 156.44446)
 scale = Vector2(0.499, 16.195002)
 texture = ExtResource("2_pacq5")
 
+[node name="Glow" type="Sprite2D" parent="Paddle2/Sprite"]
+show_behind_parent = true
+z_index = 1
+material = SubResource("ShaderMaterial_qjacl")
+position = Vector2(5.364418e-07, 7.1111145)
+scale = Vector2(0.83561647, 8.222222)
+texture = ExtResource("5_nk5r3")
+
 [node name="PaddleArea" type="Area2D" parent="Paddle2"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Paddle2/PaddleArea"]
@@ -66,6 +91,14 @@ region_rect = Rect2(192, 64, 64, 64)
 position = Vector2(-8.3609797e-07, 156.44446)
 scale = Vector2(0.499, 16.195002)
 texture = ExtResource("2_pacq5")
+
+[node name="Glow" type="Sprite2D" parent="Paddle3/Sprite"]
+show_behind_parent = true
+z_index = 1
+material = SubResource("ShaderMaterial_qjacl")
+position = Vector2(5.364418e-07, 7.1111145)
+scale = Vector2(0.83561647, 8.222222)
+texture = ExtResource("5_nk5r3")
 
 [node name="PaddleArea" type="Area2D" parent="Paddle3"]
 
