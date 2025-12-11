@@ -65,7 +65,8 @@ func _fast_forward(s: String) -> void:
     BeatManager.fast_forward = false
 
 func _run_heart_seq_async() -> void:
-    _fast_forward("2:1")
+    AudioServer.set_bus_volume_db(0, -16.0)
+    # _fast_forward("2:1")
 
     # await BeatManager.click_signal
     # await BeatManager.start_signal
