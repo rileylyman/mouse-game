@@ -1,26 +1,38 @@
-[gd_scene load_steps=11 format=3 uid="uid://csrd8pwabi41o"]
+[gd_scene load_steps=14 format=3 uid="uid://dkexfesly1wva"]
 
 [ext_resource type="Script" uid="uid://ce45dugiwp1y1" path="res://scripts/heart.gd" id="1_txm48"]
 [ext_resource type="Texture2D" uid="uid://b3t83rjl8i4ny" path="res://art/heartin.png" id="2_8nnyc"]
 [ext_resource type="Texture2D" uid="uid://bqgdm65ul5kxa" path="res://art/heartout.png" id="3_4mtg8"]
 [ext_resource type="Texture2D" uid="uid://dpnwkudufiq1b" path="res://art/heartoutbeat.png" id="4_u10h0"]
-[ext_resource type="Texture2D" uid="uid://b4xavdhocupb7" path="res://art/heart1.png" id="5_oquu7"]
-[ext_resource type="Texture2D" uid="uid://dbni54p7ci128" path="res://art/heart2.png" id="6_0fb81"]
+[ext_resource type="Texture2D" uid="uid://ytancg5wy73j" path="res://art/heart_new1.png" id="5_0uc88"]
+[ext_resource type="Texture2D" uid="uid://j0f5lewsdmrp" path="res://art/heart_new2.png" id="6_rpd80"]
+[ext_resource type="Texture2D" uid="uid://dji3hles4c44d" path="res://art/heart_new3.png" id="7_1cu63"]
 [ext_resource type="Shader" uid="uid://dn6n7xn21vrmi" path="res://scripts/glow.gdshader" id="7_uj202"]
 [ext_resource type="Texture2D" uid="uid://cdataowa84i21" path="res://art/ball_large.png" id="8_0uc88"]
+[ext_resource type="Texture2D" uid="uid://bxif2my473wt8" path="res://art/heart_new4.png" id="8_8665p"]
+[ext_resource type="Texture2D" uid="uid://c56rwbhex6dgo" path="res://art/heart_new5.png" id="9_p3ln0"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_rpd80"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("5_oquu7")
+"texture": ExtResource("5_0uc88")
 }, {
 "duration": 1.0,
-"texture": ExtResource("6_0fb81")
+"texture": ExtResource("6_rpd80")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_1cu63")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_8665p")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_p3ln0")
 }],
 "loop": true,
 "name": &"default",
-"speed": 2.0
+"speed": 0.1
 }]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_1cu63"]
@@ -58,11 +70,11 @@ texture = ExtResource("4_u10h0")
 scale = Vector2(25, 25)
 sprite_frames = SubResource("SpriteFrames_rpd80")
 autoplay = "default"
-frame_progress = 0.6095348
+frame_progress = 0.5572201
 
-[node name="Glow" type="Sprite2D" parent="VisualContainer/AnimatedSprite2D"]
+[node name="Glow" type="Sprite2D" parent="."]
 show_behind_parent = true
 material = SubResource("ShaderMaterial_1cu63")
-position = Vector2(2, 0)
-scale = Vector2(6, 6)
+position = Vector2(50, 0)
+scale = Vector2(150, 150)
 texture = ExtResource("8_0uc88")

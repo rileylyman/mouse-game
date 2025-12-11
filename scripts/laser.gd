@@ -63,6 +63,8 @@ func _process(delta: float) -> void:
     GameManager.camera_shake(true)
     var overlapping_paddle = _get_overlapping_paddle()
     if overlapping_paddle != null:
+        if _elapsed > charge_time:
+            GameManager.laser_time_caught_s += delta
         laser_effects.start_laser()
         # sprite.scale.x = paddle.radius / 1000.0
         var offset = sprite_mask_orig_rect.end.x * sprite_mask.scale.x - paddle.radius
@@ -101,6 +103,7 @@ func _process(delta: float) -> void:
         sprite.play("big")
         sprite2.play("big")
         set_collision_layer_value(1, overlapping_paddle == null)
+        GameManager.laser_time_s += delta
     else:
         glow.scale.x = glow_orig_scale.x * 0.5
         particles_glow.scale = Vector2(0.5, 0.5)

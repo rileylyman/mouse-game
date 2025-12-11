@@ -6,13 +6,29 @@ extends Node
 @onready var enemy_spawner: EnemySpawner = $"/root/Node2D/EnemySpawner"
 @onready var camera: Camera2D = $"/root/Node2D/Camera2D"
 @onready var camera_ap: AnimationPlayer = $"/root/Node2D/Camera2D/AnimationPlayer"
+@onready var stats_label: Label = $"/root/Node2D/Panel/StatsLabel"
 var final_particles: PackedScene = preload("res://scenes/final_particles.tscn")
 
 var time_s: float = 0
 var desired_time_scale: float = 1.0
 var ended: bool = false 
 
+var balls_died: int = 0
+var balls_caught: int = 0
+var laser_time_s: float = 0
+var laser_time_caught_s: float = 0
+
+func _laser_to_balls(laser: float) -> int:
+    return int(laser * 10)
+
+
 func _process(_delta: float) -> void:
+    var total_caught = balls_caught + _laser_to_balls(laser_time_caught_s)
+    var total = balls_died + _laser_to_balls(laser_time_s)
+    if total == 0:
+        total_caught = 1
+        total = 1
+    stats_label.text = "%.0f%%" % floor(float(total_caught) / total * 100)
     if not ended and heart.is_dead():
         ended = true
         _end()

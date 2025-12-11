@@ -29,7 +29,7 @@ var laser_scene: PackedScene = preload("res://scenes/laser.tscn")
 func take_damage() -> void:
     if Engine.time_scale != 1.0:
         return
-    health -= 1
+    # health -= 1
     health = max(0, health)
     _set_heart_in_t(float(health) / max_health)
 
@@ -39,6 +39,17 @@ func is_dead() -> bool:
 func _ready() -> void:
     _beat_anim_async()
     _run_heart_seq_async()
+    _periodic_pulse()
+
+func _periodic_pulse() -> void:
+    await BeatManager.next_bar
+    while not is_dead():
+        await BeatManager.next_4
+        pulse_body(0.5)
+        await BeatManager.next_4
+        await BeatManager.next_4
+        pulse_body(0.5)
+        await BeatManager.next_bar
 
 func _set_heart_in_t(t: float) -> void:
     heart_in.offset.y = heart_in_offset_y + heart_in_region_h * (1.0 - t)
@@ -54,7 +65,7 @@ func _fast_forward(s: String) -> void:
     BeatManager.fast_forward = false
 
 func _run_heart_seq_async() -> void:
-    _fast_forward("28:1")
+    _fast_forward("2:1")
 
     # await BeatManager.click_signal
     # await BeatManager.start_signal
@@ -352,7 +363,7 @@ func _set_text(bars: int, s: String) -> void:
     var curr_len = 0
     var end = GameManager.time_s + BeatManager.secs_per_beat * 4 * bars
     while GameManager.time_s < end:
-        bubble.text = s.substr(0, curr_len)
+        bubble.text = s.substr(0, curr_len).to_lower()
         await get_tree().create_timer(BeatManager.secs_per_sixteenth / 2).timeout
         if curr_len >= s.length():
             if not stopped:
@@ -405,9 +416,9 @@ func _spawn_laser(deg: float) -> Laser:
     heart_proj_cont.add_child.call_deferred(laser)
     return laser
 
-func pulse_body() -> void:
+func pulse_body(t: float = 1.0) -> void:
     var tween = create_tween()
-    viscont.scale = Vector2(1.5, 0.75)
+    viscont.scale = Vector2.ONE.lerp(Vector2(1.5, 0.75), t)
     tween.tween_property(viscont, "scale", Vector2(0.85, 1.25), 0.1) 
     tween.tween_property(viscont, "scale", Vector2(1, 1), 0.025) 
 

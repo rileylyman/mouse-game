@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://c7jus7yiaflfi"]
+[gd_scene load_steps=20 format=3 uid="uid://c7jus7yiaflfi"]
 
 [ext_resource type="Texture2D" uid="uid://b8wbxhhnx15v8" path="res://art/bg.png" id="1_85g3d"]
 [ext_resource type="AudioStream" uid="uid://bicyxkqh27c4u" path="res://sounds/DONTTOUCHANYTHING instrumental.wav" id="1_o6xl0"]
@@ -9,6 +9,8 @@
 [ext_resource type="Script" uid="uid://ckrlspdcka0t1" path="res://scripts/heart_proj_cont.gd" id="7_85g3d"]
 [ext_resource type="PackedScene" uid="uid://dkexfesly1wva" path="res://scenes/heart.tscn" id="7_tipki"]
 [ext_resource type="Script" uid="uid://5117g2rusoxu" path="res://scripts/enemy_spawner.gd" id="8_tipki"]
+[ext_resource type="Script" uid="uid://bca6flvmoa8wn" path="res://scripts/stats_panel.gd" id="10_choun"]
+[ext_resource type="FontFile" uid="uid://nkr31e0sr1sc" path="res://Pixelpurl-0vBPP.ttf" id="11_ya4ey"]
 
 [sub_resource type="Animation" id="Animation_ya4ey"]
 length = 0.001
@@ -96,8 +98,29 @@ _data = {
 &"screen_shake_lite": SubResource("Animation_eb6dy")
 }
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_85g3d"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0, 0.011999989, 0.09, 0.6039216)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+corner_detail = 5
+
+[sub_resource type="LabelSettings" id="LabelSettings_ya4ey"]
+font = ExtResource("11_ya4ey")
+font_size = 82
+
+[sub_resource type="LabelSettings" id="LabelSettings_85g3d"]
+font = ExtResource("11_ya4ey")
+font_size = 64
+
 [sub_resource type="LabelSettings" id="LabelSettings_tipki"]
-font_size = 48
+font = ExtResource("11_ya4ey")
+font_size = 64
 
 [node name="Node2D" type="Node2D"]
 
@@ -141,27 +164,49 @@ position = Vector2(576.00006, 324.00003)
 [node name="EnemySpawner" type="Node2D" parent="."]
 script = ExtResource("8_tipki")
 
-[node name="SpeechBubble" type="Label" parent="."]
+[node name="Panel" type="Panel" parent="."]
+custom_minimum_size = Vector2(100, 100)
+offset_left = 1052.0
+offset_top = -91.0
+offset_right = 1324.0
+offset_bottom = 37.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_85g3d")
+script = ExtResource("10_choun")
+
+[node name="BeatLabel" type="Label" parent="Panel"]
 unique_name_in_owner = true
-offset_left = 114.0
-offset_top = 540.0
-offset_right = 1037.0
-offset_bottom = 633.0
-text = "Click to start"
-label_settings = SubResource("LabelSettings_tipki")
+layout_mode = 0
+offset_left = -60.0
+offset_top = 9.0
+offset_right = 334.0
+offset_bottom = 146.0
+text = "dwqdqw"
+label_settings = SubResource("LabelSettings_ya4ey")
 horizontal_alignment = 1
 autowrap_mode = 3
 uppercase = true
 
-[node name="BeatLabel" type="Label" parent="."]
+[node name="StatsLabel" type="Label" parent="Panel"]
 unique_name_in_owner = true
-offset_left = 377.0
-offset_top = 23.0
-offset_right = 771.0
-offset_bottom = 160.0
-text = "
+layout_mode = 0
+offset_left = -60.0
+offset_top = 74.0
+offset_right = 334.0
+offset_bottom = 211.0
+text = "dwqdq
 "
-label_settings = SubResource("LabelSettings_tipki")
+label_settings = SubResource("LabelSettings_85g3d")
 horizontal_alignment = 1
 autowrap_mode = 3
 uppercase = true
+
+[node name="SpeechBubble" type="Label" parent="."]
+unique_name_in_owner = true
+offset_left = 114.0
+offset_top = 475.0
+offset_right = 1037.0
+offset_bottom = 568.0
+text = "click to start"
+label_settings = SubResource("LabelSettings_tipki")
+horizontal_alignment = 1
+autowrap_mode = 3

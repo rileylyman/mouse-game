@@ -20,6 +20,12 @@ var triple = false
 func _ready() -> void:
     global_position = heart.global_position
     # Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
+    _periodic_shake()
+
+func _periodic_shake() -> void:
+    while true:
+        await BeatManager.next_2
+        shake_paddles()
 
 func shake_paddles() -> void:
     _shake_paddle(sprite1)

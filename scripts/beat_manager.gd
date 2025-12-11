@@ -1,7 +1,7 @@
 extends Node
 
 @onready var heart: Heart = $"/root/Node2D/Heart"
-@onready var beat_label: Label = $"/root/Node2D/BeatLabel"
+@onready var beat_label: Label = $"/root/Node2D/Panel/BeatLabel"
 @onready var bg_music: AudioStreamPlayer = $"/root/Node2D/BgMusic"
 
 var bpm: float = 158

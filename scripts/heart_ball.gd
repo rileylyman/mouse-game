@@ -21,6 +21,8 @@ var touched_paddle = false
 @onready var sprite: AnimatedSprite2D = $SpriteContainer/AnimatedSprite2D
 @onready var explosion: AnimatedSprite2D = $SpriteContainer/Explosion
 
+var _caught := false
+
 func _ready() -> void:
     dir = dir.normalized()
     var total_time = (check_on_sixteenth - BeatManager.curr_sixteenth) * BeatManager.secs_per_beat / 4
@@ -68,11 +70,16 @@ func _process(delta: float) -> void:
 
     var r = global_position.distance_to(heart.global_position)
     if r > 4000.0:
+        GameManager.balls_died += 1
         queue_free()
 
 func _on_area_enter(area: Area2D) -> void:
     if area.name == "PaddleArea":
         touched_paddle = true
+        if not _caught:
+            _caught = true
+            GameManager.balls_caught += 1
+            GameManager.balls_died += 1 
         death_anim()
 
 var played_death_anim := false
@@ -96,6 +103,8 @@ func die() -> void:
     if dead:
         return
     dead = true
+    if not _caught:
+        GameManager.balls_died += 1
     if is_big:
         GameManager.camera_shake_oneshot()
     else:

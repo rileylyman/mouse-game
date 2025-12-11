@@ -1,14 +1,29 @@
-[gd_scene load_steps=7 format=3 uid="uid://osuj67lbw80y"]
+[gd_scene load_steps=9 format=3 uid="uid://osuj67lbw80y"]
 
 [ext_resource type="Script" uid="uid://bmetacr8rydnt" path="res://scripts/enemy.gd" id="1_md0e3"]
-[ext_resource type="Texture2D" uid="uid://dldl0qyw5xd30" path="res://art/small_heart_filled.png" id="2_md0e3"]
 [ext_resource type="Shader" uid="uid://dn6n7xn21vrmi" path="res://scripts/glow.gdshader" id="3_5uy6h"]
+[ext_resource type="Texture2D" uid="uid://bxlr3oph21l0q" path="res://art/heart_friend1.png" id="3_c4w8v"]
 [ext_resource type="Texture2D" uid="uid://cdataowa84i21" path="res://art/ball_large.png" id="4_c4w8v"]
+[ext_resource type="Texture2D" uid="uid://c0bj7r42s5yek" path="res://art/heart_friend2.png" id="4_xwavj"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_nenq2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_c4w8v")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_xwavj")
+}],
+"loop": true,
+"name": &"default",
+"speed": 1.0
+}]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_xwavj"]
 shader = ExtResource("3_5uy6h")
-shader_parameter/glow_color = Color(1, 0.36078432, 1, 1)
-shader_parameter/intensity = 0.50000002375
+shader_parameter/glow_color = Color(1, 0, 0.30588236, 1)
+shader_parameter/intensity = 0.90000004275
 shader_parameter/spread = 2.0
 shader_parameter/pulse_speed = 0.0
 
@@ -18,11 +33,11 @@ size = Vector2(55, 62)
 [node name="Enemy" type="Area2D"]
 script = ExtResource("1_md0e3")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(-1.9073486e-06, 13.999998)
-scale = Vector2(0.07153321, 0.07153321)
-texture = ExtResource("2_md0e3")
-region_rect = Rect2(768, 64, 64, 64)
+[node name="Sprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.7561646, 0.7561646)
+sprite_frames = SubResource("SpriteFrames_nenq2")
+autoplay = "default"
+frame_progress = 0.27569997
 
 [node name="Glow" type="Sprite2D" parent="."]
 show_behind_parent = true
