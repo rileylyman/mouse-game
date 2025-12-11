@@ -1,6 +1,7 @@
 class_name Paddle extends Node2D
 
 @onready var heart: Node2D = %Heart
+@onready var heart_proj_cont: HeartProjCont = %HeartProjectileContainer
 @onready var paddle1: Node2D = $Paddle
 @onready var paddle2: Node2D = $Paddle2
 @onready var paddle3: Node2D = $Paddle3
@@ -11,6 +12,7 @@ class_name Paddle extends Node2D
 
 
 var angle: float = 0.0
+var original_radius: float = 250.0
 var radius: float = 250.0
 var arc_deg: float = deg_to_rad(60.0)
 var triple = false
@@ -49,8 +51,29 @@ func _old_input(event: InputEvent) -> void:
 
 
 func _process(_delta: float) -> void:
-    var dir = (get_global_mouse_position() - heart.global_position).normalized()
-    angle = Vector2.RIGHT.angle_to(dir)
+    var closest_ball = heart_proj_cont.get_closest_ball_to_paddle()
+
+    var mouse_dir = (get_global_mouse_position() - heart.global_position).normalized()
+    var ball_dir = mouse_dir if closest_ball == null else (closest_ball.global_position - heart.global_position).normalized()
+    var laser_dir = heart_proj_cont.get_laser_dir()
+
+    var mouse_angle = Vector2.RIGHT.angle_to(mouse_dir)
+    var ball_angle = mouse_dir.angle_to(ball_dir)
+    var laser_angle = mouse_dir.angle_to(laser_dir)
+
+    var aim_assist_tolerance = PI / 4
+    var aim_assist_strength = 0.5
+
+    if laser_dir != Vector2.ZERO and abs(laser_angle) < aim_assist_tolerance:
+        angle = Vector2.RIGHT.angle_to(mouse_dir.lerp(laser_dir, aim_assist_strength))
+        radius = original_radius + 50.0
+    elif abs(ball_angle) < aim_assist_tolerance:
+        radius = original_radius
+        angle = Vector2.RIGHT.angle_to(mouse_dir.lerp(ball_dir, aim_assist_strength))
+    else:
+        radius = original_radius
+        angle = mouse_angle
+
     paddle1.global_position = heart.global_position + Vector2.RIGHT.rotated(angle) * radius
     paddle1.rotation = angle + PI / 2
 
