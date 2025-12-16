@@ -119,7 +119,7 @@ func _run_heart_seq_async() -> void:
 
     # 32 - 40
     await _until("32:1")
-    await _laser(2, 180, 0)
+    await _laser(2, 0, -360)
     await _ball_straight(1, 4, 0)
     await _ball_syncopate1(1, 8, 0, 0, -180)
     await _ball_straight(1, 8, -90)
@@ -132,7 +132,7 @@ func _run_heart_seq_async() -> void:
     await _ball_oscillate(1, 8, 1, -45, 45, 1, true)
     await _ball_alternate(1, 4, 45, 135, true)
     await _ball_alternate(2, 4, 45, 135)
-    await _laser(2, 0, 360)
+    await _laser(2, 0, 720)
 
     # 48 - 56
     # talking
@@ -151,7 +151,7 @@ func _run_heart_seq_async() -> void:
     # 56 - 64
     await _until("56:1")
 
-    _rotate_frame(4, 0, 720)
+    _rotate_frame(4, 0, 360 * 2)
     await _ball_seq([0, null, 0, null, 0, 0, null, 0, null, 0, null, 0, 0, 0, 0, 0], 8, 2)
 
     await _ball_syncopate1(2, 8, 0, 0, -180)
@@ -172,7 +172,7 @@ func _run_heart_seq_async() -> void:
     # 72 - 80
     await _until("72:1")
 
-    _rotate_frame(4, 0, 360)
+    _rotate_frame(4, 0, 360 * 3)
     await _ball_seq([0, null, 0, null, 0, 0, null, 0, null, 0, null, 0, 0, 0, 0, 0], 8, 2, true)
     await _ball_oscillate(2, 16, 1, 0, 360)
     await _laser(2, 0, -180)
@@ -181,38 +181,38 @@ func _run_heart_seq_async() -> void:
     await _until("80:1")
     await _rest_bars(1)
     await _ball_oscillate(1, 4, 1, 0, 360, 1, true)
-    await _ball_oscillate(2, 8, 1, 0, 360)
-    _rotate_frame(4, 0, 360 * 2)
+    await _ball_oscillate(2, 8, 1, 0, 720)
+    _rotate_frame(4, 0, 360 * 5)
     await _ball_seq([0, null, 0, null, 0, 0, null, 0, null, 0, null, 0, 0, 0, 0, 0], 8, 2, true)
 
     # 88 - 96
     await _until("88:1")
     _rotate_frame(4, 0, 360)
     await _ball_alternate2(4, 8, 0, 45)
-    await _laser(2, 0, 360)
+    await _laser(2, 0, 720)
     await _ball_oscillate(2, 4, 4, 45, 135, 1, true)
 
     # 96 - 104
     await _until("96:1")
-    await _laser(1, 0, 180)
+    await _laser(1, -180, 180)
     await _ball_oscillate(1, 8, 1, -180, 0)
-    await _laser(1, 0, -180)
+    await _laser(1, 0, 360)
     await _ball_oscillate(1, 16, 1, 0, -180)
     await _laser(1, -180, 0)
     await _ball_alternate(1, 16, 15, -15)
-    _rotate_frame(2, 0, 360)
+    _rotate_frame(2, 0, 720)
     await _ball_seq([0, null, 0, null, 0, 0, null, 0, null, 0, null, 0, 0, 0, 0, 0], 8, 1, true)
 
     # 104 - 112
     await _until("104:1")
-    await _laser(1, -180, 0)
+    await _laser(1, 0, 360)
     await _ball_oscillate(1, 8, 1, 0, -180)
-    await _laser(1, 180, 0)
-    await _ball_oscillate(1, 16, 1, 0, -180)
-    await _laser(1, 180, 0)
+    await _laser(1, -180, 180)
+    await _ball_oscillate(1, 16, 1, -180, 0)
+    await _laser(1, 0, -180)
     await _ball_alternate(1, 16, 15 - 180, -15 - 180)
     frame_rotation = -180
-    _rotate_frame(2, -180, 360 - 180)
+    _rotate_frame(2, -180, 720 - 180)
     await _ball_seq([0, null, 0, null, 0, 0, null, 0, null, 0, null, 0, 0, 0, 0, 0], 8, 1, true)
     frame_rotation = 0
 
@@ -260,7 +260,7 @@ func _run_heart_seq_async() -> void:
     # 144 - 152
     await _until("144:1")
     await _ball_oscillate(4, 16, 2, 0, -90)
-    await _ball_oscillate(4, 16, 2, 0, -90, 1, true)
+    await _ball_oscillate(4, 16, 2, 0, -180, 1, true)
     triple = false
 
     # 152 - 160
@@ -269,7 +269,7 @@ func _run_heart_seq_async() -> void:
         await BeatManager.next_bar()
         paddle.triple = false
     disable_paddle.call()
-    _rotate_frame(8, 0, -720 * 2)
+    _rotate_frame(8, 0, -720 * 3)
     await _ball_seq([0, 0, 0, null, 0, null, 0, 0, 0, 0, 0, 0, 0, 0, 0, null], 8, 1, true)
     await _ball_seq([0, null, 0, null, 0, null, null, 0, 0, 0, 0, 0, 0, 0, 0, 0], 8, 1, true)
     _crt_async_change()
@@ -352,7 +352,7 @@ func _ball_oscillate(bars: int, on: int, periods: int, deg1: float, deg2: float,
     fn.call()
     await _rest_bars(bars * repeats)
 
-func _rest_bars(bars: int, sixteens: int = - HeartBall.take_sixteenths) -> void:
+func _rest_bars(bars: int, sixteens: int = -HeartBall.take_sixteenths) -> void:
     await BeatManager.wait_for_bar("%d:1" % (int(BeatManager.curr_sixteenth / 16.0) + 1 + bars), sixteens)
 
 func _until(s: String) -> void:
