@@ -5,7 +5,7 @@
 [ext_resource type="AudioStream" uid="uid://cnx368ex20xq" path="res://sounds/TextBlips.wav" id="2_85g3d"]
 [ext_resource type="Script" uid="uid://dc7q4veqao0fi" path="res://scripts/laser_effects.gd" id="3_choun"]
 [ext_resource type="Script" uid="uid://cwkgm2x7ggbg8" path="res://scripts/shake_ap.gd" id="4_ya4ey"]
-[ext_resource type="PackedScene" uid="uid://dfseo20q1xemb" path="res://scenes/paddle.tscn" id="6_tipki"]
+[ext_resource type="PackedScene" uid="uid://dfcpgjcluxjmc" path="res://scenes/paddle.tscn" id="6_tipki"]
 [ext_resource type="Script" uid="uid://ckrlspdcka0t1" path="res://scripts/heart_proj_cont.gd" id="7_85g3d"]
 [ext_resource type="PackedScene" uid="uid://dkexfesly1wva" path="res://scenes/heart.tscn" id="7_tipki"]
 [ext_resource type="Script" uid="uid://5117g2rusoxu" path="res://scripts/enemy_spawner.gd" id="8_tipki"]
@@ -205,7 +205,7 @@ unique_name_in_owner = true
 offset_left = 114.0
 offset_top = 475.0
 offset_right = 1037.0
-offset_bottom = 568.0
+offset_bottom = 1342.0
 text = "click to start"
 label_settings = SubResource("LabelSettings_tipki")
 horizontal_alignment = 1

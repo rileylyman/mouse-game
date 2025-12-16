@@ -16,7 +16,7 @@ class_name Heart extends Node2D
 
 var _tracked_laser: Laser = null
 
-var max_health: int = 30
+var max_health: int = 50
 var health: int = max_health
 
 var frame_rotation: float = 0.0
@@ -25,6 +25,8 @@ var triple: bool = false
 var heart_ball_scene: PackedScene = preload("res://scenes/heart_ball.tscn")
 var heart_ball_big_scene: PackedScene = preload("res://scenes/heart_ball_big.tscn")
 var laser_scene: PackedScene = preload("res://scenes/laser.tscn")
+
+var end_sequence_played := false
 
 func take_damage() -> void:
     if Engine.time_scale != 1.0:
@@ -40,6 +42,19 @@ func _ready() -> void:
     _beat_anim_async()
     _run_heart_seq_async()
     _periodic_pulse()
+    _end_sequence_async()
+
+func _end_sequence_async() -> void:
+    while not is_dead():
+        await get_tree().create_timer(1.0).timeout
+
+    GameManager.camera_shake(false)
+    rotation = 0
+    await _set_text(2, "oh... oh no")
+    await _set_text(2, "you let me kill so many people")
+    await _set_text(2, "i'm gonna go now...")
+
+    end_sequence_played = true
 
 func _periodic_pulse() -> void:
     await BeatManager.next_bar()
@@ -67,7 +82,7 @@ func _fast_forward(s: String) -> void:
 
 func _run_heart_seq_async() -> void:
     AudioServer.set_bus_volume_db(0, -16.0)
-    _fast_forward("64:1")
+    # _fast_forward("40:1")
 
     # await BeatManager.click_signal
     # await BeatManager.start_signal
@@ -75,7 +90,7 @@ func _run_heart_seq_async() -> void:
 
     await BeatManager.click_signal
 
-    await _set_text(2, "I keep hurting people")
+    await _set_text(2, "Iakjskdjqwekjdk keep hurting people")
     _set_text(2, "Maybe you can help me")
 
     await BeatManager.start_signal
@@ -364,6 +379,7 @@ func _set_text(bars: int, s: String) -> void:
         bubble.text = ""
         return
     text_blips.play()
+    rotation = 0
     var stopped = false
     var curr_len = 0
     var end = GameManager.time_s + BeatManager.secs_per_beat * 4 * bars
@@ -438,7 +454,11 @@ func _spawn_ball(deg: float, big: bool) -> void:
         _spawn_ball_internal(deg + 120, big)
         _spawn_ball_internal(deg - 120, big)
 
-func _spawn_ball_internal(deg: float, big: bool) -> void:
+func _start_hack() -> void:
+    var b = await _spawn_ball_internal(0, false)
+    b.die()
+
+func _spawn_ball_internal(deg: float, big: bool) -> HeartBall:
     if is_dead():
         await get_tree().create_timer(10.0).timeout
     var ball: HeartBall = heart_ball_scene.instantiate() if not big else heart_ball_big_scene.instantiate()
@@ -447,6 +467,7 @@ func _spawn_ball_internal(deg: float, big: bool) -> void:
     ball.check_on_sixteenth = BeatManager.curr_sixteenth + HeartBall.take_sixteenths
     heart_proj_cont.add_child.call_deferred(ball)
     rotation = deg_to_rad(deg + frame_rotation) + PI / 2
+    return ball
 
 func _beat_anim_async() -> void:
     beat.visible = false

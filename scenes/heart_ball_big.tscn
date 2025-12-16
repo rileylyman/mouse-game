@@ -44,7 +44,7 @@ animations = [{
 shader = ExtResource("7_6dwco")
 shader_parameter/glow_color = Color(0.30588236, 0.43137255, 0.65882355, 1)
 shader_parameter/intensity = 0.962000045695
-shader_parameter/spread = 1.8500000846151199
+shader_parameter/spread = 1.85000008461512
 shader_parameter/pulse_speed = 0.0
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_g1x4g"]
@@ -77,7 +77,7 @@ animations = [{
 offsets = PackedFloat32Array(0.2, 0.5923077)
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0.32941177)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_qg8bc"]
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_6dwco"]
 gradient = SubResource("Gradient_6dwco")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_qsdrg"]
@@ -97,7 +97,7 @@ orbit_velocity_max = 0.20800011
 scale_min = 10.0
 scale_max = 15.0
 color = Color(0, 0.96862745, 1, 1)
-color_ramp = SubResource("GradientTexture1D_qg8bc")
+color_ramp = SubResource("GradientTexture1D_6dwco")
 hue_variation_min = -0.010000022
 hue_variation_max = 0.009999977
 

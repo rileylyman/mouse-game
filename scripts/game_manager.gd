@@ -61,12 +61,14 @@ func _process(_delta: float) -> void:
 
 
 func _end():
-    camera_shake(false)
-    await get_tree().create_timer(2.0).timeout
-    var children = heart_proj_cont.get_children() + enemy_spawner.get_children()
-    for c in children + [heart.find_child("HeartOut"), heart.find_child("HeartOutBeat")]:
+    for c in heart_proj_cont.get_children():
+        c.queue_free()
+    while not heart.end_sequence_played:
+        await get_tree().create_timer(0.1).timeout
+    var children = enemy_spawner.get_children()
+    for c in children + [heart.find_child("VisualContainer")]:
         SoundEffects.play_ball_burst()
-        var p: CPUParticles2D = final_particles.instantiate()
+        var p: GPUParticles2D = final_particles.instantiate()
         p.global_position = c.global_position
         p.emitting = true
         get_tree().current_scene.add_child.call_deferred(p)
