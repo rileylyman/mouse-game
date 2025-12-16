@@ -24,7 +24,10 @@ func _ready() -> void:
 
 func _periodic_shake() -> void:
     while true:
-        await BeatManager.next_2
+        if BeatManager.is_fast_forwarding():
+            await get_tree().create_timer(1.0).timeout
+            continue
+        await BeatManager.next_2()
         shake_paddles()
 
 func shake_paddles() -> void:

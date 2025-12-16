@@ -21,16 +21,19 @@ func _ready() -> void:
     _periodic_pulse()
 
 func _periodic_pulse() -> void:
-    await BeatManager.next_bar
+    await BeatManager.next_bar()
     while not dead:
-        await BeatManager.next_4
+        if BeatManager.is_fast_forwarding():
+            await get_tree().create_timer(1.0).timeout
+        await BeatManager.next_4()
         _pulse()
-        await BeatManager.next_4
-        await BeatManager.next_4
+        await BeatManager.next_4()
+        await BeatManager.next_4()
         _pulse()
-        await BeatManager.next_bar
+        await BeatManager.next_bar()
 
 func _pulse() -> void: 
+    if not dead:
         var tween = create_tween()
         tween.tween_property(sprite, "scale", sprite_orig_scale * Vector2(1.2, 1.2), 0.1)
         tween.tween_property(sprite, "scale", sprite_orig_scale * Vector2(1, 1), 0.05)

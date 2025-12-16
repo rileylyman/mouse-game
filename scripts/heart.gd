@@ -16,7 +16,7 @@ class_name Heart extends Node2D
 
 var _tracked_laser: Laser = null
 
-var max_health: int = 30 
+var max_health: int = 30
 var health: int = max_health
 
 var frame_rotation: float = 0.0
@@ -29,7 +29,7 @@ var laser_scene: PackedScene = preload("res://scenes/laser.tscn")
 func take_damage() -> void:
     if Engine.time_scale != 1.0:
         return
-    # health -= 1
+    health -= 1
     health = max(0, health)
     _set_heart_in_t(float(health) / max_health)
 
@@ -42,14 +42,17 @@ func _ready() -> void:
     _periodic_pulse()
 
 func _periodic_pulse() -> void:
-    await BeatManager.next_bar
+    await BeatManager.next_bar()
     while not is_dead():
-        await BeatManager.next_4
+        if BeatManager.is_fast_forwarding():
+            await get_tree().create_timer(1.0).timeout
+            continue
+        await BeatManager.next_4()
         pulse_body(0.5)
-        await BeatManager.next_4
-        await BeatManager.next_4
+        await BeatManager.next_4()
+        await BeatManager.next_4()
         pulse_body(0.5)
-        await BeatManager.next_bar
+        await BeatManager.next_bar()
 
 func _set_heart_in_t(t: float) -> void:
     heart_in.offset.y = heart_in_offset_y + heart_in_region_h * (1.0 - t)
@@ -60,13 +63,11 @@ func _process(_delta: float) -> void:
         rotation = _tracked_laser.rotation + PI / 2 + deg_to_rad(frame_rotation)
 
 func _fast_forward(s: String) -> void:
-    BeatManager.fast_forward = true
-    await _until(s)
-    BeatManager.fast_forward = false
+    BeatManager.begin_fast_forward(s, -HeartBall.take_sixteenths - 4)
 
 func _run_heart_seq_async() -> void:
     AudioServer.set_bus_volume_db(0, -16.0)
-    # _fast_forward("2:1")
+    _fast_forward("64:1")
 
     # await BeatManager.click_signal
     # await BeatManager.start_signal
@@ -118,7 +119,7 @@ func _run_heart_seq_async() -> void:
 
     # 32 - 40
     await _until("32:1")
-    await _laser(2, 0, -360)
+    await _laser(2, 180, 0)
     await _ball_straight(1, 4, 0)
     await _ball_syncopate1(1, 8, 0, 0, -180)
     await _ball_straight(1, 8, -90)
@@ -131,7 +132,7 @@ func _run_heart_seq_async() -> void:
     await _ball_oscillate(1, 8, 1, -45, 45, 1, true)
     await _ball_alternate(1, 4, 45, 135, true)
     await _ball_alternate(2, 4, 45, 135)
-    await _laser(2, 0, 720)
+    await _laser(2, 0, 360)
 
     # 48 - 56
     # talking
@@ -150,7 +151,7 @@ func _run_heart_seq_async() -> void:
     # 56 - 64
     await _until("56:1")
 
-    _rotate_frame(4, 0, 360 * 2)
+    _rotate_frame(4, 0, 720)
     await _ball_seq([0, null, 0, null, 0, 0, null, 0, null, 0, null, 0, 0, 0, 0, 0], 8, 2)
 
     await _ball_syncopate1(2, 8, 0, 0, -180)
@@ -171,7 +172,7 @@ func _run_heart_seq_async() -> void:
     # 72 - 80
     await _until("72:1")
 
-    _rotate_frame(4, 0, 360 * 3)
+    _rotate_frame(4, 0, 360)
     await _ball_seq([0, null, 0, null, 0, 0, null, 0, null, 0, null, 0, 0, 0, 0, 0], 8, 2, true)
     await _ball_oscillate(2, 16, 1, 0, 360)
     await _laser(2, 0, -180)
@@ -180,38 +181,38 @@ func _run_heart_seq_async() -> void:
     await _until("80:1")
     await _rest_bars(1)
     await _ball_oscillate(1, 4, 1, 0, 360, 1, true)
-    await _ball_oscillate(2, 8, 1, 0, 720)
-    _rotate_frame(4, 0, 360 * 5)
+    await _ball_oscillate(2, 8, 1, 0, 360)
+    _rotate_frame(4, 0, 360 * 2)
     await _ball_seq([0, null, 0, null, 0, 0, null, 0, null, 0, null, 0, 0, 0, 0, 0], 8, 2, true)
 
     # 88 - 96
     await _until("88:1")
     _rotate_frame(4, 0, 360)
     await _ball_alternate2(4, 8, 0, 45)
-    await _laser(2, 0, 720)
+    await _laser(2, 0, 360)
     await _ball_oscillate(2, 4, 4, 45, 135, 1, true)
 
     # 96 - 104
     await _until("96:1")
-    await _laser(1, -180, 180)
+    await _laser(1, 0, 180)
     await _ball_oscillate(1, 8, 1, -180, 0)
-    await _laser(1, 0, 360)
+    await _laser(1, 0, -180)
     await _ball_oscillate(1, 16, 1, 0, -180)
     await _laser(1, -180, 0)
     await _ball_alternate(1, 16, 15, -15)
-    _rotate_frame(2, 0, 720)
+    _rotate_frame(2, 0, 360)
     await _ball_seq([0, null, 0, null, 0, 0, null, 0, null, 0, null, 0, 0, 0, 0, 0], 8, 1, true)
 
     # 104 - 112
     await _until("104:1")
-    await _laser(1, 0, 360)
+    await _laser(1, -180, 0)
     await _ball_oscillate(1, 8, 1, 0, -180)
-    await _laser(1, -180, 180)
-    await _ball_oscillate(1, 16, 1, -180, 0)
-    await _laser(1, 0, -180)
+    await _laser(1, 180, 0)
+    await _ball_oscillate(1, 16, 1, 0, -180)
+    await _laser(1, 180, 0)
     await _ball_alternate(1, 16, 15 - 180, -15 - 180)
     frame_rotation = -180
-    _rotate_frame(2, -180, 720 - 180)
+    _rotate_frame(2, -180, 360 - 180)
     await _ball_seq([0, null, 0, null, 0, 0, null, 0, null, 0, null, 0, 0, 0, 0, 0], 8, 1, true)
     frame_rotation = 0
 
@@ -259,16 +260,16 @@ func _run_heart_seq_async() -> void:
     # 144 - 152
     await _until("144:1")
     await _ball_oscillate(4, 16, 2, 0, -90)
-    await _ball_oscillate(4, 16, 2, 0, -180, 1, true)
+    await _ball_oscillate(4, 16, 2, 0, -90, 1, true)
     triple = false
 
     # 152 - 160
     await _until("152:1")
     var disable_paddle = func():
-        await BeatManager.next_bar
+        await BeatManager.next_bar()
         paddle.triple = false
     disable_paddle.call()
-    _rotate_frame(8, 0, -720 * 3)
+    _rotate_frame(8, 0, -720 * 2)
     await _ball_seq([0, 0, 0, null, 0, null, 0, 0, 0, 0, 0, 0, 0, 0, 0, null], 8, 1, true)
     await _ball_seq([0, null, 0, null, 0, null, null, 0, 0, 0, 0, 0, 0, 0, 0, 0], 8, 1, true)
     _crt_async_change()
@@ -351,7 +352,7 @@ func _ball_oscillate(bars: int, on: int, periods: int, deg1: float, deg2: float,
     fn.call()
     await _rest_bars(bars * repeats)
 
-func _rest_bars(bars: int, sixteens: int = -HeartBall.take_sixteenths) -> void:
+func _rest_bars(bars: int, sixteens: int = - HeartBall.take_sixteenths) -> void:
     await BeatManager.wait_for_bar("%d:1" % (int(BeatManager.curr_sixteenth / 16.0) + 1 + bars), sixteens)
 
 func _until(s: String) -> void:
@@ -359,6 +360,9 @@ func _until(s: String) -> void:
     rotation = 0
 
 func _set_text(bars: int, s: String) -> void:
+    if BeatManager.is_fast_forwarding():
+        bubble.text = ""
+        return
     text_blips.play()
     var stopped = false
     var curr_len = 0
@@ -385,6 +389,8 @@ func _rotate_frame(bars: int, from: float, to: float) -> void:
 
 
 func _laser(bars: int, from: float, to: float) -> void:
+    if BeatManager.is_fast_forwarding():
+        return
     if triple:
         _laser_internal(bars, from, to)
         _laser_internal(bars, from + 120, to + 120)
@@ -396,7 +402,7 @@ func _laser_internal(bars: int, from: float, to: float) -> void:
     if is_dead():
         await get_tree().create_timer(10.0).timeout
     var fn = func():
-        await BeatManager.next_bar
+        await BeatManager.next_bar()
         # laser_effects.start_laser()
         var laser = _spawn_laser(from)
         _tracked_laser = laser
@@ -420,10 +426,12 @@ func _spawn_laser(deg: float) -> Laser:
 func pulse_body(t: float = 1.0) -> void:
     var tween = create_tween()
     viscont.scale = Vector2.ONE.lerp(Vector2(1.5, 0.75), t)
-    tween.tween_property(viscont, "scale", Vector2(0.85, 1.25), 0.1) 
-    tween.tween_property(viscont, "scale", Vector2(1, 1), 0.025) 
+    tween.tween_property(viscont, "scale", Vector2(0.85, 1.25), 0.1)
+    tween.tween_property(viscont, "scale", Vector2(1, 1), 0.025)
 
 func _spawn_ball(deg: float, big: bool) -> void:
+    if BeatManager.is_fast_forwarding():
+        return
     pulse_body()
     _spawn_ball_internal(deg, big)
     if triple:
@@ -443,6 +451,6 @@ func _spawn_ball_internal(deg: float, big: bool) -> void:
 func _beat_anim_async() -> void:
     beat.visible = false
     while not is_dead():
-        await BeatManager.next_4
+        await BeatManager.next_4()
         # beat.visible = not beat.visible
         #scale = original_scale if scale.length() > original_scale.length() else original_scale * 1.25

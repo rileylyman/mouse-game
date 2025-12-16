@@ -28,7 +28,8 @@ func _process(_delta: float) -> void:
     if total == 0:
         total_caught = 1
         total = 1
-    stats_label.text = "%.0f%%" % floor(float(total_caught) / total * 100)
+    # stats_label.text = "%.0f%%" % floor(float(total_caught) / total * 100)
+    stats_label.text = "%.0f%%" % floor(float(heart.health) / heart.max_health * 100)
     if not ended and heart.is_dead():
         ended = true
         _end()
@@ -51,15 +52,16 @@ func _process(_delta: float) -> void:
         elif Input.is_physical_key_pressed(KEY_6):
             desired_time_scale = 8.0
 
-    if BeatManager.fast_forward:
-        Engine.time_scale = 10.0
-        AudioServer.playback_speed_scale = 10.0
-    else:
-        Engine.time_scale = desired_time_scale
-        AudioServer.playback_speed_scale = desired_time_scale
+    #if BeatManager.fast_forward:
+    #    Engine.time_scale = 10.0
+    #    AudioServer.playback_speed_scale = 10.0
+    #else:
+    Engine.time_scale = desired_time_scale
+    AudioServer.playback_speed_scale = desired_time_scale
 
 
 func _end():
+    camera_shake(false)
     await get_tree().create_timer(2.0).timeout
     var children = heart_proj_cont.get_children() + enemy_spawner.get_children()
     for c in children + [heart.find_child("HeartOut"), heart.find_child("HeartOutBeat")]:

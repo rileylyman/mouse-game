@@ -2,5 +2,5 @@ extends Panel
 
 func _ready() -> void:
     visible = false
-    await BeatManager.next_bar
+    await BeatManager._next_bar
     visible = true
