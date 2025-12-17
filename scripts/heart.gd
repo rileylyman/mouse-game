@@ -82,15 +82,12 @@ func _fast_forward(s: String) -> void:
 
 func _run_heart_seq_async() -> void:
     AudioServer.set_bus_volume_db(0, -16.0)
+    _start_hack()
     # _fast_forward("40:1")
-
-    # await BeatManager.click_signal
-    # await BeatManager.start_signal
-    # await _laser(32, 0, -360 * 10)
 
     await BeatManager.click_signal
 
-    await _set_text(2, "Iakjskdjqwekjdk keep hurting people")
+    await _set_text(2, "I keep hurting people")
     _set_text(2, "Maybe you can help me")
 
     await BeatManager.start_signal
@@ -455,8 +452,13 @@ func _spawn_ball(deg: float, big: bool) -> void:
         _spawn_ball_internal(deg - 120, big)
 
 func _start_hack() -> void:
-    var b = await _spawn_ball_internal(0, false)
-    b.die()
+    var b1 = await _spawn_ball_internal(-90, false)
+    var b2 = await _spawn_ball_internal(-90, true)
+    b1.global_position.x = -1000.0
+    b2.global_position.x = -1000.0
+    await get_tree().process_frame
+    b1.die()
+    b2.die()
 
 func _spawn_ball_internal(deg: float, big: bool) -> HeartBall:
     if is_dead():
